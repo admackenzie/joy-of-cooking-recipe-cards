@@ -1,12 +1,12 @@
-import { RecipeCard, FetchData, Search } from '../_components/index';
+import { FetchData, Search } from '@/app/components/index';
 
-export default function Home({
-	searchParams,
-}: {
+interface Props {
 	searchParams?: {
 		search?: string;
 	};
-}) {
+}
+
+export default function Home({ searchParams }: Props) {
 	const query = searchParams?.search || '';
 
 	return (
@@ -24,11 +24,7 @@ export default function Home({
 			<Search />
 
 			{/* FIXME: this needs TS typing */}
-			<FetchData queryProp={query} />
-
-			{/* Remove this after testing */}
-			<RecipeCard />
-			<p className="text-blue-600">The quick brown fox...</p>
+			<FetchData query={query} />
 		</>
 	);
 }
