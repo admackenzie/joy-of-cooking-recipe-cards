@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+/app/lib/RECIPES.json
 
 # next.js
 /.next/

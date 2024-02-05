@@ -25,10 +25,10 @@ interface Recipe {
 	id: string;
 	title: string;
 	section: string;
-	body: string;
+	bodyText: string;
 	servings: string | null;
 	page: string | null;
-	html: { [key: string]: string };
+	html: string;
 }
 
 export default function RecipeCard({ data }: Props) {
@@ -38,9 +38,9 @@ export default function RecipeCard({ data }: Props) {
 	const handleExpand = () => setExpanded(!expanded);
 
 	if (data) {
-		const { id, page, section, servings, title } = data;
+		const { id, title, section, servings, page, html } = data;
 
-		const html = parse(data.html.body);
+		const bodyDOM = parse(html.split('\u00a0').at(1)!);
 
 		return (
 			<Card>
@@ -51,7 +51,7 @@ export default function RecipeCard({ data }: Props) {
 					<Collapse in={expanded} collapsedSize={collapsedSize}>
 						<CardContent>
 							{/* -------- CUSTOM COMPONENT - rename?? ------------- */}
-							<CardBody id={id} nodeList={html.childNodes} />
+							<CardBody id={id} nodeList={bodyDOM.childNodes} />
 						</CardContent>
 					</Collapse>
 				</CardActionArea>
