@@ -13,9 +13,10 @@ import {
 	Collapse,
 	IconButton,
 } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 import { Favorite } from '@mui/icons-material';
 
-import { CardBody } from '@/app/components/index';
+import { RecipeBody } from '@/app/components/index';
 
 interface Props {
 	data: Recipe;
@@ -33,7 +34,7 @@ interface Recipe {
 
 export default function RecipeCard({ data }: Props) {
 	const [expanded, setExpanded] = useState(false);
-	const collapsedSize = 40;
+	const collapsedSize = 50;
 
 	const handleExpand = () => setExpanded(!expanded);
 
@@ -51,8 +52,7 @@ export default function RecipeCard({ data }: Props) {
 
 					<Collapse in={expanded} collapsedSize={collapsedSize}>
 						<CardContent>
-							{/* -------- CUSTOM COMPONENT - rename?? ------------- */}
-							<CardBody id={id} nodeList={bodyDOM.childNodes} />
+							<RecipeBody id={id} nodeList={bodyDOM.childNodes} />
 						</CardContent>
 					</Collapse>
 				</CardActionArea>

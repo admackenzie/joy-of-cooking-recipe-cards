@@ -1,4 +1,4 @@
-import { ListItem, ListItemText } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 // FIXME: improve interface types
 interface Props {
@@ -11,21 +11,14 @@ export default function IngredientsList({ callback, children }: Props) {
 	const getJSX = callback;
 
 	return (
-		<>
-			{Array.from(children)
-				// Remove new line and carriage return characters
-				.filter(li => /\w/.test(li.textContent!))
-				.map((li, i) => {
-					return (
-						<ListItem dense key={i}>
-							<ListItemText
-								className={'font-bold'}
-								disableTypography
-								primary={getJSX(li.childNodes)}
-							/>
-						</ListItem>
-					);
-				})}
-		</>
+		<Grid>
+			{Array.from(children).map((li, i) => {
+				return (
+					<Grid className={'font-bold ml-8'} key={i}>
+						{getJSX(li.childNodes)}
+					</Grid>
+				);
+			})}
+		</Grid>
 	);
 }

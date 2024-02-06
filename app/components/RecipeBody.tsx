@@ -1,5 +1,8 @@
-import { createElement, Fragment, ReactNode } from 'react';
-import { List, ListItemText } from '@mui/material';
+import { createElement, ReactNode } from 'react';
+
+import { Stack } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+
 import { Hyperlink, IngredientsList } from '@/app/components/index';
 
 /**
@@ -12,12 +15,12 @@ interface Props {
 	nodeList: any;
 }
 
-export default function CardBody({ id, nodeList }: Props) {
+export default function RecipeBody({ id, nodeList }: Props) {
 	const getJSX = (nodeList: NodeList): ReactNode[] => {
 		return Array.from(nodeList).map((node, i) => {
 			// Element nodes
 			if (node.nodeType === 1) {
-				const { attributes, childNodes, tagName } = node as Element;
+				const { attributes, tagName } = node as Element;
 
 				// Create props for a new React element
 				const newProps: { [key: string]: Attr | string } =
@@ -34,9 +37,18 @@ export default function CardBody({ id, nodeList }: Props) {
 					// Handle lists
 					case 'UL':
 						return (
-							<IngredientsList callback={getJSX} key={i}>
-								{node.childNodes}
-							</IngredientsList>
+							<Grid key={i}>
+								{Array.from(node.childNodes).map((li, i) => {
+									return (
+										<Grid
+											className={'font-bold ml-8'}
+											key={i}
+										>
+											{getJSX(li.childNodes)}
+										</Grid>
+									);
+								})}
+							</Grid>
 						);
 
 					// Handle hyperlinks
@@ -61,7 +73,7 @@ export default function CardBody({ id, nodeList }: Props) {
 						return createElement(
 							'span',
 							{ key: i, ...newProps },
-							getJSX(childNodes)
+							getJSX(node.childNodes)
 						);
 
 					/**
@@ -76,13 +88,13 @@ export default function CardBody({ id, nodeList }: Props) {
 						return createElement(
 							tagName.toLowerCase(),
 							{ key: i, ...newProps },
-							getJSX(childNodes)
+							getJSX(node.childNodes)
 						);
 				}
 			}
 			// Text node
 			else if (node.nodeType === 3) {
-				return <Fragment key={i}>{node.textContent}</Fragment>;
+				return node.textContent;
 			} else {
 				// TODO: throw error here
 				console.log('WEIRD NODE TYPE');
@@ -91,15 +103,9 @@ export default function CardBody({ id, nodeList }: Props) {
 		});
 	};
 
-	const el = getJSX(nodeList);
-
 	return (
-		<List>
-			<ListItemText
-				className={'text-lg'}
-				disableTypography
-				primary={el}
-			/>
-		</List>
+		<Stack className={'text-lg'} spacing={1}>
+			{getJSX(nodeList)}
+		</Stack>
 	);
 }

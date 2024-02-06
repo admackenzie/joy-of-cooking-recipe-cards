@@ -1,6 +1,7 @@
 import prisma from '../../prisma/instantiate';
 
 import { RecipeCard } from '@/app/components/index';
+import { Stack } from '@mui/material';
 
 interface Props {
 	query: string;
@@ -38,6 +39,16 @@ export default async function FetchData({ query }: Props) {
 			page: null,
 			html: '<h3 class="h3rec" id="part01_sub003_07">ICED COFFEE</h3> <p class="noindent"><b>I.</b> This quick method requires no special equipment. Prepare brewed coffee any way you wish, 4–5, using for each serving:</p><ul class="ingredients-list">\r\n<li class="r-item">About 4 tablespoons coffee (¾ ounce or 24 grams) for every ¾ cup (6 ounces) water</li>\r\n</ul><p class="noindent">Pour this double-strength coffee directly over ice in a metal pitcher or small pot and stir it for 15 seconds. Strain the cooled coffee into tall glasses filled with more ice.</p><p class="noindent">You may sweeten it with:</p><ul class="ingredients-list">\r\n<li class="r-item">(Sugar or <a href="part01.xhtml#part01_sub017_01">Simple Syrup</a>, to taste)</li>\r\n</ul><p class="noindent">If desired, stir in:</p><ul class="ingredients-list">\r\n<li class="r-item">(Milk or cream to taste)</li>\r\n</ul><p class="noindent"><b>II.</b> For each serving, pour over ice in a tall glass:</p><ul class="ingredients-list">\r\n<li class="r-item">2 ounces <a href="part01.xhtml#part01_sub004">espresso</a> or <a href="part01.xhtml#part01_sub003_06">Cold-Brew Coffee</a></li>\r\n</ul><p class="noindent">Top up the glass with:</p><ul class="ingredients-list">\r\n<li class="r-item">4 ounces or more cold water</li>\r\n</ul><p class="noindent">If desired, add sweetener and cream as in <b><a href="part01.xhtml#part01_sub003_07">I</a>.</b></p>',
 		},
+		{
+			id: 'part23_sub010_14',
+			title: 'ANZAC BISCUITS',
+			section: 'Cookies and Bars',
+			bodyText:
+				'ANZAC is an acronym for the Australian and New Zealand Army Corps, and these biscuits were sent to soldiers abroad during World War I. They can be soft or crunchy. For soft cookies, bake them for the shorter amount of time. These cookies were designed to hold up well over a long period of time, so you can store them in an airtight container for up to 1 month.Preheat the oven to 350°F. Line 2 baking sheets or cookie sheets with parchment paper.Stir together in a large bowl:2 cups (250g) all-purpose flour\r\n2 cups (200g) old-fashioned rolled oats\r\n1 cup (200g) sugar\r\n1 cup shredded sweetened coconut\r\n½ cup packed (115g) light brown sugar\r\n½ teaspoon saltMelt in a small saucepan over medium heat:1 ½ sticks (6 oz or 170g) unsalted butter\r\n2 tablespoons (40g) honey or golden syrupStir together in a small bowl until dissolved:1 teaspoon baking soda\r\n6 tablespoons (90g) boiling waterStir the baking soda mixture into the butter mixture. Add the butter mixture to the dry ingredients and stir to combine. Scoop the dough by the rounded tablespoon onto the prepared baking sheets about 2 inches apart and flatten them with a glass. Bake until golden brown and dry to the touch, 15 to 20 minutes, switching oven racks and rotating the sheets halfway through. Let cool on the sheets for 2 to 3 minutes, then transfer to a wire rack to cool completely.',
+			servings: 'About 45 biscuits',
+			page: '771–72',
+			html: '<h3 class="h3rec" id="part23_sub010_14">ANZAC BISCUITS</h3><p class="r-serve">About 45 biscuits</p> <p class="r-noind">ANZAC is an acronym for the Australian and New Zealand Army Corps, and these biscuits were sent to soldiers abroad during World War I. They can be soft or crunchy. For soft cookies, bake them for the shorter amount of time. These cookies were designed to hold up well over a long period of time, so you can store them in an airtight container for up to 1 month.</p><p class="r-noind">Preheat the oven to 350°F. Line 2 baking sheets or cookie sheets with parchment paper.</p><p class="r-noind">Stir together in a large bowl:</p><ul class="ingredients-list">\r\n<li class="r-item">2 cups (250g) all-purpose flour</li>\r\n<li class="r-item">2 cups (200g) old-fashioned rolled oats</li>\r\n<li class="r-item">1 cup (200g) sugar</li>\r\n<li class="r-item">1 cup shredded sweetened coconut</li>\r\n<li class="r-item">½ cup packed (115g) light brown sugar</li>\r\n<li class="r-item">½ teaspoon salt</li>\r\n</ul><p class="r-noind">Melt in a small saucepan over medium heat:</p><ul class="ingredients-list">\r\n<li class="r-item">1 ½ sticks (6 oz or 170g) unsalted butter</li>\r\n<li class="r-item">2 tablespoons (40g) honey or golden syrup</li>\r\n</ul><p class="r-noind">Stir together in a small bowl until dissolved:</p><ul class="ingredients-list">\r\n<li class="r-item">1 teaspoon baking soda</li>\r\n<li class="r-item">6 tablespoons (90g) boiling water</li>\r\n</ul><p class="r-noind"><span aria-label="772" epub:type="pagebreak" id="page_772" role="doc-pagebreak" title="772"></span>Stir the baking soda mixture into the butter mixture. Add the butter mixture to the dry ingredients and stir to combine. Scoop the dough by the rounded tablespoon onto the prepared baking sheets about 2 inches apart and <a href="part23.xhtml#flatdrop">flatten them with a glass</a>. Bake until golden brown and dry to the touch, 15 to 20 minutes, switching oven racks and rotating the sheets halfway through. Let cool on the sheets for 2 to 3 minutes, then transfer to a wire rack to cool completely.</p>',
+		},
 	];
 
 	if (query) {
@@ -54,10 +65,13 @@ export default async function FetchData({ query }: Props) {
 			},
 		}); */
 
-		return (recipes ?? []).map(recipe => {
-			// For each query result, display RecipeCard
-			return <RecipeCard data={recipe} key={recipe.id} />;
-		});
+		return (
+			<Stack spacing={3}>
+				{(recipes ?? []).map(recipe => {
+					return <RecipeCard data={recipe} key={recipe.id} />;
+				})}
+			</Stack>
+		);
 	}
 
 	// recipes.length > 0 ? (

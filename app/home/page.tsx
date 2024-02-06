@@ -1,4 +1,5 @@
 import { FetchData, Search } from '@/app/components/index';
+import { Container, Stack } from '@mui/material';
 
 interface Props {
 	searchParams?: {
@@ -10,8 +11,10 @@ export default function Home({ searchParams }: Props) {
 	const query = searchParams?.search || '';
 
 	return (
-		<>
-			{/* 
+		<Container maxWidth="sm">
+			<Stack alignItems={'center'} spacing={2}>
+				<span>
+					{/* 
             ---- Add optional loading element here ----
             import { Suspense } from 'react';
             import { Skeleton } from '/index';
@@ -20,11 +23,16 @@ export default function Home({ searchParams }: Props) {
 				fallback={< Skeleton />}
 			></Suspense> 
             */}
+				</span>
 
-			<Search />
+				<span>
+					<Search />
+				</span>
 
-			{/* FIXME: this needs TS typing */}
-			<FetchData query={query} />
-		</>
+				<span>
+					<FetchData query={query} />
+				</span>
+			</Stack>
+		</Container>
 	);
 }
