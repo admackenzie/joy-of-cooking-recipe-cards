@@ -40,7 +40,8 @@ export default function RecipeCard({ data }: Props) {
 	if (data) {
 		const { id, title, section, servings, page, html } = data;
 
-		const bodyDOM = parse(html.split('\u00a0').at(1)!);
+		// Isolate the 'body' part of the HTML string
+		const bodyDOM = parse(html.split('\u2003').at(1)!);
 
 		return (
 			<Card>

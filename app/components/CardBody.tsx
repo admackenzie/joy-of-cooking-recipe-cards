@@ -1,5 +1,5 @@
-import { createElement, ReactNode } from 'react';
-
+import { createElement, Fragment, ReactNode } from 'react';
+import { List, ListItemText } from '@mui/material';
 import { Hyperlink, IngredientsList } from '@/app/components/index';
 
 /**
@@ -22,8 +22,6 @@ export default function CardBody({ id, nodeList }: Props) {
 				// Create props for a new React element
 				const newProps: { [key: string]: Attr | string } =
 					Object.fromEntries([
-						['id', id],
-						['text', node.textContent],
 						// Convert 'class' to 'className'
 						...Object.entries(attributes).map(([key, val]) => {
 							return key === 'class'
@@ -43,7 +41,14 @@ export default function CardBody({ id, nodeList }: Props) {
 
 					// Handle hyperlinks
 					case 'A':
-						return <Hyperlink key={i} props={newProps} />;
+						return (
+							<Hyperlink
+								id={id}
+								key={i}
+								text={node.textContent!}
+								url={newProps.href}
+							/>
+						);
 
 					// Remove default styling from emphasis tags
 					case 'B':
@@ -58,13 +63,16 @@ export default function CardBody({ id, nodeList }: Props) {
 							{ key: i, ...newProps },
 							getJSX(childNodes)
 						);
+
+					/**
+					 * Create a new JSX element and recursively call the function on its child nodes.
+					 *
+					 * @param {string} type - React component type
+					 * @param {object} props - Props in new component
+					 * @param {function} children - Recursive function
+					 * @returns - JSX element
+					 */
 					default:
-						/** Create a new JSX element and recursively call the function on its child nodes.
-						 * @param {string} type - React component type
-						 * @param {object} props - Props in new component
-						 * @param {function} children - Recursive function
-						 * @returns - JSX element
-						 */
 						return createElement(
 							tagName.toLowerCase(),
 							{ key: i, ...newProps },
@@ -74,8 +82,7 @@ export default function CardBody({ id, nodeList }: Props) {
 			}
 			// Text node
 			else if (node.nodeType === 3) {
-				// return <TextNode text={node.textContent}/>
-				return node.textContent;
+				return <Fragment key={i}>{node.textContent}</Fragment>;
 			} else {
 				// TODO: throw error here
 				console.log('WEIRD NODE TYPE');
@@ -86,5 +93,13 @@ export default function CardBody({ id, nodeList }: Props) {
 
 	const el = getJSX(nodeList);
 
-	return <>{el}</>;
+	return (
+		<List>
+			<ListItemText
+				className={'text-lg'}
+				disableTypography
+				primary={el}
+			/>
+		</List>
+	);
 }
