@@ -1,7 +1,8 @@
 import { createElement, ReactNode } from 'react';
-import Link from 'next/link';
 
 import { List, ListItem, ListItemText } from '@mui/material';
+
+import { Hyperlink } from '@/app/components/index';
 
 /**
  * @param id - Recipe id
@@ -20,18 +21,22 @@ export default function CardBody({ id, nodeList }: Props) {
 			if (node.nodeType === 1) {
 				const { attributes, childNodes, tagName } = node as Element;
 
-				// Convert 'class' to 'className' for React props
+				// Build props for new element
 				const newProps: { [key: string]: Attr | string } =
-					Object.fromEntries(
-						Object.entries(attributes).map(([key, val]) => {
+					Object.fromEntries([
+						['id', id],
+						['text', node.textContent],
+						// Convert 'class' to 'className'
+						...Object.entries(attributes).map(([key, val]) => {
 							return key === 'class'
 								? ['className', val]
 								: [key, val];
-						})
-					);
+						}),
+					]);
 
-				// Replace default styling on emphasis text with Tailwind
+				// Remove default styling from emphasis tags
 				if (['B', 'I'].includes(tagName)) {
+					// Tailwind styling
 					newProps['className'] = `${
 						tagName === 'B' ? 'font-bold' : 'italic'
 					}`;
@@ -43,31 +48,14 @@ export default function CardBody({ id, nodeList }: Props) {
 					);
 				}
 
-				// Handle hyperlinks. Filter out anchors that link to themselves or to non-recipe text
-				const re = /part\d{2}_sub\d{3}_\d{2}/;
-				const href = newProps.href?.toString().match(re)?.at(0);
-
-				if (href) {
-					if (href !== id) {
-						// return <Hyperlink href={href} text={node.textContent}>
-						return (
-							<Link
-								className={'text-red-500'}
-								href={href}
-								key={href}
-							>
-								{node.textContent}
-							</Link>
-						);
-					} else {
-						// return <TextNode text={node.textContent}/>
-						return node.textContent;
-					}
+				// Handle hyperlinks
+				if (newProps.href) {
+					return <Hyperlink key={i} props={newProps} />;
 				}
 
 				// Handle lists
 				if (tagName === 'UL') {
-					// Return <IngredientList callback={getJSX} nodeList={node.childNodes} />
+					// Return <IngredientsList callback={getJSX} nodeList={node.childNodes} />
 					return (
 						<List key={i}>
 							{Array.from(node.childNodes).map((li, j) => {
