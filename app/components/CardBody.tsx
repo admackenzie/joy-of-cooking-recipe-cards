@@ -1,8 +1,6 @@
 import { createElement, ReactNode } from 'react';
 
-import { List, ListItem, ListItemText } from '@mui/material';
-
-import { Hyperlink } from '@/app/components/index';
+import { Hyperlink, IngredientsList } from '@/app/components/index';
 
 /**
  * @param id - Recipe id
@@ -21,7 +19,7 @@ export default function CardBody({ id, nodeList }: Props) {
 			if (node.nodeType === 1) {
 				const { attributes, childNodes, tagName } = node as Element;
 
-				// Build props for new element
+				// Create props for a new React element
 				const newProps: { [key: string]: Attr | string } =
 					Object.fromEntries([
 						['id', id],
@@ -34,54 +32,45 @@ export default function CardBody({ id, nodeList }: Props) {
 						}),
 					]);
 
-				// Remove default styling from emphasis tags
-				if (['B', 'I'].includes(tagName)) {
-					// Tailwind styling
-					newProps['className'] = `${
-						tagName === 'B' ? 'font-bold' : 'italic'
-					}`;
+				switch (tagName) {
+					// Handle lists
+					case 'UL':
+						return (
+							<IngredientsList callback={getJSX} key={i}>
+								{node.childNodes}
+							</IngredientsList>
+						);
 
-					return createElement(
-						'span',
-						{ key: i, ...newProps },
-						getJSX(childNodes)
-					);
+					// Handle hyperlinks
+					case 'A':
+						return <Hyperlink key={i} props={newProps} />;
+
+					// Remove default styling from emphasis tags
+					case 'B':
+					case 'I':
+						// Replace with Tailwind styling
+						newProps['className'] = `${
+							tagName === 'B' ? 'font-bold' : 'italic'
+						}`;
+
+						return createElement(
+							'span',
+							{ key: i, ...newProps },
+							getJSX(childNodes)
+						);
+					default:
+						/** Create a new JSX element and recursively call the function on its child nodes.
+						 * @param {string} type - React component type
+						 * @param {object} props - Props in new component
+						 * @param {function} children - Recursive function
+						 * @returns - JSX element
+						 */
+						return createElement(
+							tagName.toLowerCase(),
+							{ key: i, ...newProps },
+							getJSX(childNodes)
+						);
 				}
-
-				// Handle hyperlinks
-				if (newProps.href) {
-					return <Hyperlink key={i} props={newProps} />;
-				}
-
-				// Handle lists
-				if (tagName === 'UL') {
-					// Return <IngredientsList callback={getJSX} nodeList={node.childNodes} />
-					return (
-						<List key={i}>
-							{Array.from(node.childNodes).map((li, j) => {
-								return (
-									<ListItem key={j}>
-										<ListItemText
-											primary={getJSX(li.childNodes)}
-										/>
-									</ListItem>
-								);
-							})}
-						</List>
-					);
-				}
-
-				/** Create a new JSX element and recursively call the function on its child nodes.
-				 * @param {string} type - React component type
-				 * @param {object} props - Props in new component
-				 * @param {function} children - Recursive function
-				 * @returns JSX element
-				 */
-				return createElement(
-					tagName.toLowerCase(),
-					{ key: i, ...newProps },
-					getJSX(childNodes)
-				);
 			}
 			// Text node
 			else if (node.nodeType === 3) {
