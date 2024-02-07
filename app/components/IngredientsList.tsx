@@ -11,7 +11,7 @@ export default function IngredientsList({ callback, children }: Props) {
 	const getJSX = callback;
 
 	return (
-		<Grid>
+		<Grid container>
 			{Array.from(children).map((li, i) => {
 				return (
 					<Grid className={'font-bold ml-8'} key={i}>

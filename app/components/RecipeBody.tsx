@@ -1,6 +1,6 @@
 import { createElement, ReactNode } from 'react';
 
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { Hyperlink, IngredientsList } from '@/app/components/index';
@@ -103,9 +103,5 @@ export default function RecipeBody({ id, nodeList }: Props) {
 		});
 	};
 
-	return (
-		<Stack className={'text-lg'} spacing={1}>
-			{getJSX(nodeList)}
-		</Stack>
-	);
+	return <Stack spacing={1}>{getJSX(nodeList)}</Stack>;
 }
