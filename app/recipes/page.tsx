@@ -1,6 +1,8 @@
 import { FetchData, Search } from '@/app/ui/index';
 import { Container, Stack } from '@mui/material';
 
+import Section from '../ui/Section';
+
 interface Props {
 	searchParams?: {
 		search?: string;
@@ -31,6 +33,10 @@ export default function Recipes({ searchParams }: Props) {
 
 				<span>
 					<FetchData query={query} />
+				</span>
+
+				<span>
+					<Section />
 				</span>
 			</Stack>
 		</Container>
