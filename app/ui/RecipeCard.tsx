@@ -19,8 +19,7 @@ import {
 import Grid from '@mui/material/Unstable_Grid2';
 import { Close, Favorite } from '@mui/icons-material';
 
-import { RecipeBody } from '@/app/components/index';
-import { relative } from 'path';
+import { RecipeBody } from '@/app/ui/index';
 
 interface Props {
 	data: Recipe;

@@ -1,4 +1,4 @@
-import { FetchData, Search } from '@/app/components/index';
+import { FetchData, Search } from '@/app/ui/index';
 import { Container, Stack } from '@mui/material';
 
 interface Props {
