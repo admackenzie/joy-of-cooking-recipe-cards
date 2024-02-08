@@ -7,7 +7,7 @@ interface Props {
 	};
 }
 
-export default function Home({ searchParams }: Props) {
+export default function Recipes({ searchParams }: Props) {
 	const query = searchParams?.search || '';
 
 	return (

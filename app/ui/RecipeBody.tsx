@@ -3,7 +3,7 @@ import { createElement, ReactNode } from 'react';
 import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { Hyperlink, IngredientsList } from '@/app/components/index';
+import { Hyperlink, IngredientsList } from '@/app/ui/index';
 
 /**
  * @param id - Recipe id

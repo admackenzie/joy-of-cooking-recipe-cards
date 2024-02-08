@@ -1,6 +1,6 @@
 import prisma from '../../prisma/instantiate';
 
-import { RecipeCard } from '@/app/components/index';
+import { RecipeCard } from '@/app/ui/index';
 import { Stack } from '@mui/material';
 
 interface Props {

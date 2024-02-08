@@ -20,19 +20,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { Close, Favorite } from '@mui/icons-material';
 
 import { RecipeBody } from '@/app/ui/index';
+import { Recipe } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe;
-}
-
-interface Recipe {
-	id: string;
-	title: string;
-	section: string;
-	bodyText: string;
-	servings: string | null;
-	page: string | null;
-	html: string;
 }
 
 export default function RecipeCard({ data }: Props) {
