@@ -22,11 +22,13 @@ import { Close, Favorite } from '@mui/icons-material';
 import { RecipeBody } from '@/app/ui/index';
 import { Recipe } from '@/app/lib/definitions';
 
+import { categories } from '@/app/lib/definitions';
+
 interface Props {
 	data: Recipe;
 }
 
-export default function RecipeCard({ data }: Props) {
+export default function RecipeCard({ ...props }: Props) {
 	const [expanded, setExpanded] = useState(false);
 	const [hidden, setHidden] = useState(false);
 	const collapsedSize = 100;
@@ -34,19 +36,13 @@ export default function RecipeCard({ data }: Props) {
 	const handleExpand = () => setExpanded(!expanded);
 	const handleHidden = () => setHidden(!hidden);
 
-	if (data) {
-		let { id, title, section, servings, page, html } = data;
+	if (props.data) {
+		const { id, title, category, servings, page, html } = props.data;
 
-		// Shorten select section names
-		const abbrev: { [key: string]: string } = {
-			'Icings, Fillings, Frostings, and Sweet Sauces':
-				'Icings, Fillings, etc.',
-			'Pancakes, Waffles, Doughnuts, and Fritters':
-				'Pancakes, Waffles, etc.',
-			'Savory Sauces, Salad Dressings, Marinades, and Seasoning Blends':
-				'Savory Sauces, Salad Dressings, etc.',
-		};
-		section = abbrev[section] ?? section;
+		// Replace category with abbreviated name
+		const abbrev =
+			categories.find(({ name }) => name === category)?.abbrev ??
+			category;
 
 		// Isolate the 'body' part of the HTML string
 		const bodyDOM = parse(html.split('\u2003').at(1)!);
@@ -71,16 +67,18 @@ export default function RecipeCard({ data }: Props) {
 										{`p. ${page}`}
 									</Box>
 								)}
+
+								<Box>{`
+								Category:
+								${category} (See more)`}</Box>
 							</Stack>
 						</CardContent>
 					</Collapse>
 
 					{/* Section footer */}
-					<CardContent
-						className={'font-semibold flex justify-center'}
-					>
+					<CardContent className={'font-semibold flex justify-end'}>
 						{/* TODO: add Typography element */}
-						{section}
+						{abbrev}
 					</CardContent>
 				</CardActionArea>
 

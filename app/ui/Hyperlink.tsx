@@ -8,8 +8,13 @@ interface Props {
 }
 
 export default function Hyperlink({ ...props }: Props) {
-	const re = /part\d{2}_sub\d{3}_\d{2}/;
-	const href = props.url?.toString().match(re)?.at(0);
+	// Convert hyperlink to match the all-numeric id
+	const href = props.url
+		?.toString()
+		.match(/part\d{2}_sub\d{3}_\d{2}/g)
+		?.at(0)
+		?.match(/\d+/g)
+		?.join('');
 
 	// Filter out anchors that link to themselves or to non-recipe text
 	if (href && href !== props.id) {

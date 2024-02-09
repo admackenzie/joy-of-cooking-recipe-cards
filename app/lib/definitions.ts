@@ -1,14 +1,14 @@
 export type Recipe = {
 	id: string;
 	title: string;
-	section: string;
+	category: string;
 	bodyText: string;
 	servings: string | null;
 	page: string | null;
 	html: string;
 };
 
-export const sections = [
+export const categories = [
 	{
 		name: 'Beverages',
 		abbrev: 'Beverages',
@@ -103,7 +103,7 @@ export const sections = [
 	},
 	{
 		name: 'Icings, Fillings, Frostings, and Sweet Sauces',
-		abbrev: 'Fillings',
+		abbrev: 'Frostings',
 	},
 	{
 		name: 'Desserts',

@@ -1,14 +1,5 @@
 import { promises as fs } from 'fs';
 
-import {
-	Card,
-	CardActionArea,
-	CardContent,
-	CardMedia,
-	CardHeader,
-} from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-
 import Category from './Category';
 
 export default async function Section() {
