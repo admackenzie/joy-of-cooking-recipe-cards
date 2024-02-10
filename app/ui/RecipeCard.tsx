@@ -12,6 +12,7 @@ import {
 	CardContent,
 	CardHeader,
 	Collapse,
+	Fade,
 	IconButton,
 	Stack,
 	Typography,
@@ -22,7 +23,7 @@ import { Close, Favorite } from '@mui/icons-material';
 import { RecipeBody } from '@/app/ui/index';
 import { Recipe } from '@/app/lib/definitions';
 
-import { categories } from '@/app/lib/definitions';
+import { chapters } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe;
@@ -30,77 +31,89 @@ interface Props {
 
 export default function RecipeCard({ ...props }: Props) {
 	const [expanded, setExpanded] = useState(false);
+	const [faded, setFaded] = useState(false);
 	const [hidden, setHidden] = useState(false);
-	const collapsedSize = 100;
+	const collapsedSize = 70;
+	const animationTimeout = 250;
 
 	const handleExpand = () => setExpanded(!expanded);
-	const handleHidden = () => setHidden(!hidden);
+
+	const handleClose = () => {
+		setFaded(true);
+
+		setTimeout(() => {
+			setHidden(true);
+		}, animationTimeout);
+	};
 
 	if (props.data) {
-		const { id, title, category, servings, page, html } = props.data;
+		const { id, title, chapter, servings, page, html } = props.data;
 
-		// Replace category with abbreviated name
+		// Replace chapter title with abbreviated name
 		const abbrev =
-			categories.find(({ name }) => name === category)?.abbrev ??
-			category;
+			chapters.find(({ name }) => name === chapter)?.abbrev ?? chapter;
 
 		// Isolate the 'body' part of the HTML string
 		const bodyDOM = parse(html.split('\u2003').at(1)!);
 
 		return (
-			<Card className={`${hidden && 'hidden'} relative`} raised>
-				<CardActionArea onClick={handleExpand}>
-					<CardHeader subheader={servings} title={title} />
+			<Fade appear in={!faded} timeout={animationTimeout}>
+				<Card className={`${hidden && 'hidden'} relative`} raised>
+					<CardActionArea onClick={handleExpand}>
+						<CardHeader subheader={servings} title={title} />
 
-					{/* Body */}
-					<Collapse in={expanded} collapsedSize={collapsedSize}>
-						<CardContent>
-							<Stack spacing={3}>
-								<RecipeBody
-									id={id}
-									nodeList={bodyDOM.childNodes}
-								/>
+						{/* Body */}
+						<Collapse in={expanded} collapsedSize={collapsedSize}>
+							<CardContent>
+								<Stack spacing={3}>
+									<RecipeBody
+										id={id}
+										nodeList={bodyDOM.childNodes}
+									/>
 
-								{page && (
-									<Box className={'flex justify-end'}>
-										{/* TODO: add Typography element */}
-										{`p. ${page}`}
-									</Box>
-								)}
+									{page && (
+										<Box className={'flex justify-end'}>
+											{/* TODO: add Typography element */}
+											{`p. ${page}`}
+										</Box>
+									)}
 
-								<Box>{`
-								Category:
-								${category} (See more)`}</Box>
-							</Stack>
+									<Box>{`
+								chapter:
+								${chapter} (See more)`}</Box>
+								</Stack>
+							</CardContent>
+						</Collapse>
+
+						{/* Section footer */}
+						<CardContent
+							className={'font-semibold flex justify-end'}
+						>
+							{/* TODO: add Typography element */}
+							{abbrev}
 						</CardContent>
-					</Collapse>
+					</CardActionArea>
 
-					{/* Section footer */}
-					<CardContent className={'font-semibold flex justify-end'}>
-						{/* TODO: add Typography element */}
-						{abbrev}
-					</CardContent>
-				</CardActionArea>
+					{/* Close card button */}
+					<IconButton
+						className={
+							'absolute cursor-pointer items-center right-1 top-2'
+						}
+						onClick={handleClose}
+					>
+						<Close />
+					</IconButton>
 
-				{/* TODO: add animation to make card disappearing look less jarring */}
-				{/* Close card button */}
-				<IconButton
-					className={
-						'absolute cursor-pointer items-center right-1 top-2'
-					}
-					onClick={handleHidden}
-				>
-					<Close />
-				</IconButton>
-
-				{/* Favorite button */}
-				<IconButton
-					className={'absolute bottom-1 left-1'}
-					onClick={() => console.log('Favorite el clicked')}
-				>
-					<Favorite />
-				</IconButton>
-			</Card>
+					{/* Favorite button */}
+					<IconButton
+						className={'absolute bottom-1 left-1'}
+						// TODO: Favorite functionality
+						onClick={() => console.log('Favorite el clicked')}
+					>
+						<Favorite />
+					</IconButton>
+				</Card>
+			</Fade>
 		);
 	}
 }
