@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { Chapters, RecipeCard, Search } from '@/app/ui/index';
+import { CardDeck, Chapters, Search } from '@/app/ui/index';
 
 import { findBySearch } from '@/app/lib/CRUD';
 
@@ -21,12 +21,14 @@ export default async function main({ searchParams }: Props) {
 	}
 
 	return (
-		<Container>
-			<section>
+		<Grid className={'p-4'} container spacing={2}>
+			{/* Search bar */}
+			<Grid>
 				<Search />
-			</section>
+			</Grid>
 
-			<section>
+			{/* Recipe cards */}
+			<Grid>
 				{/* 
 				---- Add optional loading element here ----
 				import { Suspense } from 'react';
@@ -37,14 +39,13 @@ export default async function main({ searchParams }: Props) {
 				></Suspense> 
 				*/}
 
-				{(TEMP_DATA ?? []).map(recipe => {
-					return <RecipeCard data={recipe} key={recipe.id} />;
-				})}
-			</section>
+				<CardDeck data={TEMP_DATA} />
+			</Grid>
 
-			<section>
+			{/* Chapters element */}
+			<Grid className={'sticky bottom-0'}>
 				<Chapters />
-			</section>
-		</Container>
+			</Grid>
+		</Grid>
 	);
 }

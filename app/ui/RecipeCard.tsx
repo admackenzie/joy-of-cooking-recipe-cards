@@ -27,23 +27,19 @@ import { chapters } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe;
+	removeCard: any;
 }
 
 export default function RecipeCard({ ...props }: Props) {
 	const [expanded, setExpanded] = useState(false);
-	const [faded, setFaded] = useState(false);
-	const [hidden, setHidden] = useState(false);
+	const [closed, setClosed] = useState(false);
 	const collapsedSize = 70;
-	const animationTimeout = 250;
 
 	const handleExpand = () => setExpanded(!expanded);
-
 	const handleClose = () => {
-		setFaded(true);
+		setClosed(true);
 
-		setTimeout(() => {
-			setHidden(true);
-		}, animationTimeout);
+		props.removeCard();
 	};
 
 	if (props.data) {
@@ -57,8 +53,8 @@ export default function RecipeCard({ ...props }: Props) {
 		const bodyDOM = parse(html.split('\u2003').at(1)!);
 
 		return (
-			<Fade appear in={!faded} timeout={animationTimeout}>
-				<Card className={`${hidden && 'hidden'} relative`} raised>
+			<AnimationWrapper closed={closed}>
+				<Card className={` relative`} raised>
 					<CardActionArea onClick={handleExpand}>
 						<CardHeader subheader={servings} title={title} />
 
@@ -113,7 +109,19 @@ export default function RecipeCard({ ...props }: Props) {
 						<Favorite />
 					</IconButton>
 				</Card>
-			</Fade>
+			</AnimationWrapper>
 		);
 	}
 }
+
+const AnimationWrapper = ({ ...props }) => {
+	const { children, closed } = props;
+
+	return (
+		<Collapse collapsedSize={0} in={!closed}>
+			<Fade appear in={!closed}>
+				<span>{children}</span>
+			</Fade>
+		</Collapse>
+	);
+};
