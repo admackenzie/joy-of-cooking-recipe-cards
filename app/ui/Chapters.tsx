@@ -38,7 +38,7 @@ export default function Chapters() {
 						.map((_el, i) => {
 							return (
 								// 2 -> 3 columns at > 600 px, 3 -> 4 at > 900 px
-								<Grid xs={6} sm={4} md={3} key={i}>
+								<Grid key={i} xs={6} sm={4} md={3} lg={2}>
 									<Card raised>
 										<CardActionArea
 											onClick={() => {

@@ -16,10 +16,6 @@ interface Props {
 export default async function main({ searchParams }: Props) {
 	const query = searchParams?.search || '';
 
-	if (query) {
-		const recipes = await findBySearch(query);
-	}
-
 	return (
 		<Grid className={'p-4'} container spacing={2}>
 			{/* Search bar */}
