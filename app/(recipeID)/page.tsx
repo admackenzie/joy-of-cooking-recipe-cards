@@ -1,4 +1,3 @@
-import { Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { CardDeck, Chapters, Search } from '@/app/ui/index';
@@ -13,8 +12,8 @@ interface Props {
 	};
 }
 
-export default async function main({ searchParams }: Props) {
-	const query = searchParams?.search || '';
+export default async function main({ ...props }: Props) {
+	const { search: query } = props.searchParams || '';
 
 	return (
 		<Grid className={'p-4'} container spacing={2}>
@@ -39,7 +38,7 @@ export default async function main({ searchParams }: Props) {
 			</Grid>
 
 			{/* Chapters element */}
-			<Grid className={'sticky bottom-0'}>
+			<Grid>
 				<Chapters />
 			</Grid>
 		</Grid>

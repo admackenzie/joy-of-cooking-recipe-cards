@@ -7,6 +7,8 @@ import { RecipeCard } from '@/app/ui/index';
 
 import Grid from '@mui/material/Unstable_Grid2';
 
+import Link from 'next/link';
+
 interface Props {
 	data: Recipe[];
 }
@@ -25,6 +27,10 @@ export default function CardDeck({ ...props }: Props) {
 				{(props.data ?? []).map(recipe => {
 					return (
 						<Grid key={recipe.id} xs={12} sm={6} md={4} lg={3}>
+							<Link href={`/recipe/${recipe.id}`}>
+								MODAL TEST
+							</Link>
+
 							<RecipeCard
 								data={recipe}
 								key={recipe.id}
