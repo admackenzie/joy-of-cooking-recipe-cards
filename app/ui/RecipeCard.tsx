@@ -27,7 +27,7 @@ import { chapters } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe;
-	removeCard: any;
+	// removeCard: any;
 }
 
 export default function RecipeCard({ ...props }: Props) {
@@ -39,7 +39,7 @@ export default function RecipeCard({ ...props }: Props) {
 	const handleClose = () => {
 		setClosed(true);
 
-		props.removeCard();
+		// props.removeCard();
 	};
 
 	if (props.data) {
@@ -59,27 +59,27 @@ export default function RecipeCard({ ...props }: Props) {
 						<CardHeader subheader={servings} title={title} />
 
 						{/* Body */}
-						<Collapse in={expanded} collapsedSize={collapsedSize}>
-							<CardContent>
-								<Stack spacing={3}>
-									<RecipeBody
-										id={id}
-										nodeList={bodyDOM.childNodes}
-									/>
+						{/* <Collapse in={expanded} collapsedSize={collapsedSize}> */}
+						<CardContent>
+							<Stack spacing={3}>
+								<RecipeBody
+									id={id}
+									nodeList={bodyDOM.childNodes}
+								/>
 
-									{page && (
-										<Box className={'flex justify-end'}>
-											{/* TODO: add Typography element */}
-											{`p. ${page}`}
-										</Box>
-									)}
+								{page && (
+									<Box className={'flex justify-end'}>
+										{/* TODO: add Typography element */}
+										{`p. ${page}`}
+									</Box>
+								)}
 
-									<Box>{`
+								<Box>{`
 								chapter:
 								${chapter} (See more)`}</Box>
-								</Stack>
-							</CardContent>
-						</Collapse>
+							</Stack>
+						</CardContent>
+						{/* </Collapse> */}
 
 						{/* Section footer */}
 						<CardContent

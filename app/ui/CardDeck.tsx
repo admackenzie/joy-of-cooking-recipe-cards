@@ -27,14 +27,14 @@ export default function CardDeck({ ...props }: Props) {
 				{(props.data ?? []).map(recipe => {
 					return (
 						<Grid key={recipe.id} xs={12} sm={6} md={4} lg={3}>
-							<Link href={`/recipe/${recipe.id}`}>
+							{/* <Link href={`/recipe/${recipe.id}`}>
 								MODAL TEST
-							</Link>
+							</Link> */}
 
 							<RecipeCard
 								data={recipe}
 								key={recipe.id}
-								removeCard={removeCard}
+								// removeCard={removeCard}
 							/>
 						</Grid>
 					);

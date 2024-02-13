@@ -6,6 +6,8 @@ import { findBySearch } from '@/app/lib/CRUD';
 
 import { TEMP_DATA } from '@/app/lib/definitions';
 
+import ResponsiveDrawer from '../ui/ResponsiveDrawer1';
+
 interface Props {
 	searchParams?: {
 		search?: string;
@@ -16,31 +18,34 @@ export default async function main({ ...props }: Props) {
 	const { search: query } = props.searchParams || '';
 
 	return (
-		<Grid className={'p-4'} container spacing={2}>
-			{/* Search bar */}
-			<Grid>
-				<Search />
-			</Grid>
+		<>
+			<ResponsiveDrawer />
+		</>
+		// <Grid className={'p-4'} container spacing={2}>
+		// 	{/* Search bar */}
+		// 	<Grid>
+		// 		<Search />
+		// 	</Grid>
 
-			{/* Recipe cards */}
-			<Grid>
-				{/* 
-				---- Add optional loading element here ----
-				import { Suspense } from 'react';
-				import { Skeleton } from '/index';
-				<Suspense
-					key={query}
-					fallback={< Skeleton />}
-				></Suspense> 
-				*/}
+		// 	{/* Recipe cards */}
+		// 	<Grid>
+		// 		{/*
+		// 		---- Add optional loading element here ----
+		// 		import { Suspense } from 'react';
+		// 		import { Skeleton } from '/index';
+		// 		<Suspense
+		// 			key={query}
+		// 			fallback={< Skeleton />}
+		// 		></Suspense>
+		// 		*/}
 
-				<CardDeck data={TEMP_DATA} />
-			</Grid>
+		// 		<CardDeck data={TEMP_DATA} />
+		// 	</Grid>
 
-			{/* Chapters element */}
-			<Grid>
-				<Chapters />
-			</Grid>
-		</Grid>
+		// 	{/* Chapters element */}
+		// 	<Grid>
+		// 		<Chapters />
+		// 	</Grid>
+		// </Grid>
 	);
 }

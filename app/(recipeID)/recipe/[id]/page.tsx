@@ -1,3 +1,7 @@
+import { RecipeCard } from '@/app/ui/index';
+
+import { TEMP_DATA } from '@/app/lib/definitions';
+
 interface Props {
 	params: {
 		id: string;
@@ -7,5 +11,5 @@ interface Props {
 export default function id({ params }: Props) {
 	const { id } = params || 'NO ID';
 
-	return <h1>{id}</h1>;
+	return <RecipeCard data={TEMP_DATA[1]} />;
 }

@@ -1,3 +1,5 @@
+'useClient';
+
 import { createElement, ReactNode } from 'react';
 
 import { Stack, Typography } from '@mui/material';
