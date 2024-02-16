@@ -6,7 +6,7 @@ import { findBySearch } from '@/app/lib/CRUD';
 
 import { TEMP_DATA } from '@/app/lib/definitions';
 
-import ResponsiveDrawer from '../ui/ResponsiveDrawer1';
+import Layout from '@/app/ui/Layout';
 
 interface Props {
 	searchParams?: {
@@ -19,7 +19,7 @@ export default async function main({ ...props }: Props) {
 
 	return (
 		<>
-			<ResponsiveDrawer />
+			<Layout />
 		</>
 		// <Grid className={'p-4'} container spacing={2}>
 		// 	{/* Search bar */}

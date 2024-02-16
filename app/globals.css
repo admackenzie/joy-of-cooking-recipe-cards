@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
+red: #ee2424
+brown: #cc802a
+font: EB Garamond 
+*/
+
 /* :root {
 	--foreground-rgb: 0, 0, 0;
 	--background-start-rgb: 214, 219, 220;
