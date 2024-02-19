@@ -1,5 +1,3 @@
-'useClient';
-
 import parse from 'node-html-parser';
 
 import { createElement, ReactNode } from 'react';

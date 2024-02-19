@@ -174,7 +174,7 @@ export const fileNames = [
 export const TEMP_DATA = [
 	{
 		id: '0100302',
-		title: 'STEEPED COFFEE',
+		title: 'KJLJHLJHKLJHJKHLKJHJKHLKJHKLJHLJKHLKJHLKHKLHLJKHLJHLJHLKJHLKJHLJH',
 		chapter: 'Beverages',
 		bodyText:
 			'This method is for steeping in a French press or a camp coffeepot or kettle. If using a French press, prime it with hot water before brewing and wrap in a kitchen towel while it steeps to keep it warm.Place in a French press or have ready:About 2 tablespoons (⅜ ounce or 12 grams) coarse-grind coffee for every ¾ cup (6 ounces) waterBring the water to a boil, then remove it from the heat and wait about 30 seconds for the water to cool to 200° to 205°F. Pour the water over the coffee in the French press, or add the coffee to the camp coffeepot or kettle, and stir well. Cover and let steep for 5 minutes.For a French press, slowly push the plunger all the way down after the brewing time has elapsed, forcing the coffee grounds to the bottom of the pot.For camp, cowboy, or river coffee, open the kettle after the brewing time is up and add a splash of cold water to encourage the grounds to settle to the bottom. To be doubly sure that you are not serving excessive amounts of coffee grounds to yourself and your camping companions, pour the coffee through a metal strainer before doling it out.',

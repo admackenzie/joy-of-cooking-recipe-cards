@@ -8,13 +8,16 @@ brown: #cc802a
 font: EB Garamond 
 */
 
-.MuiDivider-root::before {
-	background-color: #cc802a;
-}
-
+/* Style Dividers with interstitial text */
+.MuiDivider-root::before,
 .MuiDivider-root::after {
 	background-color: #cc802a;
 }
+
+/* .MuiTooltip-tooltip {
+	background-color: #fff;
+	color: #ee2424;
+} */
 
 /* :root {
 	--foreground-rgb: 0, 0, 0;

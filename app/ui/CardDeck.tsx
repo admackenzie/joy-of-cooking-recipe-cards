@@ -1,44 +1,41 @@
 'use client';
-import { useState } from 'react';
 
-import { Recipe } from '@/app/lib/definitions';
-
-import { RecipeCard } from '@/app/ui/index';
-
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import Link from 'next/link';
+import { BookmarkButton, RecipeCard } from '@/app/ui/index';
 
-import RecipePreview from './RecipePreview';
-
-import { Box, CardContent } from '@mui/material';
+import { Recipe } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe[];
 }
 
 export default function CardDeck({ ...props }: Props) {
-	const [cardCount, setCardCount] = useState(props.data.length);
-
-	const handleCardCount = () => setCardCount(Math.max(0, cardCount - 1));
-
-	// TODO: final 'card' to fill gap when there are odd numbered recipes
 	return (
-		<>
-			{/* TODO: Error element here */}
-			{cardCount === 0 && <p>No recipes found</p>}
+		<Grid container columnSpacing={2}>
+			{(props.data ?? []).map(recipe => {
+				return (
+					<Grid
+						// Clip recipe cards to preview size
+						className={'max-h-[33vh] overflow-clip relative'}
+						key={recipe.id}
+						sx={{
+							// Fade the bottom of the cards
+							mask: 'linear-gradient(to bottom, rgb(0, 0, 0, 1) 50%, rgb(0, 0, 0, 0) 100%)',
+						}}
+						xs={12}
+						sm={6}
+					>
+						<RecipeCard data={recipe} />
 
-			<Grid container columnSpacing={2}>
-				{(props.data ?? []).map(recipe => {
-					return (
-						<RecipePreview
-							data={recipe}
-							handleCardCount={handleCardCount}
-							key={recipe.id}
-						/>
-					);
-				})}
-			</Grid>
-		</>
+						{/* Display as absolute to position the button over the CardActionArea that encompasses all of RecipeCard */}
+						<Box className={'absolute right-4 top-4'}>
+							<BookmarkButton />
+						</Box>
+					</Grid>
+				);
+			})}
+		</Grid>
 	);
 }

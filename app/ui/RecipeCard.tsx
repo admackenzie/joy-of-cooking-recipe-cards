@@ -4,30 +4,19 @@ import {
 	CardActionArea,
 	CardContent,
 	CardHeader,
-	IconButton,
-	Typography,
+	Container,
 	Divider,
+	Typography,
 } from '@mui/material';
 
-import { Close, Favorite } from '@mui/icons-material';
-
 import { RecipeBody } from '@/app/ui/index';
-import { Recipe } from '@/app/lib/definitions';
-
-import { chapters } from '@/app/lib/definitions';
+import { chapters, Recipe } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe;
-	handleCardCount: any;
-	handleHide: any;
 }
 
 export default function RecipeCard({ ...props }: Props) {
-	const handleClosePreview = () => {
-		props.handleHide();
-		props.handleCardCount();
-	};
-
 	if (props.data) {
 		const { id, title, chapter, servings, page, html } = props.data;
 
@@ -38,26 +27,28 @@ export default function RecipeCard({ ...props }: Props) {
 		return (
 			<Card className={'relative border-t-2'} elevation={3}>
 				<CardActionArea onClick={() => console.log(id, title)}>
-					<CardHeader
-						className={`${servings ? 'pb-0' : 'pb-1'}`}
-						title={title}
-					/>
-					{/* <Typography variant={'h5'}>{title}</Typography>
-						<Typography variant={'subtitle1'}>
-							{servings}
-						</Typography> */}
+					{/* Title */}
+					<Box
+						className={`ml-4 mt-4 w-5/6 ${
+							servings ? 'pb-0' : 'pb-1'
+						}`}
+					>
+						<Typography noWrap variant={'h5'}>
+							{title}
+						</Typography>
+					</Box>
 
+					{/* Servings */}
 					<Divider
-						className={`${!servings && 'bg-[#cc802a]'}`}
+						// Style Dividers without interstitial text
+						className={`w-4/5 ${!servings && 'bg-[#cc802a]'}`}
 						textAlign={'left'}
-						sx={{
-							maxWidth: '80%',
-						}}
 						variant={'middle'}
 					>
 						<Typography
+							className={'text-lg'}
+							noWrap
 							variant={'subtitle1'}
-							sx={{ bgcolor: '#fff', color: '#000' }}
 						>
 							{servings}
 						</Typography>
@@ -83,25 +74,6 @@ export default function RecipeCard({ ...props }: Props) {
 						{abbrev}
 					</CardContent>
 				</CardActionArea>
-
-				{/* Close card button */}
-				<IconButton
-					className={
-						'absolute cursor-pointer items-center right-1 top-2'
-					}
-					onClick={handleClosePreview}
-				>
-					<Close />
-				</IconButton>
-
-				{/* Favorite button */}
-				<IconButton
-					className={'absolute bottom-1 left-1'}
-					// TODO: Favorite functionality
-					onClick={() => console.log('Favorite el clicked')}
-				>
-					<Favorite />
-				</IconButton>
 			</Card>
 		);
 	}
