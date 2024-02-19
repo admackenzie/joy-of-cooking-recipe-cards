@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { Menu as MenuIcon, Settings } from '@mui/icons-material';
 

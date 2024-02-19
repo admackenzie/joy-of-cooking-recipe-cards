@@ -1,5 +1,7 @@
 'useClient';
 
+import parse from 'node-html-parser';
+
 import { createElement, ReactNode } from 'react';
 
 import { Stack, Typography } from '@mui/material';
@@ -9,15 +11,19 @@ import { Hyperlink } from '@/app/ui/index';
 
 /**
  * @param id - Recipe id
- * @param nodeList - DOM tree for the recipe's body elements
+ * FIXME: @param nodeList - DOM tree for the recipe's body elements
  * returns
  */
 interface Props {
 	id: string;
-	nodeList: any;
+	html: string;
 }
 
-export default function RecipeBody({ id, nodeList }: Props) {
+export default function RecipeBody({ id, html }: Props) {
+	// Isolate the 'body' part of the HTML string
+	const bodyDOM = parse(html.split('\u2003').at(1)!)
+		.childNodes as unknown as NodeList;
+
 	const getJSX = (nodeList: NodeList): ReactNode[] => {
 		return Array.from(nodeList).map((node, i) => {
 			// Element nodes
@@ -105,5 +111,5 @@ export default function RecipeBody({ id, nodeList }: Props) {
 		});
 	};
 
-	return <Stack spacing={1}>{getJSX(nodeList)}</Stack>;
+	return <Stack spacing={1}>{getJSX(bodyDOM)}</Stack>;
 }

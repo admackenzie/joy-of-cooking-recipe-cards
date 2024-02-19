@@ -1,23 +1,14 @@
-'use client';
-
-import { useState } from 'react';
-
-import parse from 'node-html-parser';
-
 import {
 	Box,
 	Card,
 	CardActionArea,
-	CardActions,
 	CardContent,
 	CardHeader,
-	Collapse,
-	Fade,
 	IconButton,
-	Stack,
 	Typography,
+	Divider,
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+
 import { Close, Favorite } from '@mui/icons-material';
 
 import { RecipeBody } from '@/app/ui/index';
@@ -27,19 +18,14 @@ import { chapters } from '@/app/lib/definitions';
 
 interface Props {
 	data: Recipe;
-	// removeCard: any;
+	handleCardCount: any;
+	handleHide: any;
 }
 
 export default function RecipeCard({ ...props }: Props) {
-	const [expanded, setExpanded] = useState(false);
-	const [closed, setClosed] = useState(false);
-	const collapsedSize = 70;
-
-	const handleExpand = () => setExpanded(!expanded);
-	const handleClose = () => {
-		setClosed(true);
-
-		// props.removeCard();
+	const handleClosePreview = () => {
+		props.handleHide();
+		props.handleCardCount();
 	};
 
 	if (props.data) {
@@ -49,79 +35,74 @@ export default function RecipeCard({ ...props }: Props) {
 		const abbrev =
 			chapters.find(({ name }) => name === chapter)?.abbrev ?? chapter;
 
-		// Isolate the 'body' part of the HTML string
-		const bodyDOM = parse(html.split('\u2003').at(1)!);
-
 		return (
-			<AnimationWrapper closed={closed}>
-				<Card className={` relative`} raised>
-					<CardActionArea onClick={handleExpand}>
-						<CardHeader subheader={servings} title={title} />
+			<Card className={'relative border-t-2'} elevation={3}>
+				<CardActionArea onClick={() => console.log(id, title)}>
+					<CardHeader
+						className={`${servings ? 'pb-0' : 'pb-1'}`}
+						title={title}
+					/>
+					{/* <Typography variant={'h5'}>{title}</Typography>
+						<Typography variant={'subtitle1'}>
+							{servings}
+						</Typography> */}
 
-						{/* Body */}
-						{/* <Collapse in={expanded} collapsedSize={collapsedSize}> */}
-						<CardContent>
-							<Stack spacing={3}>
-								<RecipeBody
-									id={id}
-									nodeList={bodyDOM.childNodes}
-								/>
+					<Divider
+						className={`${!servings && 'bg-[#cc802a]'}`}
+						textAlign={'left'}
+						sx={{
+							maxWidth: '80%',
+						}}
+						variant={'middle'}
+					>
+						<Typography
+							variant={'subtitle1'}
+							sx={{ bgcolor: '#fff', color: '#000' }}
+						>
+							{servings}
+						</Typography>
+					</Divider>
 
-								{page && (
-									<Box className={'flex justify-end'}>
-										{/* TODO: add Typography element */}
-										{`p. ${page}`}
-									</Box>
-								)}
+					{/* Body */}
+					<CardContent>
+						<RecipeBody id={id} html={html} />
 
-								<Box>{`
+						{page && (
+							<Box className={'flex justify-end'}>
+								{`p. ${page}`}
+							</Box>
+						)}
+
+						<Box>{`
 								chapter:
 								${chapter} (See more)`}</Box>
-							</Stack>
-						</CardContent>
-						{/* </Collapse> */}
+					</CardContent>
 
-						{/* Section footer */}
-						<CardContent
-							className={'font-semibold flex justify-end'}
-						>
-							{/* TODO: add Typography element */}
-							{abbrev}
-						</CardContent>
-					</CardActionArea>
+					{/* Section footer */}
+					<CardContent className={'font-semibold flex justify-end'}>
+						{abbrev}
+					</CardContent>
+				</CardActionArea>
 
-					{/* Close card button */}
-					<IconButton
-						className={
-							'absolute cursor-pointer items-center right-1 top-2'
-						}
-						onClick={handleClose}
-					>
-						<Close />
-					</IconButton>
+				{/* Close card button */}
+				<IconButton
+					className={
+						'absolute cursor-pointer items-center right-1 top-2'
+					}
+					onClick={handleClosePreview}
+				>
+					<Close />
+				</IconButton>
 
-					{/* Favorite button */}
-					<IconButton
-						className={'absolute bottom-1 left-1'}
-						// TODO: Favorite functionality
-						onClick={() => console.log('Favorite el clicked')}
-					>
-						<Favorite />
-					</IconButton>
-				</Card>
-			</AnimationWrapper>
+				{/* Favorite button */}
+				<IconButton
+					className={'absolute bottom-1 left-1'}
+					// TODO: Favorite functionality
+					onClick={() => console.log('Favorite el clicked')}
+				>
+					<Favorite />
+				</IconButton>
+			</Card>
 		);
 	}
 }
-
-const AnimationWrapper = ({ ...props }) => {
-	const { children, closed } = props;
-
-	return (
-		<Collapse collapsedSize={0} in={!closed}>
-			<Fade appear in={!closed}>
-				<span>{children}</span>
-			</Fade>
-		</Collapse>
-	);
-};

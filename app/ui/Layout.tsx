@@ -19,7 +19,7 @@ import {
 import { AppBarWithSearch } from '@/app/ui/index';
 
 // Pixel width of the sidebars
-const leftWidth = 300;
+const leftWidth = 225;
 const rightWidth = 300;
 
 // Sidebar breakpoints
@@ -29,7 +29,7 @@ const rightBP = 'lg'; // 1200px
 // XL breakpoint
 const maxWidth = 1536;
 
-export default function Layout() {
+export default function Layout({ ...props }) {
 	// Highlight icons on bottom nav
 	const [value, setValue] = useState(0);
 
@@ -48,12 +48,12 @@ export default function Layout() {
 						flexShrink: { [`${leftBP}`]: 0 },
 					}}
 				>
-					{leftCol}
+					{props.leftCol}
 				</Container>
 
 				{/* Body */}
 				<Container className={'max-h-screen overflow-y-auto'}>
-					{centerCol}
+					{props.main}
 				</Container>
 
 				{/* Right sidebar */}
@@ -65,10 +65,10 @@ export default function Layout() {
 						flexShrink: { [`${rightBP}`]: 0 },
 					}}
 				>
-					{rightCol}
+					{props.rightCol}
 				</Container>
 
-				{/* Navigation */}
+				{/* Bottom avigation */}
 				<Container
 					sx={{
 						display: { sm: 'none' },

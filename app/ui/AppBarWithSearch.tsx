@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBar, Box, InputAdornment, TextField } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { PopoverMenu } from '@/app/ui/index';
@@ -7,7 +9,7 @@ import { MenuBook, Bookmarks, Settings } from '@mui/icons-material';
 
 export default function AppBarWithSearch() {
 	return (
-		<AppBar className={'flex-row justify-between static bg-white'}>
+		<AppBar className={'flex-row justify-between mb-6 static bg-white'}>
 			{/* Logo -- using a Box with sx attributes allows for easy image swapping based on breakpoints*/}
 			<Box
 				alt="logo"

@@ -9,6 +9,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import Link from 'next/link';
 
+import RecipePreview from './RecipePreview';
+
+import { Box, CardContent } from '@mui/material';
+
 interface Props {
 	data: Recipe[];
 }
@@ -16,27 +20,22 @@ interface Props {
 export default function CardDeck({ ...props }: Props) {
 	const [cardCount, setCardCount] = useState(props.data.length);
 
-	const removeCard = () => setCardCount(Math.max(0, cardCount - 1));
+	const handleCardCount = () => setCardCount(Math.max(0, cardCount - 1));
 
+	// TODO: final 'card' to fill gap when there are odd numbered recipes
 	return (
 		<>
 			{/* TODO: Error element here */}
 			{cardCount === 0 && <p>No recipes found</p>}
 
-			<Grid container spacing={{ xs: 2, md: 3 }}>
+			<Grid container columnSpacing={2}>
 				{(props.data ?? []).map(recipe => {
 					return (
-						<Grid key={recipe.id} xs={12} sm={6} md={4} lg={3}>
-							{/* <Link href={`/recipe/${recipe.id}`}>
-								MODAL TEST
-							</Link> */}
-
-							<RecipeCard
-								data={recipe}
-								key={recipe.id}
-								// removeCard={removeCard}
-							/>
-						</Grid>
+						<RecipePreview
+							data={recipe}
+							handleCardCount={handleCardCount}
+							key={recipe.id}
+						/>
 					);
 				})}
 			</Grid>

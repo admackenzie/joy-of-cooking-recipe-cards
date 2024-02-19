@@ -132,7 +132,7 @@ export const chapters = [
 	},
 	{
 		name: 'Know Your Ingredients',
-		abbrev: 'Misc.',
+		abbrev: 'Other',
 	},
 ];
 

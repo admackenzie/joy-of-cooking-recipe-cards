@@ -8,6 +8,14 @@ brown: #cc802a
 font: EB Garamond 
 */
 
+.MuiDivider-root::before {
+	background-color: #cc802a;
+}
+
+.MuiDivider-root::after {
+	background-color: #cc802a;
+}
+
 /* :root {
 	--foreground-rgb: 0, 0, 0;
 	--background-start-rgb: 214, 219, 220;
