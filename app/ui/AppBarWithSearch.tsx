@@ -7,6 +7,8 @@ import { PopoverMenu } from '@/app/ui/index';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { MenuBook, Bookmarks, Settings } from '@mui/icons-material';
 
+import { Search } from '@/app/ui/index';
+
 export default function AppBarWithSearch() {
 	return (
 		<AppBar className={'flex-row justify-between mb-6 static bg-white'}>
@@ -25,7 +27,7 @@ export default function AppBarWithSearch() {
 
 			<Box className={'flex'}>
 				{/* Search input */}
-				<TextField
+				{/* <TextField
 					sx={{ mr: { xs: '16px', sm: 0 } }}
 					className={'w-full max-w-xs'}
 					variant={'outlined'}
@@ -37,7 +39,9 @@ export default function AppBarWithSearch() {
 							</InputAdornment>
 						),
 					}}
-				/>
+				/> */}
+
+				<Search />
 
 				{/* Hamburger menu */}
 				<Box

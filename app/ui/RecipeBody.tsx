@@ -47,7 +47,7 @@ export default function RecipeBody({ id, html }: Props) {
 								{Array.from(node.childNodes).map((li, i) => {
 									return (
 										<Grid
-											className={'font-bold ml-8'}
+											className={'font-bold ml-4'}
 											key={i}
 										>
 											{getJSX(li.childNodes)}
@@ -82,6 +82,10 @@ export default function RecipeBody({ id, html }: Props) {
 							getJSX(node.childNodes)
 						);
 
+					// Remove images
+					case 'IMG':
+						return;
+
 					/**
 					 * Create a new JSX element and recursively call the function on its child nodes.
 					 *
@@ -109,5 +113,5 @@ export default function RecipeBody({ id, html }: Props) {
 		});
 	};
 
-	return <Stack spacing={1}>{getJSX(bodyDOM)}</Stack>;
+	return <Typography variant={'h6'}>{getJSX(bodyDOM)}</Typography>;
 }

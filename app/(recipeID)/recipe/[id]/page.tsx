@@ -1,6 +1,10 @@
+import { Box, Container } from '@mui/material';
+
 import { RecipeCard } from '@/app/ui/index';
 
-import { TEMP_DATA } from '@/app/lib/definitions';
+import { findByID } from '@/app/lib/CRUD';
+
+import { Recipe } from '@/app/lib/definitions';
 
 interface Props {
 	params: {
@@ -8,8 +12,19 @@ interface Props {
 	};
 }
 
-export default function id({ params }: Props) {
+export default async function Page({ params }: Props) {
 	const { id } = params || 'NO ID';
 
-	return <RecipeCard data={TEMP_DATA[1]} />;
+	try {
+		const recipe: Recipe | null = await findByID(id);
+
+		return (
+			<Container className={'py-4'}>
+				<RecipeCard data={recipe} />
+			</Container>
+		);
+	} catch (err) {
+		// FIXME: error handling
+		console.log(err);
+	}
 }

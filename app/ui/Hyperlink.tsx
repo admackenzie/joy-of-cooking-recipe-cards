@@ -1,6 +1,7 @@
 // 'use client';
 
 // import { useState } from 'react';
+import { Typography } from '@mui/material';
 import Link from 'next/link';
 
 // FIXME: Improve this interface

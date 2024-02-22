@@ -1,5 +1,6 @@
 import AppBarWithSearch from './AppBarWithSearch';
 import BookmarkButton from './BookmarkButton';
+import BookmarkList from './BookmarkList';
 import CardDeck from './CardDeck';
 import ChapterList from './ChapterList';
 import Chapters from './Chapters';
@@ -13,6 +14,7 @@ import Search from './Search';
 export {
 	AppBarWithSearch,
 	BookmarkButton,
+	BookmarkList,
 	CardDeck,
 	ChapterList,
 	Chapters,

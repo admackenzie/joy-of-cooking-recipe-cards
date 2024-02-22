@@ -34,7 +34,7 @@ export default function Search() {
 
 	return (
 		<FormGroup row>
-			<TextField
+			{/* <TextField
 				defaultValue={searchParams.get('search')?.toString()}
 				// helperText="Search recipes here"
 
@@ -52,7 +52,27 @@ export default function Search() {
 				}}
 				type="search"
 				variant="outlined"
+			/> */}
+			<TextField
+				sx={{ mr: { xs: '16px', sm: 0 } }}
+				className={'w-full max-w-xs'}
+				defaultValue={searchParams.get('search')?.toString()}
+				// label="Search recipes"
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<SearchIcon />
+						</InputAdornment>
+					),
+				}}
+				onChange={e => {
+					setQuery(e.target.value);
+				}}
+				placeholder={'Search recipes'}
+				type="search"
+				variant={'outlined'}
 			/>
+
 			<Button
 				onClick={e => {
 					handleSearch(query);

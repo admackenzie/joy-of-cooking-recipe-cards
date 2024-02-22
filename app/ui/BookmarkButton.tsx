@@ -1,15 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Fade, IconButton, Tooltip } from '@mui/material';
+import { Box, Fade, IconButton, Tooltip } from '@mui/material';
 import { Bookmark, BookmarkAdd } from '@mui/icons-material';
 
-export default function BookmarkButton() {
+import { Recipe } from '@/app/lib/definitions';
+
+interface Props {
+	data: Recipe;
+	addBookmark: any;
+	removeBookmark: any;
+}
+
+export default function BookmarkButton({
+	data,
+	addBookmark,
+	removeBookmark,
+}: Props) {
 	const [bookmarked, setBookmarked] = useState(false);
+	const { id } = data;
+
+	// Toggle on bookmark icon if recipe.id exists in localStorage
+	useEffect(() => {
+		localStorage.getItem(`joc-${id}`) && setBookmarked(true);
+	}, [id]);
+
 	// const [tooltipOpen, setTooltipOpen] = useState(false);
 
-	const handleBookmark = () => {
+	/* 	const handleBookmark = () => {
 		// setTooltipOpen(true);
 
 		setBookmarked(!bookmarked);
@@ -17,27 +36,43 @@ export default function BookmarkButton() {
 		// setTimeout(() => {
 		// 	setTooltipOpen(false);
 		// }, 1000);
+	}; */
+
+	const handleAddBookmark = () => {
+		setBookmarked(true);
+		addBookmark(data);
 	};
 
+	const handleRemoveBookmark = () => {
+		setBookmarked(false);
+		removeBookmark(id);
+	};
+
+	const animationTimeout = 1000;
+
 	return (
-		<IconButton
-			className={`${!bookmarked && 'opacity-20'}`}
-			color={'primary'}
-			onClick={handleBookmark}
-		>
-			{/* Animate toggle between bookmarked and un-bookmarked states*/}
+		// Animate toggle between bookmarked and un-bookmarked states
+		<>
 			{bookmarked ? (
-				<Fade in={bookmarked} timeout={1000}>
-					<Bookmark />
-				</Fade>
+				<IconButton color={'primary'} onClick={handleRemoveBookmark}>
+					<Fade in={bookmarked} timeout={animationTimeout}>
+						<Bookmark />
+					</Fade>
+				</IconButton>
 			) : null}
 
 			{!bookmarked ? (
-				<Fade in={!bookmarked} timeout={1000}>
-					<BookmarkAdd />
-				</Fade>
+				<IconButton
+					className={'opacity-20'}
+					color={'primary'}
+					onClick={handleAddBookmark}
+				>
+					<Fade in={!bookmarked} timeout={animationTimeout}>
+						<BookmarkAdd />
+					</Fade>
+				</IconButton>
 			) : null}
-		</IconButton>
+		</>
 	);
 }
 
