@@ -1,29 +1,32 @@
-import parse from 'node-html-parser';
+'use client';
 
 import { createElement, ReactNode } from 'react';
+import { useParams } from 'next/navigation';
 
 import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { Hyperlink } from '@/app/ui/index';
 
+import parse from 'node-html-parser';
+
 /**
- * @param id - Recipe id
- * FIXME: @param nodeList - DOM tree for the recipe's body elements
- * returns
+ 
+ * @param html - HTML string for a recipe
+ * returns - Recipe object converted into TSX elements
  */
 interface Props {
-	id: string;
 	html: string;
 }
 
-export default function RecipeBody({ id, html }: Props) {
-	// Isolate the 'body' part of the HTML string
+export default function RecipeBody({ html }: Props) {
+	const params = useParams<{ id: string }>();
 
+	// Isolate the string 'body' (excluding the title and servings elements) and parse into a DOM for node manipulation
 	const bodyDOM = parse(html.split('\u2003').at(1)!)
 		.childNodes as unknown as NodeList;
 
-	const getJSX = (nodeList: NodeList): ReactNode[] => {
+	const getTSX = (nodeList: NodeList): ReactNode[] => {
 		return Array.from(nodeList).map((node, i) => {
 			// Element nodes
 			if (node.nodeType === 1) {
@@ -51,23 +54,25 @@ export default function RecipeBody({ id, html }: Props) {
 											className={'font-bold ml-4'}
 											key={i}
 										>
-											{getJSX(li.childNodes)}
+											{getTSX(li.childNodes)}
 										</Grid>
 									);
 								})}
 							</Grid>
 						);
 
-					// Handle hyperlinks
+					// Render hyperlinks only when on a /recipe/[id] route. This removes links from RecipeCards with 'preview' styling and prevents hydration errors with <a> as a descendent of <a>
 					case 'A':
-						return (
-							<Hyperlink
-								id={id}
-								key={i}
-								text={node.textContent!}
-								url={newProps.href}
-							/>
-						);
+						if (params.id) {
+							return (
+								<Hyperlink
+									id={params.id}
+									key={i}
+									text={node.textContent!}
+									url={newProps.href}
+								/>
+							);
+						}
 
 					// Remove default styling from emphasis tags
 					case 'B':
@@ -80,7 +85,7 @@ export default function RecipeBody({ id, html }: Props) {
 						return createElement(
 							'span',
 							{ key: i, ...newProps },
-							getJSX(node.childNodes)
+							getTSX(node.childNodes)
 						);
 
 					// Remove images
@@ -88,18 +93,18 @@ export default function RecipeBody({ id, html }: Props) {
 						return;
 
 					/**
-					 * Create a new JSX element and recursively call the function on its child nodes.
+					 * Create a new TSX element and recursively call the function on its child nodes.
 					 *
 					 * @param {string} type - React component type
 					 * @param {object} props - Props in new component
 					 * @param {function} children - Recursive function
-					 * @returns - JSX element
+					 * @returns - TSX element
 					 */
 					default:
 						return createElement(
 							tagName.toLowerCase(),
 							{ key: i, ...newProps },
-							getJSX(node.childNodes)
+							getTSX(node.childNodes)
 						);
 				}
 			}
@@ -114,5 +119,5 @@ export default function RecipeBody({ id, html }: Props) {
 		});
 	};
 
-	return <Typography variant={'h6'}>{getJSX(bodyDOM)}</Typography>;
+	return getTSX(bodyDOM);
 }

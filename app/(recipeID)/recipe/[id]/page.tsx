@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 
 import { RecipeCard } from '@/app/ui/index';
 
@@ -13,19 +13,19 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-	// const [fullSize] = useState(true);
 	const { id } = params || 'NO ID';
 
 	try {
+		// FIXME: there should be a way to pass the Recipe object from CardDeck to this url. The database is already queried to populate the preview cards so it would be better to somehow receive that data directly instead of querying the db again here
 		const recipe: Recipe | null = await findByID(id);
 
-		return (
-			// <SizeContext.Provider value={true}>
-			<Container className={'py-4'}>
-				<RecipeCard recipe={recipe} />
-			</Container>
-			// </SizeContext.Provider>
-		);
+		if (recipe) {
+			return (
+				<Container className={'py-4'}>
+					<RecipeCard recipe={recipe} />
+				</Container>
+			);
+		}
 	} catch (err) {
 		// FIXME: error handling
 		console.log(err);

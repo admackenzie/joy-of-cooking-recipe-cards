@@ -1,7 +1,8 @@
 'use client';
 
-import { useContext } from 'react';
+import { forwardRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { Box, CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -16,23 +17,22 @@ interface Props {
 	removeBookmark: any;
 }
 
-export default function CardDeck({ ...props }: Props) {
+export default function CardDeck({ addBookmark, data, removeBookmark }: Props) {
 	const router = useRouter();
 
-	const { data: recipes } = props;
 	// Remove 'preview card' styling when only one record is returned
-	const singleRecord = recipes.length === 1;
+	const singleRecord = data.length === 1;
 
 	return (
 		<Grid container columnSpacing={2}>
-			{(recipes ?? []).map(recipe => {
+			{(data ?? []).map(recipe => {
 				const { id } = recipe;
 
 				return (
 					<Grid
 						// Clip recipe cards to preview size
 						className={`relative ${
-							!singleRecord && 'max-h-[33vh] overflow-clip'
+							!singleRecord && 'overflow-clip'
 						}`}
 						key={id}
 						sx={{
@@ -45,18 +45,19 @@ export default function CardDeck({ ...props }: Props) {
 						xs={12}
 						sm={singleRecord ? 12 : 6}
 					>
-						<Box
-							// Use router to access Next's routing functionality (prefetching, no page reload, etc). This is less verbose than configuring the <Link> component to accept functional components as children
-							onClick={() => router.push(`/recipe/${id}`)}
+						<Link
+							href={`/recipe/${id}`}
+							className={'flex h-[33vh] '}
 						>
-							<RecipeCard recipe={recipe} {...props} />
-						</Box>
+							<RecipeCard recipe={recipe} />
+						</Link>
 
+						{/* Render bookmark button with absolute positioning to overlay the Link component enveloping RecipeCard  */}
 						<Box className={'absolute right-4 top-4'}>
 							<BookmarkButton
+								addBookmark={addBookmark}
 								recipe={recipe}
-								addBookmark={props.addBookmark}
-								removeBookmark={props.removeBookmark}
+								removeBookmark={removeBookmark}
 							/>
 						</Box>
 					</Grid>
@@ -67,3 +68,23 @@ export default function CardDeck({ ...props }: Props) {
 		</Grid>
 	);
 }
+
+// <RecipeCard recipe={recipe} {...props} />
+
+/* // allow this component to accept all properties of "a" tag
+interface IProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+	to: string;
+	// we can add more properties we need from next/link in the future
+}
+
+// Forward Refs, is useful
+const CustomLink = async function forwardRef(
+	{ to, ...props }: IProps,
+	ref: any
+) {
+	return (
+		<Link href={to} legacyBehavior passHref>
+			<a {...props} ref={ref} />
+		</Link>
+	);
+}; */

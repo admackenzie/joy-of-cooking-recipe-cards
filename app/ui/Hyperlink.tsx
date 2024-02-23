@@ -1,10 +1,6 @@
-'use client';
-
-import { useParams } from 'next/navigation';
-import { Typography } from '@mui/material';
 import Link from 'next/link';
+import { CardActionArea } from '@mui/material';
 
-// FIXME: Improve this interface
 interface Props {
 	id: string;
 	text: string;
@@ -12,9 +8,7 @@ interface Props {
 }
 
 export default function Hyperlink({ ...props }: Props) {
-	const params = useParams<{ id: string }>();
-
-	// Convert hyperlink to match the all-numeric id
+	// Convert initial hyperlink to match the all-numeric id
 	const href = props.url
 		?.toString()
 		.match(/part\d{2}_sub\d{3}_\d{2}/g)
@@ -26,8 +20,7 @@ export default function Hyperlink({ ...props }: Props) {
 	if (href && href !== props.id) {
 		return (
 			<Link
-				// Remove link decoration when cards have 'preview' styling
-				className={`font-bold ${params.id && 'text-blue-600'}`}
+				className={'font-bold text-blue-600'}
 				href={`/recipe/${href}`}
 				key={href}
 			>

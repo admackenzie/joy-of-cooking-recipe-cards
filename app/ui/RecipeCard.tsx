@@ -1,4 +1,6 @@
 'use client';
+
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
 import {
@@ -11,17 +13,18 @@ import {
 	Divider,
 	IconButton,
 	Typography,
+	Stack,
 } from '@mui/material';
 
 import { ArrowBack, Close } from '@mui/icons-material';
 
-import { BookmarkButton, RecipeBody } from '@/app/ui/index';
+import { RecipeBody } from '@/app/ui/index';
 import { chapters, Recipe } from '@/app/lib/definitions';
 
 interface Props {
-	addBookmark: any;
+	addBookmark?: any;
 	recipe: Recipe;
-	removeBookmark: any;
+	removeBookmark?: any;
 }
 
 export default function RecipeCard({ ...props }: Props) {
@@ -40,63 +43,77 @@ export default function RecipeCard({ ...props }: Props) {
 			chapters.find(({ name }) => name === chapter)?.abbrev ?? chapter;
 
 		return (
-			<Card className={'border-t-2'} elevation={3}>
-				{/* Header */}
-				<Box
-					className={`flex justify-between pl-4 pt-4 pr-4 ${
-						servings ? 'pb-0' : 'pb-1'
-					}`}
-				>
-					{/* Title */}
-					<Typography className={'w-5/6'} noWrap variant={'h5'}>
-						{title}
-					</Typography>
-
-					{/* Close button */}
-					{params.id && (
-						<IconButton
-							className={'p-2'}
-							onClick={() => router.back()}
-						>
-							<Close />
-						</IconButton>
-					)}
-				</Box>
-
-				{/* Servings */}
-				<Divider
-					// Style Dividers without interstitial text
-					className={`w-4/5 ${!servings && 'bg-[#cc802a]'}`}
-					textAlign={'left'}
-					variant={'middle'}
-				>
-					<Typography
-						className={'text-lg'}
-						noWrap
-						variant={'subtitle1'}
+			<Box className={'flex'}>
+				<Card className={'border-t-2'} elevation={3}>
+					{/* Header */}
+					<Box
+						className={`flex justify-between pl-4 pt-4 pr-4 ${
+							servings ? 'pb-0' : 'pb-1'
+						}`}
 					>
-						{servings}
-					</Typography>
-				</Divider>
+						{/* Title */}
+						<Typography className={'my-auto text-2xl w-5/6'}>
+							{title}
+						</Typography>
 
-				{/* Body */}
-				<CardContent>
-					<RecipeBody id={id} html={html} />
+						{/* Close button */}
+						{params.id && (
+							<IconButton
+								className={'p-2'}
+								onClick={() => router.back()}
+							>
+								<Close />
+							</IconButton>
+						)}
+					</Box>
 
-					{page && (
-						<Box className={'flex justify-end'}>{`p. ${page}`}</Box>
-					)}
+					{/* Servings */}
+					<Divider
+						// Style Dividers without interstitial text
+						className={`ml-4 w-4/5 ${!servings && 'bg-[#cc802a]'}`}
+						textAlign={'left'}
+					>
+						<Typography className={'text-lg'}>
+							{servings}
+						</Typography>
+					</Divider>
 
-					<Box>{`
-								chapter:
-								${chapter} (See more)`}</Box>
-				</CardContent>
+					{/* Body */}
+					<CardContent>
+						<Typography className={'text-xl'} component={'div'}>
+							<Stack spacing={1}>
+								<RecipeBody html={html} />
+							</Stack>
 
-				{/* Section footer */}
-				<CardContent className={'font-semibold flex justify-end'}>
-					{abbrev}
-				</CardContent>
-			</Card>
+							{/* Page number */}
+							{/* {page && (
+							<Box
+								className={'flex justify-end mt-4'}
+							>{`p. ${page}`}</Box>
+						)} */}
+							{/* Chapter */}
+
+							<Divider
+								// Style Dividers without interstitial text
+								className={
+									'flex flex-grow mt-4 bg-[#cc802a] w-3/5 mx-auto'
+								}
+								textAlign={'center'}
+							></Divider>
+
+							{params.id && (
+								<Box
+									className={
+										'font-bold text-blue-600 mt-4 text-center'
+									}
+								>
+									<Link href={''}>{chapter}</Link>
+								</Box>
+							)}
+						</Typography>
+					</CardContent>
+				</Card>
+			</Box>
 		);
 	}
 }
