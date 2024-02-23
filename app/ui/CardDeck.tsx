@@ -39,7 +39,7 @@ export default function CardDeck({ ...props }: Props) {
 							// Fade the bottom of the cards
 							mask: `${
 								!singleRecord &&
-								'linear-gradient(to bottom, rgb(0, 0, 0, 1) 50%, rgb(0, 0, 0, 0) 100%)'
+								'linear-gradient(to bottom, rgb(0, 0, 0, 1) 70%, rgb(0, 0, 0, 0) 100%)'
 							}`,
 						}}
 						xs={12}
