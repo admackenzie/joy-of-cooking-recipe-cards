@@ -1,10 +1,12 @@
-import { Box, Container } from '@mui/material';
+import { Box, Container, Dialog } from '@mui/material';
 
 import { RecipeCard } from '@/app/ui/index';
 
 import { findByID } from '@/app/lib/CRUD';
 
 import { Recipe } from '@/app/lib/definitions';
+
+import RecipeModal from '@/app/ui/RecipeModal';
 
 interface Props {
 	params: {
@@ -13,19 +15,12 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-	// const [fullSize] = useState(true);
 	const { id } = params || 'NO ID';
 
 	try {
-		const recipe: Recipe | null = await findByID(id);
+		const recipe: Recipe = await findByID(id);
 
-		return (
-			// <SizeContext.Provider value={true}>
-			<Container className={'py-4'}>
-				<RecipeCard recipe={recipe} />
-			</Container>
-			// </SizeContext.Provider>
-		);
+		return <RecipeModal recipe={recipe} />;
 	} catch (err) {
 		// FIXME: error handling
 		console.log(err);

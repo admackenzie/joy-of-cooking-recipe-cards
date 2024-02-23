@@ -1,6 +1,6 @@
-// 'use client';
+'use client';
 
-// import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -12,8 +12,7 @@ interface Props {
 }
 
 export default function Hyperlink({ ...props }: Props) {
-	// const [open, setOpen] = useState(false);
-	// const handleModal = () => setOpen(!open);
+	const params = useParams<{ id: string }>();
 
 	// Convert hyperlink to match the all-numeric id
 	const href = props.url
@@ -27,16 +26,15 @@ export default function Hyperlink({ ...props }: Props) {
 	if (href && href !== props.id) {
 		return (
 			<Link
-				className={'font-bold text-blue-600'}
+				// Remove link decoration when cards have 'preview' styling
+				className={`font-bold ${params.id && 'text-blue-600'}`}
 				href={`/recipe/${href}`}
 				key={href}
-				// onClick={handleModal}
 			>
 				{props.text}
 			</Link>
 		);
 	} else {
-		// return <TextNode text={node.textContent}/>
 		return props.text;
 	}
 }

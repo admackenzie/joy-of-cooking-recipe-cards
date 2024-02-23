@@ -37,13 +37,13 @@ const rightBP = 'lg'; // 1200px
 const maxWidth = 1536;
 
 interface Props {
-	recipes: Recipe[];
+	data: Recipe[];
 	// leftCol: React.ReactElement;
 	// main: React.ReactElement;
 	// rightCol: React.ReactElement;
 }
 
-export default function Layout({ recipes }: Props) {
+export default function Layout({ data }: Props) {
 	const [bookmarks, setBookmarks] = useState<Recipe[]>([]);
 
 	// Initialize bookmarks from localStorage
@@ -99,7 +99,7 @@ export default function Layout({ recipes }: Props) {
 				<Container className={'max-h-screen overflow-y-auto'}>
 					<CardDeck
 						addBookmark={addBookmark}
-						recipes={recipes}
+						data={data}
 						removeBookmark={removeBookmark}
 					/>
 				</Container>

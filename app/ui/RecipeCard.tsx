@@ -1,3 +1,6 @@
+'use client';
+import { useParams, useRouter } from 'next/navigation';
+
 import {
 	Box,
 	Card,
@@ -6,43 +9,58 @@ import {
 	CardHeader,
 	Container,
 	Divider,
+	IconButton,
 	Typography,
 } from '@mui/material';
 
-import { RecipeBody } from '@/app/ui/index';
+import { ArrowBack, Close } from '@mui/icons-material';
+
+import { BookmarkButton, RecipeBody } from '@/app/ui/index';
 import { chapters, Recipe } from '@/app/lib/definitions';
 
 interface Props {
-	data: Recipe | null;
+	addBookmark: any;
+	recipe: Recipe;
+	removeBookmark: any;
 }
 
 export default function RecipeCard({ ...props }: Props) {
-	if (!props.data) {
+	const router = useRouter();
+	const params = useParams<{ id: string }>();
+
+	const { recipe } = props;
+
+	if (!recipe) {
 		return <h1>ERROR</h1>;
 	} else {
-		const { id, title, chapter, servings, page, html } = props.data;
+		const { id, title, chapter, servings, page, html } = recipe;
 
 		// Replace chapter title with abbreviated name
 		const abbrev =
 			chapters.find(({ name }) => name === chapter)?.abbrev ?? chapter;
 
 		return (
-			<Card
-				className={'relative border-t-2'}
-				elevation={3}
-				// onClick={() => console.log('test')}
-			>
-				{/* Title */}
+			<Card className={'border-t-2'} elevation={3}>
+				{/* Header */}
 				<Box
-					className={`ml-4 mt-4 w-5/6 ${servings ? 'pb-0' : 'pb-1'}`}
+					className={`flex justify-between pl-4 pt-4 pr-4 ${
+						servings ? 'pb-0' : 'pb-1'
+					}`}
 				>
-					<Typography
-						className={'recipe-title-text'}
-						noWrap
-						variant={'h5'}
-					>
+					{/* Title */}
+					<Typography className={'w-5/6'} noWrap variant={'h5'}>
 						{title}
 					</Typography>
+
+					{/* Close button */}
+					{params.id && (
+						<IconButton
+							className={'p-2'}
+							onClick={() => router.back()}
+						>
+							<Close />
+						</IconButton>
+					)}
 				</Box>
 
 				{/* Servings */}

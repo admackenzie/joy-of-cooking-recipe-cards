@@ -8,18 +8,18 @@ import { Bookmark, BookmarkAdd } from '@mui/icons-material';
 import { Recipe } from '@/app/lib/definitions';
 
 interface Props {
-	data: Recipe;
 	addBookmark: any;
+	recipe: Recipe;
 	removeBookmark: any;
 }
 
 export default function BookmarkButton({
-	data,
 	addBookmark,
+	recipe,
 	removeBookmark,
 }: Props) {
 	const [bookmarked, setBookmarked] = useState(false);
-	const { id } = data;
+	const { id } = recipe;
 
 	// Toggle on bookmark icon if recipe.id exists in localStorage
 	useEffect(() => {
@@ -40,7 +40,7 @@ export default function BookmarkButton({
 
 	const handleAddBookmark = () => {
 		setBookmarked(true);
-		addBookmark(data);
+		addBookmark(recipe);
 	};
 
 	const handleRemoveBookmark = () => {

@@ -19,6 +19,7 @@ interface Props {
 
 export default function RecipeBody({ id, html }: Props) {
 	// Isolate the 'body' part of the HTML string
+
 	const bodyDOM = parse(html.split('\u2003').at(1)!)
 		.childNodes as unknown as NodeList;
 

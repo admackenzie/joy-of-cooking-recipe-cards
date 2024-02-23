@@ -1,12 +1,8 @@
-import { CardDeck, ChapterList, Layout } from '@/app/ui/index';
-
-import BookmarkList from '../ui/BookmarkList';
+import { Layout } from '@/app/ui/index';
 
 import { findBySearch } from '@/app/lib/CRUD';
 
 import { Recipe } from '@/app/lib/definitions';
-
-import * as RECIPES from '@/app/lib/RECIPES.json';
 
 interface Props {
 	searchParams?: {
@@ -17,12 +13,11 @@ interface Props {
 export default async function Main({ ...props }: Props) {
 	// FIXME: try/catch here
 	const { search: query } = props.searchParams || '';
-	let recipes: Recipe[] = [];
-	// const asyncLocalStorage = new AsyncLocalStorage();
+	let data: Recipe[] = [];
 
 	if (query) {
-		recipes = await findBySearch(query);
+		data = await findBySearch(query);
 	}
 
-	return <Layout recipes={recipes} />;
+	return <Layout data={data} />;
 }

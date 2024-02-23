@@ -1,29 +1,25 @@
 'use client';
 
+import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { Box } from '@mui/material';
+import { Box, CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { BookmarkButton, RecipeCard } from '@/app/ui/index';
 
 import { Recipe } from '@/app/lib/definitions';
 
-import { findBySearch } from '../lib/CRUD';
-
 interface Props {
 	addBookmark: any;
-	recipes: Recipe[];
+	data: Recipe[];
 	removeBookmark: any;
 }
 
-export default function CardDeck({
-	addBookmark,
-	recipes,
-	removeBookmark,
-}: Props) {
+export default function CardDeck({ ...props }: Props) {
 	const router = useRouter();
 
+	const { data: recipes } = props;
 	// Remove 'preview card' styling when only one record is returned
 	const singleRecord = recipes.length === 1;
 
@@ -53,14 +49,14 @@ export default function CardDeck({
 							// Use router to access Next's routing functionality (prefetching, no page reload, etc). This is less verbose than configuring the <Link> component to accept functional components as children
 							onClick={() => router.push(`/recipe/${id}`)}
 						>
-							<RecipeCard data={recipe} />
+							<RecipeCard recipe={recipe} {...props} />
 						</Box>
 
 						<Box className={'absolute right-4 top-4'}>
 							<BookmarkButton
-								data={recipe}
-								addBookmark={addBookmark}
-								removeBookmark={removeBookmark}
+								recipe={recipe}
+								addBookmark={props.addBookmark}
+								removeBookmark={props.removeBookmark}
 							/>
 						</Box>
 					</Grid>
