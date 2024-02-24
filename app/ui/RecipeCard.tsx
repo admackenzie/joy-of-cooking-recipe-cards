@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import {
 	Box,
@@ -17,14 +17,19 @@ import { ArrowBackIosNew, Close, Home } from '@mui/icons-material';
 
 import { RecipeBody } from '@/app/ui/index';
 
-import { Recipe } from '@/app/lib/definitions';
+import { chapterSlug, Recipe } from '@/app/lib/definitions';
 
 interface Props {
-	preview: boolean;
+	preview?: boolean;
 	recipe: Recipe;
+	// initialSearch?: string;
 }
 
-export default function RecipeCard({ preview = false, recipe }: Props) {
+export default function RecipeCard({
+	preview = false,
+	recipe,
+}: // initialSearch,
+Props) {
 	const router = useRouter();
 
 	if (!recipe) {
@@ -67,21 +72,23 @@ export default function RecipeCard({ preview = false, recipe }: Props) {
 								// 'Bounce' container to prevent collisions with absolute positioned element
 								<Box className={'min-w-10'}>
 									{/* FIXME: make close button return to user's most recent search */}
-									{/* <Link href={'//most recent search'}> */}
-									<IconButton
-										// Render close button with absolute positioning to keep it in the corner if long title text wraps to multiple lines
-										className={'absolute right-0 top-0 '}
-									>
-										<Close />
-									</IconButton>
-									{/* </Link> */}
+									<Link href={`/`}>
+										<IconButton
+											// Render close button with absolute positioning to keep it in the corner if long title text wraps to multiple lines
+											className={
+												'absolute right-0 top-0 '
+											}
+										>
+											<Close />
+										</IconButton>
+									</Link>
 								</Box>
 							)}
 						</Box>
 
 						{/* Hide servings in 'preview' styling */}
 						{!preview && (
-							<Typography className={'ml-4 text-lg'}>
+							<Typography className={'ml-12 text-lg'}>
 								{servings}
 							</Typography>
 						)}
@@ -93,7 +100,7 @@ export default function RecipeCard({ preview = false, recipe }: Props) {
 
 					{/* ---- Body ---- */}
 					<Typography
-						className={'text-xl'}
+						className={'text-pretty text-xl'}
 						// Render as <div> to prevent hydration errors with <p> as a descendant of <p>
 						component={'div'}
 					>
@@ -118,14 +125,20 @@ export default function RecipeCard({ preview = false, recipe }: Props) {
 							)}
 
 							<Divider
-								className={'bg-[#cc802a] mx-auto my-4 w-3/5'}
+								className={
+									'bg-[#cc802a] mb-2 mt-4 mx-auto w-3/5'
+								}
 							></Divider>
 
 							{/* Chapter link */}
 							<Typography
-								className={'font-bold text-blue-600 text-xl'}
+								className={
+									'font-bold text-blue-600 text-pretty text-xl'
+								}
 							>
-								<Link href={''}>{chapter}</Link>
+								<Link href={`/recipes/${chapterSlug(chapter)}`}>
+									{chapter}
+								</Link>
 							</Typography>
 						</Box>
 					)}

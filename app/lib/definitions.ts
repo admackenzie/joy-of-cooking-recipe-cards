@@ -8,131 +8,138 @@ export type Recipe = {
 	html: string;
 };
 
+export const chapterSlug = (chapter: string) => {
+	return chapters
+		.find(obj => obj.name === chapter)
+		?.abbrev.replace(/\s/g, '-')
+		.toLowerCase();
+};
+
 export const chapters = [
 	{
-		name: 'Beverages',
 		abbrev: 'Beverages',
+		name: 'Beverages',
 	},
 	{
-		name: 'Cocktails, Wine, and Beer',
 		abbrev: 'Cocktails',
+		name: 'Cocktails, Wine, and Beer',
 	},
 	{
-		name: `Appetizers and Hors D'Oeuvre`,
 		abbrev: 'Appetizers',
+		name: "Appetizers and Hors D'Oeuvre",
 	},
 	{
-		name: 'Stocks and Soups',
 		abbrev: 'Soups',
+		name: 'Stocks and Soups',
 	},
 	{
-		name: 'Salads',
 		abbrev: 'Salads',
+		name: 'Salads',
 	},
 	{
-		name: 'Sandwiches, Tacos, and Burritos',
 		abbrev: 'Sandwiches',
+		name: 'Sandwiches, Tacos, and Burritos',
 	},
 	{
-		name: 'Egg Dishes',
 		abbrev: 'Egg Dishes',
+		name: 'Egg Dishes',
 	},
 	{
-		name: 'Fruits',
 		abbrev: 'Fruits',
+		name: 'Fruits',
 	},
 	{
-		name: 'Vegetables',
 		abbrev: 'Vegetables',
+		name: 'Vegetables',
 	},
 	{
-		name: 'Pasta, Noodles, and Dumplings',
 		abbrev: 'Pasta',
+		name: 'Pasta, Noodles, and Dumplings',
 	},
 	{
-		name: 'Grains',
 		abbrev: 'Grains',
+		name: 'Grains',
 	},
 	{
-		name: 'Shellfish',
 		abbrev: 'Shellfish',
+		name: 'Shellfish',
 	},
 	{
-		name: 'Fish',
 		abbrev: 'Fish',
+		name: 'Fish',
 	},
 	{
-		name: 'Poultry and Wildfowl',
 		abbrev: 'Poultry',
+		name: 'Poultry and Wildfowl',
 	},
 	{
-		name: 'Meat',
 		abbrev: 'Meat',
+		name: 'Meat',
 	},
 	{
-		name: 'Game and Exotic Meats',
 		abbrev: 'Exotic Meats',
+		name: 'Game and Exotic Meats',
 	},
 	{
-		name: 'Stuffings and Casseroles',
 		abbrev: 'Casseroles',
+		name: 'Stuffings and Casseroles',
 	},
 	{
-		name: 'Savory Sauces, Salad Dressings, Marinades, and Seasoning Blends',
 		abbrev: 'Sauces',
+		name: 'Savory Sauces, Salad Dressings, Marinades, and Seasoning Blends',
 	},
 	{
-		name: 'Breads and Coffee Cakes',
 		abbrev: 'Breads',
+		name: 'Breads and Coffee Cakes',
 	},
 	{
-		name: 'Pancakes, Waffles, Doughnuts, and Fritters',
 		abbrev: 'Batters',
+		name: 'Pancakes, Waffles, Doughnuts, and Fritters',
 	},
 	{
-		name: 'Pies and Pastries',
 		abbrev: 'Pies',
+		name: 'Pies and Pastries',
 	},
 	{
-		name: 'Cakes and Cupcakes',
 		abbrev: 'Cakes',
+		name: 'Cakes and Cupcakes',
 	},
 	{
-		name: 'Cookies and Bars',
 		abbrev: 'Cookies',
+		name: 'Cookies and Bars',
 	},
 	{
-		name: 'Icings, Fillings, Frostings, and Sweet Sauces',
 		abbrev: 'Icing',
+		name: 'Icings, Fillings, Frostings, and Sweet Sauces',
 	},
 	{
-		name: 'Desserts',
 		abbrev: 'Desserts',
+		name: 'Desserts',
 	},
 	{
-		name: 'Ice Cream and Frozen Desserts',
 		abbrev: 'Ice Cream',
+		name: 'Ice Cream and Frozen Desserts',
 	},
 	{
-		name: 'Candies and Confections',
 		abbrev: 'Candies',
+		name: 'Candies and Confections',
 	},
 
 	{
-		name: 'Jams, Jellies, and Preserves',
 		abbrev: 'Jams',
+		name: 'Jams, Jellies, and Preserves',
 	},
 	{
-		name: 'Pickles',
 		abbrev: 'Pickles',
+		name: 'Pickles',
 	},
 	{
-		name: 'Salting, Drying, and Fermenting',
 		abbrev: 'Preserves',
+		name: 'Salting, Drying, and Fermenting',
 	},
 	{
-		name: 'Know Your Ingredients',
 		abbrev: 'Other',
+		name: 'Know Your Ingredients',
 	},
 ];
 

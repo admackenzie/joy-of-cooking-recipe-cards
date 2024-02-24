@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import { Box, CardActionArea } from '@mui/material';
@@ -7,6 +9,9 @@ import { BookmarkButton, RecipeCard } from '@/app/ui/index';
 
 import { Recipe } from '@/app/lib/definitions';
 
+import { useState } from 'react';
+import { usePathname, useParams, useSearchParams } from 'next/navigation';
+
 interface Props {
 	addBookmark: any;
 	data: Recipe[];
@@ -15,7 +20,9 @@ interface Props {
 
 export default function CardDeck({ ...props }: Props) {
 	const { data: recipes } = props;
+	const searchParams = useSearchParams().get('search');
 
+	const [initialSearch, setInitialSearch] = useState(searchParams ?? '');
 	// Remove 'preview card' styling when only one record is returned
 	// const singleRecord = recipes.length === 1;
 
@@ -42,7 +49,11 @@ export default function CardDeck({ ...props }: Props) {
 					>
 						<CardActionArea>
 							<Link href={`/recipe/${id}`}>
-								<RecipeCard preview={true} recipe={recipe} />
+								<RecipeCard
+									// initialSearch={initialSearch}
+									preview={true}
+									recipe={recipe}
+								/>
 							</Link>
 						</CardActionArea>
 

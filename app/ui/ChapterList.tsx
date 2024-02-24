@@ -2,7 +2,7 @@ import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 
 import Link from 'next/link';
 
-import { chapters, fileNames } from '@/app/lib/definitions';
+import { chapters, chapterSlug, fileNames } from '@/app/lib/definitions';
 
 export default function ChapterList() {
 	return (
@@ -12,7 +12,11 @@ export default function ChapterList() {
 				.map((_el, i) => {
 					return (
 						<Box key={i}>
-							<Link href={''}>
+							<Link
+								href={`/recipes/${chapterSlug(
+									chapters[i].name
+								)}`}
+							>
 								<ListItem>
 									<Typography variant={'h6'}>
 										{chapters[i]?.abbrev}

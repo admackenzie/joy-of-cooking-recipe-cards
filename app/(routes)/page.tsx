@@ -10,9 +10,10 @@ interface Props {
 	};
 }
 
-export default async function Main({ ...props }: Props) {
+export default async function Main({ searchParams }: Props) {
 	// FIXME: try/catch here
-	const { search: query } = props.searchParams || '';
+	const { search: query } = searchParams || '';
+
 	let data: Recipe[] = [];
 
 	if (query) {

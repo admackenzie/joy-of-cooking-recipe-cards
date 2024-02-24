@@ -21,7 +21,7 @@ export default async function Page({ params }: Props) {
 
 		if (recipe) {
 			return (
-				<Container className={'py-4'}>
+				<Container className={'py-4'} maxWidth={'sm'}>
 					<RecipeCard recipe={recipe} />
 				</Container>
 			);

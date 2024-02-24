@@ -15,7 +15,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 
 export default function Search() {
 	const searchParams = useSearchParams();
-	const pathname = usePathname();
+	// const pathname = usePathname();
 	const { replace } = useRouter();
 
 	const [query, setQuery] = useState('');
@@ -29,30 +29,11 @@ export default function Search() {
 			params.delete('search');
 		}
 
-		replace(`${pathname}?${params.toString()}`);
+		replace(`/?${params.toString()}`);
 	};
 
 	return (
 		<FormGroup row>
-			{/* <TextField
-				defaultValue={searchParams.get('search')?.toString()}
-				// helperText="Search recipes here"
-
-				// InputProps={{
-				// 	startAdornment: (
-				// 		<InputAdornment position="start">
-				// 			<SearchIcon />
-				// 		</InputAdornment>
-				// 	),
-				// }}
-
-				label="Search recipes"
-				onChange={e => {
-					setQuery(e.target.value);
-				}}
-				type="search"
-				variant="outlined"
-			/> */}
 			<TextField
 				sx={{ mr: { xs: '16px', sm: 0 } }}
 				className={'w-full max-w-xs'}
@@ -74,7 +55,7 @@ export default function Search() {
 			/>
 
 			<Button
-				onClick={e => {
+				onClick={() => {
 					handleSearch(query);
 				}}
 				startIcon={<SearchIcon />}

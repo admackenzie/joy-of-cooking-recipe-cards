@@ -1,9 +1,9 @@
 import prisma from '@/prisma/instantiate';
 
+// FIXME: add search bodyText functionality
 export async function findBySearch(query: any) {
 	const data = await prisma.recipes.findMany({
 		where: {
-			// id: 'part02_sub002_06',
 			title: {
 				contains: query,
 				// Searches without case sensitivity
@@ -34,17 +34,16 @@ export async function deleteByID(query: any) {
 }
 
 export async function findByChapter(query: string) {
-	// const data = await prisma.recipes.findMany({
-	// 	where: {
-	// 		// id: 'part02_sub002_06',
-	// 		chapter: {
-	// 			contains: query,
-	// 			// Searches without case sensitivity
-	// 			mode: 'insensitive',
-	// 		},
-	// 	},
-	// });
-	// return data;
+	const data = await prisma.recipes.findMany({
+		where: {
+			chapter: {
+				contains: query,
+				// Searches without case sensitivity
+				mode: 'insensitive',
+			},
+		},
+	});
+	return data;
 }
 
 export async function addToDB(data: any[]) {
