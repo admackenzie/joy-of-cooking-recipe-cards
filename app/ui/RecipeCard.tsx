@@ -1,119 +1,146 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import {
 	Box,
 	Card,
-	CardActionArea,
 	CardContent,
-	CardHeader,
-	Container,
 	Divider,
 	IconButton,
 	Typography,
 	Stack,
 } from '@mui/material';
 
-import { ArrowBack, Close } from '@mui/icons-material';
+import { ArrowBackIosNew, Close, Home } from '@mui/icons-material';
 
 import { RecipeBody } from '@/app/ui/index';
-import { chapters, Recipe } from '@/app/lib/definitions';
+
+import { Recipe } from '@/app/lib/definitions';
 
 interface Props {
-	addBookmark?: any;
+	preview: boolean;
 	recipe: Recipe;
-	removeBookmark?: any;
 }
 
-export default function RecipeCard({ ...props }: Props) {
+export default function RecipeCard({ preview = false, recipe }: Props) {
 	const router = useRouter();
-	const params = useParams<{ id: string }>();
-
-	const { recipe } = props;
 
 	if (!recipe) {
 		return <h1>ERROR</h1>;
 	} else {
-		const { id, title, chapter, servings, page, html } = recipe;
-
-		// Replace chapter title with abbreviated name
-		const abbrev =
-			chapters.find(({ name }) => name === chapter)?.abbrev ?? chapter;
+		const { chapter, html, page, servings, title } = recipe;
 
 		return (
-			<Box className={'flex'}>
-				<Card className={'border-t-2'} elevation={3}>
-					{/* Header */}
-					<Box
-						className={`flex justify-between pl-4 pt-4 pr-4 ${
-							servings ? 'pb-0' : 'pb-1'
-						}`}
-					>
-						{/* Title */}
-						<Typography className={'my-auto text-2xl w-5/6'}>
-							{title}
-						</Typography>
-
-						{/* Close button */}
-						{params.id && (
-							<IconButton
-								className={'p-2'}
-								onClick={() => router.back()}
-							>
-								<Close />
-							</IconButton>
-						)}
-					</Box>
-
-					{/* Servings */}
-					<Divider
-						// Style Dividers without interstitial text
-						className={`ml-4 w-4/5 ${!servings && 'bg-[#cc802a]'}`}
-						textAlign={'left'}
-					>
-						<Typography className={'text-lg'}>
-							{servings}
-						</Typography>
-					</Divider>
-
-					{/* Body */}
-					<CardContent>
-						<Typography className={'text-xl'} component={'div'}>
-							<Stack spacing={1}>
-								<RecipeBody html={html} />
-							</Stack>
-
-							{/* Page number */}
-							{/* {page && (
-							<Box
-								className={'flex justify-end mt-4'}
-							>{`p. ${page}`}</Box>
-						)} */}
-							{/* Chapter */}
-
-							<Divider
-								// Style Dividers without interstitial text
-								className={
-									'flex flex-grow mt-4 bg-[#cc802a] w-3/5 mx-auto'
-								}
-								textAlign={'center'}
-							></Divider>
-
-							{params.id && (
-								<Box
-									className={
-										'font-bold text-blue-600 mt-4 text-center'
-									}
+			<Card
+				// Clip cards to same height in 'preview' styling
+				className={`border-t-2 ${preview && 'h-[33vh]'}`}
+				elevation={3}
+			>
+				<CardContent>
+					{/* ---- Header ---- */}
+					<Box>
+						<Box className={'flex justify-between relative'}>
+							{/* Hide back button in 'preview' styling */}
+							{!preview && (
+								<IconButton
+									// Render close button with absolute positioning to keep it in the corner if long title text wraps to multiple lines
+									className={'mr-4 pl-0'}
+									onClick={() => router.back()}
 								>
-									<Link href={''}>{chapter}</Link>
+									<ArrowBackIosNew />
+								</IconButton>
+							)}
+
+							<Typography
+								// Truncate title with ellipsis in 'preview' styling
+								className={`my-auto text-2xl w-5/6 ${
+									preview && 'truncate'
+								}`}
+							>
+								{title}
+							</Typography>
+
+							{/* Hide close button in 'preview' styling */}
+							{!preview && (
+								// 'Bounce' container to prevent collisions with absolute positioned element
+								<Box className={'min-w-10'}>
+									{/* FIXME: make close button return to user's most recent search */}
+									{/* <Link href={'//most recent search'}> */}
+									<IconButton
+										// Render close button with absolute positioning to keep it in the corner if long title text wraps to multiple lines
+										className={'absolute right-0 top-0 '}
+									>
+										<Close />
+									</IconButton>
+									{/* </Link> */}
 								</Box>
 							)}
-						</Typography>
-					</CardContent>
-				</Card>
-			</Box>
+						</Box>
+
+						{/* Hide servings in 'preview' styling */}
+						{!preview && (
+							<Typography className={'ml-4 text-lg'}>
+								{servings}
+							</Typography>
+						)}
+
+						<Divider
+							className={'bg-[#cc802a] mb-4 mt-2 w-5/6'}
+						></Divider>
+					</Box>
+
+					{/* ---- Body ---- */}
+					<Typography
+						className={'text-xl'}
+						// Render as <div> to prevent hydration errors with <p> as a descendant of <p>
+						component={'div'}
+					>
+						<Stack spacing={1}>
+							<RecipeBody html={html} />
+						</Stack>
+					</Typography>
+
+					{/* ---- Footer ---- */}
+					{/* Hide footer in 'preview' styling */}
+					{!preview && (
+						<Box className={'mt-8 text-center'}>
+							{/* Page number */}
+							{page && (
+								<Typography className={'text-lg'}>
+									Own a physical copy? Find this recipe on{' '}
+									<span className={'font-medium'}>
+										{`page ${page}`}
+									</span>
+									.
+								</Typography>
+							)}
+
+							<Divider
+								className={'bg-[#cc802a] mx-auto my-4 w-3/5'}
+							></Divider>
+
+							{/* Chapter link */}
+							<Typography
+								className={'font-bold text-blue-600 text-xl'}
+							>
+								<Link href={''}>{chapter}</Link>
+							</Typography>
+						</Box>
+					)}
+				</CardContent>
+			</Card>
 		);
 	}
+}
+
+{
+	/* <Divider
+					// Style Dividers without interstitial text
+					className={`ml-4 w-4/5 ${!servings && 'bg-[#cc802a]'}`}
+					textAlign={'left'}
+				>
+					<Typography className={'text-lg'}>{servings}</Typography>
+				</Divider> */
 }

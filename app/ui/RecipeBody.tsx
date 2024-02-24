@@ -1,9 +1,8 @@
 'use client';
 
-import { createElement, ReactNode } from 'react';
 import { useParams } from 'next/navigation';
+import { createElement, ReactNode } from 'react';
 
-import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { Hyperlink } from '@/app/ui/index';
@@ -11,7 +10,6 @@ import { Hyperlink } from '@/app/ui/index';
 import parse from 'node-html-parser';
 
 /**
- 
  * @param html - HTML string for a recipe
  * returns - Recipe object converted into TSX elements
  */
