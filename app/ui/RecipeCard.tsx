@@ -17,7 +17,7 @@ import { ArrowBackIosNew, Close, Home } from '@mui/icons-material';
 
 import { RecipeBody } from '@/app/ui/index';
 
-import { chapterSlug, Recipe } from '@/app/lib/definitions';
+import { slugifyChapter, Recipe } from '@/app/lib/definitions';
 
 interface Props {
 	preview?: boolean;
@@ -136,7 +136,9 @@ Props) {
 									'font-bold text-blue-600 text-pretty text-xl'
 								}
 							>
-								<Link href={`/recipes/${chapterSlug(chapter)}`}>
+								<Link
+									href={`/recipes/${slugifyChapter(chapter)}`}
+								>
 									{chapter}
 								</Link>
 							</Typography>

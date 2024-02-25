@@ -1,14 +1,3 @@
-export default function Layout({
-	children,
-	recipeModal,
-}: {
-	children: React.ReactNode;
-	recipeModal: React.ReactNode;
-}) {
-	return (
-		<>
-			{recipeModal}
-			{children}
-		</>
-	);
+export default function Layout({ children }: { children: React.ReactNode }) {
+	return <>{children}</>;
 }

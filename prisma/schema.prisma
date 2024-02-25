@@ -10,15 +10,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url      = env("DATABASE_URL")
 }
 
 model recipes {
   id          String    @db.VarChar(255) @unique 
   title       String    @db.VarChar(255)
   chapter     String    @db.VarChar(255)
-  bodyText    String   
+  body_text   String   
   servings    String?   @db.VarChar(255)
   page        String?   @db.VarChar(255)
   html        String

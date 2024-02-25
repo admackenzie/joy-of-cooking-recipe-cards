@@ -8,11 +8,17 @@ export type Recipe = {
 	html: string;
 };
 
-export const chapterSlug = (chapter: string) => {
+export const slugifyChapter = (chapter: string) => {
 	return chapters
 		.find(obj => obj.name === chapter)
 		?.abbrev.replace(/\s/g, '-')
 		.toLowerCase();
+};
+
+export const undoSlugifyChapter = (slug: string) => {
+	return chapters.find(
+		obj => obj.abbrev.toLowerCase() === slug.split(' ').join('')
+	)?.name;
 };
 
 export const chapters = [

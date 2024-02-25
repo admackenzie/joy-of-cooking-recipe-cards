@@ -17,7 +17,7 @@ export default async function Main({ searchParams }: Props) {
 	let data: Recipe[] = [];
 
 	if (query) {
-		data = await findBySearch(query);
+		data = (await findBySearch(query)) as Recipe[];
 	}
 
 	return <Layout data={data} />;

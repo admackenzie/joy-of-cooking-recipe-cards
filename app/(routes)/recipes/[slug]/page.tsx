@@ -2,16 +2,16 @@ import { Layout } from '@/app/ui/index';
 
 import { findByChapter } from '@/app/lib/CRUD';
 
-import { Recipe } from '@/app/lib/definitions';
+import { Recipe, undoSlugifyChapter } from '@/app/lib/definitions';
 
 interface Props {
 	params: { slug: string };
 }
 
-export default async function Main({ params }: Props) {
+export default async function Main({ params: { slug } }: Props) {
 	// FIXME: try/catch here
 
-	const { slug: chapter } = params;
+	const chapter = undoSlugifyChapter(slug);
 
 	let data: Recipe[] = [];
 

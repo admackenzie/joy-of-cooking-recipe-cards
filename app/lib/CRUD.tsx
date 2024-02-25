@@ -2,15 +2,15 @@ import prisma from '@/prisma/instantiate';
 
 // FIXME: add search bodyText functionality
 export async function findBySearch(query: any) {
-	const data = await prisma.recipes.findMany({
-		where: {
-			title: {
-				contains: query,
-				// Searches without case sensitivity
-				mode: 'insensitive',
-			},
-		},
-	});
+	// Replace diacritics in query and use unaccent extension to make an accent insensitive database
+	const sql = `%${query
+		.normalize('NFD')
+		.replace(/\p{Diacritic}/giu, '')
+		.toUpperCase()}%`;
+
+	// FIXME: make this also query body_text, then order by title => body_text
+	const data =
+		await prisma.$queryRaw`SELECT * FROM recipes WHERE unaccent(title) LIKE ${sql}LIMIT 5`;
 
 	return data;
 }
@@ -38,10 +38,12 @@ export async function findByChapter(query: string) {
 		where: {
 			chapter: {
 				contains: query,
-				// Searches without case sensitivity
+				// Search without case sensitivity
 				mode: 'insensitive',
 			},
 		},
+		// FIXME: (testing) Return max of five records
+		take: 5,
 	});
 	return data;
 }
@@ -53,7 +55,7 @@ export async function addToDB(data: any[]) {
 				id: data[i].id,
 				title: data[i].title,
 				chapter: data[i].chapter,
-				bodyText: data[i].bodyText,
+				body_text: data[i].bodyText,
 				servings: data[i].servings,
 				page: data[i].page,
 				html: data[i].html,

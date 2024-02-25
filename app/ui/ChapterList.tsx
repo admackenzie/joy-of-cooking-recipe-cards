@@ -2,7 +2,7 @@ import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 
 import Link from 'next/link';
 
-import { chapters, chapterSlug, fileNames } from '@/app/lib/definitions';
+import { chapters, fileNames, slugifyChapter } from '@/app/lib/definitions';
 
 export default function ChapterList() {
 	return (
@@ -13,7 +13,7 @@ export default function ChapterList() {
 					return (
 						<Box key={i}>
 							<Link
-								href={`/recipes/${chapterSlug(
+								href={`/recipes/${slugifyChapter(
 									chapters[i].name
 								)}`}
 							>
