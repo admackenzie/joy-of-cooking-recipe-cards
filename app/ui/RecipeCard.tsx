@@ -22,7 +22,6 @@ import { slugifyChapter, Recipe } from '@/app/lib/definitions';
 interface Props {
 	preview?: boolean;
 	recipe: Recipe;
-	// initialSearch?: string;
 }
 
 export default function RecipeCard({

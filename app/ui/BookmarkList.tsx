@@ -36,13 +36,6 @@ export default function BookmarkList({ bookmarks }: Props) {
 									</Typography>
 								</ListItem>
 							</Link>
-
-							{/* {[1, 5, 10, 15, 19, 26].includes(i) && (
-								<Divider
-									component={'li'}
-									// variant={'middle'}
-								/>
-							)} */}
 						</Box>
 					);
 				})}

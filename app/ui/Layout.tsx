@@ -67,13 +67,6 @@ export default function Layout({ data }: Props) {
 		localStorage.removeItem(`joc-${id}`);
 	};
 
-	// main.props = {
-	// 	...main.props,
-	// 	addBookmark: addBookmark,
-	// 	removeBookmark: removeBookmark,
-	// };
-	// rightCol.props = { ...rightCol.props, bookmarks: bookmarks };
-
 	// Highlight icons on bottom nav
 	const [value, setValue] = useState(0);
 

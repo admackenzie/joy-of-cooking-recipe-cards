@@ -49,11 +49,7 @@ export default function CardDeck({ ...props }: Props) {
 					>
 						<CardActionArea>
 							<Link href={`/recipe/${id}`}>
-								<RecipeCard
-									// initialSearch={initialSearch}
-									preview={true}
-									recipe={recipe}
-								/>
+								<RecipeCard preview={true} recipe={recipe} />
 							</Link>
 						</CardActionArea>
 
