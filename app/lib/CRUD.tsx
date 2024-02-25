@@ -3,7 +3,7 @@ import prisma from '@/prisma/instantiate';
 // FIXME: add search bodyText functionality
 export async function findBySearch(query: any) {
 	// Replace diacritics in query and use unaccent extension to make an accent insensitive database
-	const sql = `%${query
+	/* 	const sql = `%${query
 		.normalize('NFD')
 		.replace(/\p{Diacritic}/giu, '')
 		.toUpperCase()}%`;
@@ -12,6 +12,19 @@ export async function findBySearch(query: any) {
 	const data =
 		await prisma.$queryRaw`SELECT * FROM recipes WHERE unaccent(title) LIKE ${sql}LIMIT 5`;
 
+	return data; */
+
+	const data = await prisma.recipes.findMany({
+		where: {
+			title: {
+				contains: query,
+				// Search without case sensitivity
+				mode: 'insensitive',
+			},
+		},
+		// FIXME: (testing) Return max of five records
+		take: 5,
+	});
 	return data;
 }
 
