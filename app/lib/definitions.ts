@@ -2,7 +2,7 @@ export type Recipe = {
 	id: string;
 	title: string;
 	chapter: string;
-	bodyText: string;
+	body_text: string;
 	servings: string | null;
 	page: string | null;
 	html: string;
