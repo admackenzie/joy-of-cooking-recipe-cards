@@ -17,7 +17,7 @@ export const slugifyChapter = (chapter: string) => {
 
 export const undoSlugifyChapter = (slug: string) => {
 	return chapters.find(
-		obj => obj.abbrev.toLowerCase() === slug.split(' ').join('')
+		obj => obj.abbrev.toLowerCase().split(' ').join('-') === slug
 	)?.name;
 };
 
@@ -32,7 +32,7 @@ export const chapters = [
 	},
 	{
 		abbrev: 'Appetizers',
-		name: "Appetizers and Hors D'Oeuvre",
+		name: 'Appetizers and Hors d’Oeuvre',
 	},
 	{
 		abbrev: 'Soups',

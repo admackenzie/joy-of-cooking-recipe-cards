@@ -75,22 +75,3 @@ export default function BookmarkButton({
 		</>
 	);
 }
-
-// const BookmarkWrapper = ({ ...props }) => {
-// 	return (
-// 		<Fade in={true} timeout={1000}>
-// 			<Tooltip
-// 				arrow={true}
-// 				className={'border-t-2'}
-// 				disableFocusListener
-// 				disableHoverListener
-// 				disableTouchListener
-// 				open={props.open}
-// 				placement={'top-end'}
-// 				title={props.title}
-// 			>
-// 				<IconButton color={'primary'}>{props.children}</IconButton>
-// 			</Tooltip>
-// 		</Fade>
-// 	);
-// };
