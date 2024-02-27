@@ -1,6 +1,14 @@
 'use client';
 
-import { AppBar, Box, InputAdornment, TextField } from '@mui/material';
+import {
+	AppBar,
+	Box,
+	InputAdornment,
+	TextField,
+	Fade,
+	Toolbar,
+} from '@mui/material';
+import Link from 'next/link';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { PopoverMenu } from '@/app/ui/index';
 
@@ -11,44 +19,62 @@ import { Search } from '@/app/ui/index';
 
 export default function AppBarWithSearch() {
 	return (
-		<AppBar className={'flex-row justify-between mb-6 static bg-white'}>
-			{/* Logo -- using a Box with sx attributes allows for easy image swapping based on breakpoints*/}
-			<Box
-				alt="logo"
-				className={'h-14 p-3 w-auto'}
-				component="img"
-				sx={{
-					content: {
-						xs: 'url(/images/header-small-variant-0.jpg)',
-						sm: 'url(/images/header-large.jpg)',
-					},
-				}}
-			/>
+		<AppBar className={'bg-white sticky'}>
+			<Toolbar className={'justify-between'} sx={{ pr: { md: 0 } }}>
+				{/* Logo -- using a Box with sx attributes allows for easy image swapping based on breakpoints*/}
+				<Link href={'/'}>
+					<Box
+						alt="logo"
+						className={'h-12 mr-8 my-auto'}
+						component="img"
+						sx={{
+							content: {
+								xs: 'url(/images/header-small-variant-0.jpg)',
+								sm: 'url(/images/header-large.jpg)',
+							},
+						}}
+					/>
+				</Link>
 
-			<Box className={'flex'}>
+				{/* <Box className={'mr-8 my-auto relative'}>
+					<Box
+						className={'h-12 min-w-16'}
+						sx={{ display: { xs: 'block', sm: 'none' } }}
+					>
+						<Image
+							alt={'logo'}
+							fill={true}
+							priority={true}
+							src={logoSmall}
+						/>
+					</Box>
+
+					<Box
+						className={'h-12  min-w-56'}
+						sx={{ display: { xs: 'none', sm: 'block' } }}
+					>
+						<Image
+							alt={'logo'}
+							fill={true}
+							priority={true}
+							src={logoLarge}
+						/>
+					</Box>
+				</Box> */}
+
 				{/* Search input */}
-				{/* <TextField
-					sx={{ mr: { xs: '16px', sm: 0 } }}
-					className={'w-full max-w-xs'}
-					variant={'outlined'}
-					placeholder={'Search recipes'}
-					InputProps={{
-						startAdornment: (
-							<InputAdornment position="start">
-								<SearchIcon />
-							</InputAdornment>
-						),
-					}}
-				/> */}
+				<Box className={'flex shrink py-2'}>
+					{/* <Box sx={{ mr: { xs: '1rem', sm: '2rem', md: 0 } }}> */}
+					<Search />
+					{/* </Box> */}
 
-				<Search />
-
-				{/* Hamburger menu */}
-				<Box
-					className={'my-auto'}
-					sx={{ display: { xs: 'none', sm: 'block' } }}
-				>
-					<PopoverMenu />
+					{/* Hamburger menu */}
+					<Box
+						className={'my-auto'}
+						sx={{ display: { xs: 'none', md: 'block' } }}
+					>
+						<PopoverMenu />
+					</Box>
 				</Box>
 
 				{/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
@@ -71,7 +97,7 @@ export default function AppBarWithSearch() {
 						/>
 					</BottomNavigation>
 				</Box> */}
-			</Box>
+			</Toolbar>
 		</AppBar>
 	);
 }

@@ -27,7 +27,7 @@ export default function CardDeck({ ...props }: Props) {
 	// const singleRecord = recipes.length === 1;
 
 	return (
-		<Grid container columnSpacing={2}>
+		<Grid className={'mb-8'} container columnSpacing={{ xs: 2, lg: 3 }}>
 			{(recipes ?? []).map(recipe => {
 				const { id } = recipe;
 

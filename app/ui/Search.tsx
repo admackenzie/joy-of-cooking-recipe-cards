@@ -1,26 +1,25 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import {
-	Button,
-	Box,
-	FormGroup,
-	IconButton,
-	InputAdornment,
-	TextField,
-} from '@mui/material';
+import { FormGroup, InputAdornment, TextField } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 
 export default function Search() {
-	const searchParams = useSearchParams();
-	// const pathname = usePathname();
 	const { replace } = useRouter();
+	const searchParams = useSearchParams();
 
-	const [query, setQuery] = useState('');
+	const [query, setQuery] = useState(
+		searchParams.get('search')?.toString() ?? ''
+	);
 
-	const handleSearch = function (term: string) {
+	// Clear search bar when there are no search params
+	useEffect(() => {
+		!searchParams.size && setQuery('');
+	}, [searchParams]);
+
+	const handleSearch = (e: React.FormEvent, term: string) => {
 		const params = new URLSearchParams(searchParams);
 
 		if (term) {
@@ -29,40 +28,50 @@ export default function Search() {
 			params.delete('search');
 		}
 
+		// Append query to url
 		replace(`/?${params.toString()}`);
+
+		// Remove input focus after submission
+		const target = e.target as HTMLElement;
+		target.blur();
 	};
 
 	return (
-		<FormGroup row>
+		<FormGroup row={true}>
 			<TextField
-				sx={{ mr: { xs: '16px', sm: 0 } }}
-				className={'w-full max-w-xs'}
-				defaultValue={searchParams.get('search')?.toString()}
-				// label="Search recipes"
+				color={'secondary'}
+				className={'max-w-xs'}
 				InputProps={{
+					// Submit query with mouse/touch event
 					startAdornment: (
-						<InputAdornment position="start">
-							<SearchIcon />
+						<InputAdornment
+							className={'py-0'}
+							onClick={e => {
+								handleSearch(e, query);
+							}}
+							position="start"
+						>
+							<SearchIcon
+							// color={'primary'}
+							/>
 						</InputAdornment>
 					),
+					sx: { fontSize: '1.25rem' },
 				}}
 				onChange={e => {
 					setQuery(e.target.value);
 				}}
+				// Clear existing query when input is focused
+				onFocus={() => setQuery('')}
+				// Submit query with Enter key
+				onKeyDown={e => {
+					e.key === 'Enter' && handleSearch(e, query);
+				}}
 				placeholder={'Search recipes'}
 				type="search"
+				value={query}
 				variant={'outlined'}
 			/>
-
-			<Button
-				onClick={() => {
-					handleSearch(query);
-				}}
-				startIcon={<SearchIcon />}
-				variant="contained"
-			>
-				Search
-			</Button>
 		</FormGroup>
 	);
 }

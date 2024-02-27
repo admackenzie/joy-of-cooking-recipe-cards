@@ -6,10 +6,12 @@ import ChapterList from './ChapterList';
 import Chapters from './Chapters';
 import Hyperlink from './Hyperlink';
 import Layout from './Layout';
+import MobileNav from './MobileNav';
 import PopoverMenu from './PopoverMenu';
 import RecipeBody from './RecipeBody';
 import RecipeCard from './RecipeCard';
 import Search from './Search';
+import Sidebar from './Sidebar';
 
 export {
 	AppBarWithSearch,
@@ -20,8 +22,10 @@ export {
 	Chapters,
 	Hyperlink,
 	Layout,
+	MobileNav,
 	PopoverMenu,
 	RecipeBody,
 	RecipeCard,
 	Search,
+	Sidebar,
 };
