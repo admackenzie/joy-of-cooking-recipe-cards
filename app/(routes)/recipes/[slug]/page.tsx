@@ -28,7 +28,7 @@ export default async function Page({ params: { slug } }: Props) {
 }
 
 // Pre-render pages with /recipes/[slug] routes at build time
-export const generateStaticParams = async () => {
+/* export const generateStaticParams = async () => {
 	// Batch generate slugs
 	const slugs = chapters.map(chapter =>
 		chapter.abbrev.toLowerCase().split(' ').join('-')
@@ -37,4 +37,4 @@ export const generateStaticParams = async () => {
 	return slugs.map(str => ({
 		slug: str,
 	}));
-};
+}; */

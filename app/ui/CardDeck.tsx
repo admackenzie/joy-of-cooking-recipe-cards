@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function CardDeck({ ...props }: Props) {
-	const { data: recipes, preview } = props;
+	const { addBookmark, data: recipes, preview, removeBookmark } = props;
 
 	// FIXME: find a way to make this work without also displaying the close button in preview state
 	// Remove 'preview card' styling when only one record is returned
@@ -57,15 +57,32 @@ export default function CardDeck({ ...props }: Props) {
 							}}
 						>
 							<BookmarkButton
-								addBookmark={props.addBookmark}
+								addBookmark={addBookmark}
 								recipe={recipe}
-								removeBookmark={props.removeBookmark}
+								removeBookmark={removeBookmark}
 							/>
 						</Box>
 					</Grid>
 				) : (
-					<Box key={id} sx={{ paddingX: '0.5rem' }}>
+					<Box
+						key={id}
+						sx={{ paddingX: '0.5rem', position: 'relative' }}
+					>
 						<RecipeCard preview={false} recipe={recipe} />
+
+						<Box
+							sx={{
+								position: 'absolute',
+								right: '1rem',
+								top: '1rem',
+							}}
+						>
+							<BookmarkButton
+								addBookmark={addBookmark}
+								recipe={recipe}
+								removeBookmark={removeBookmark}
+							/>
+						</Box>
 					</Box>
 				);
 			})}

@@ -32,16 +32,14 @@ export default function RecipeCard({ preview, recipe }: Props) {
 				}}
 			>
 				<CardContent>
-					{/* ---- Header ---- */}
 					<RecipeHeader
 						preview={preview}
 						servings={servings}
 						title={title}
 					/>
-					{/* ---- Body ---- */}
+
 					<RecipeBody html={html} />
 
-					{/* ---- Footer ---- */}
 					{/* Hide footer in 'preview' styling */}
 					{!preview && <RecipeFooter chapter={chapter} page={page} />}
 				</CardContent>
