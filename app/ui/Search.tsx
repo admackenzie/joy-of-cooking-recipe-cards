@@ -3,8 +3,18 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { FormGroup, InputAdornment, TextField } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import {
+	ClickAwayListener,
+	FormGroup,
+	InputAdornment,
+	TextField,
+} from '@mui/material';
+import { Close, Search as SearchIcon } from '@mui/icons-material';
+
+import theme from '@/theme';
+
+// TODO: transition when input text is cleared
+// TODO: refactor input as styled(TextField)
 
 export default function Search() {
 	const { replace } = useRouter();
@@ -13,6 +23,9 @@ export default function Search() {
 	const [query, setQuery] = useState(
 		searchParams.get('search')?.toString() ?? ''
 	);
+	const [focus, setFocus] = useState(false);
+
+	const jocRed = theme.palette.primary.main;
 
 	// Clear search bar when there are no search params
 	useEffect(() => {
@@ -34,44 +47,68 @@ export default function Search() {
 		// Remove input focus after submission
 		const target = e.target as HTMLElement;
 		target.blur();
+		setFocus(false);
 	};
 
 	return (
 		<FormGroup row={true}>
-			<TextField
-				color={'secondary'}
-				className={'max-w-xs'}
-				InputProps={{
-					// Submit query with mouse/touch event
-					startAdornment: (
-						<InputAdornment
-							className={'py-0'}
-							onClick={e => {
-								handleSearch(e, query);
-							}}
-							position="start"
-						>
-							<SearchIcon
-							// color={'primary'}
-							/>
-						</InputAdornment>
-					),
-					sx: { fontSize: '1.25rem' },
-				}}
-				onChange={e => {
-					setQuery(e.target.value);
-				}}
-				// Clear existing query when input is focused
-				onFocus={() => setQuery('')}
-				// Submit query with Enter key
-				onKeyDown={e => {
-					e.key === 'Enter' && handleSearch(e, query);
-				}}
-				placeholder={'Search recipes'}
-				type="search"
-				value={query}
-				variant={'outlined'}
-			/>
+			<ClickAwayListener onClickAway={() => setFocus(false)}>
+				<TextField
+					color={'primary'}
+					InputProps={{
+						// Clear input text
+						endAdornment: (
+							<InputAdornment
+								onClick={e => {
+									setQuery('');
+									setFocus(false);
+								}}
+								position="start"
+								sx={{
+									display: `${
+										query === '' ? 'none' : 'flex'
+									}`,
+								}}
+							>
+								<Close />
+							</InputAdornment>
+						),
+
+						// Submit query with mouse/touch event
+						startAdornment: (
+							<InputAdornment
+								onClick={e => {
+									handleSearch(e, query);
+								}}
+								position="start"
+							>
+								<SearchIcon
+									sx={{
+										color: `${focus && jocRed}`,
+									}}
+								/>
+							</InputAdornment>
+						),
+						sx: { fontSize: '1.25rem', maxWidth: '20rem' },
+					}}
+					onChange={e => {
+						setQuery(e.target.value);
+					}}
+					// Clear existing query when input is focused
+					onFocus={() => {
+						setQuery('');
+						setFocus(true);
+					}}
+					// Submit query with Enter key
+					onKeyDown={e => {
+						e.key === 'Enter' && handleSearch(e, query);
+					}}
+					placeholder={`${focus ? '' : 'Search recipes'}`}
+					// type="search"
+					value={query}
+					variant={'outlined'}
+				/>
+			</ClickAwayListener>
 		</FormGroup>
 	);
 }

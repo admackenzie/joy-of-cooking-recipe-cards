@@ -15,7 +15,7 @@ export default function PopoverMenu() {
 	const handleMenuClose = () => setAnchorEl(null);
 
 	return (
-		<Box className={'flex'}>
+		<Box sx={{ display: 'flex' }}>
 			<Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
 				<MenuItem onClick={handleMenuClose}>Menu 1</MenuItem>
 				<MenuItem onClick={handleMenuClose}>Menu 2</MenuItem>
@@ -24,9 +24,9 @@ export default function PopoverMenu() {
 
 			{/* Menu button */}
 			<IconButton
-				className={'text-black'}
-				size="large"
 				onClick={handleMenuOpen}
+				size="large"
+				sx={{ color: '666' }}
 			>
 				<Settings />
 			</IconButton>

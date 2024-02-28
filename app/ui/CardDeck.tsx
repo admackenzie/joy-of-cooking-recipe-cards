@@ -1,40 +1,34 @@
-'use client';
-
 import Link from 'next/link';
 
-import { Box, CardActionArea } from '@mui/material';
+import { Box, CardActionArea, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { BookmarkButton, RecipeCard } from '@/app/ui/index';
 
 import { Recipe } from '@/app/lib/definitions';
 
-import { useState } from 'react';
-import { usePathname, useParams, useSearchParams } from 'next/navigation';
-
 interface Props {
 	addBookmark: any;
 	data: Recipe[];
+	preview: boolean;
 	removeBookmark: any;
 }
 
 export default function CardDeck({ ...props }: Props) {
-	const { data: recipes } = props;
-	const searchParams = useSearchParams().get('search');
+	const { data: recipes, preview } = props;
 
-	const [initialSearch, setInitialSearch] = useState(searchParams ?? '');
+	// FIXME: find a way to make this work without also displaying the close button in preview state
 	// Remove 'preview card' styling when only one record is returned
 	// const singleRecord = recipes.length === 1;
 
 	return (
-		<Grid className={'mb-8'} container columnSpacing={{ xs: 2, lg: 3 }}>
+		<Grid container columnSpacing={{ xs: 2, lg: 3 }}>
 			{(recipes ?? []).map(recipe => {
 				const { id } = recipe;
 
-				return (
+				return preview ? (
 					<Grid
 						// Clip recipe cards to preview size
-						className={'relative'}
 						key={id}
 						sx={{
 							// Fade the bottom of the cards
@@ -42,6 +36,7 @@ export default function CardDeck({ ...props }: Props) {
 								// !singleRecord &&
 								'linear-gradient(to bottom, rgb(0, 0, 0, 1) 70%, rgb(0, 0, 0, 0) 100%)'
 							}`,
+							position: 'relative',
 						}}
 						xs={12}
 						// sm={singleRecord ? 12 : 6}
@@ -54,7 +49,13 @@ export default function CardDeck({ ...props }: Props) {
 						</CardActionArea>
 
 						{/* Render bookmark button with absolute positioning to overlay the Link component around RecipeCard */}
-						<Box className={'absolute right-4 top-4'}>
+						<Box
+							sx={{
+								position: 'absolute',
+								right: '1rem',
+								top: '1rem',
+							}}
+						>
 							<BookmarkButton
 								addBookmark={props.addBookmark}
 								recipe={recipe}
@@ -62,6 +63,10 @@ export default function CardDeck({ ...props }: Props) {
 							/>
 						</Box>
 					</Grid>
+				) : (
+					<Box key={id} sx={{ paddingX: '0.5rem' }}>
+						<RecipeCard preview={false} recipe={recipe} />
+					</Box>
 				);
 			})}
 

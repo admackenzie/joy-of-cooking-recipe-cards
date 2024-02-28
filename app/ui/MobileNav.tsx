@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 
 import {
 	Bookmarks,
@@ -16,22 +16,27 @@ export default function MobileNav() {
 	const [value, setValue] = useState(2);
 
 	return (
-		<BottomNavigation
-			className={' bg-lime-400'}
-			showLabels
-			value={value}
-			onChange={(_e, newValue) => {
-				setValue(newValue);
-			}}
-		>
-			<BottomNavigationAction label="Chapters" icon={<MenuBook />} />
+		<Paper elevation={6}>
+			<BottomNavigation
+				onChange={(_e, newValue) => {
+					setValue(newValue);
+				}}
+				showLabels
+				// sx={{ borderTop: `2px solid ${borderGrey}` }}
+				value={value}
+			>
+				<BottomNavigationAction label="Chapters" icon={<MenuBook />} />
 
-			<BottomNavigationAction label="Bookmarks" icon={<Bookmarks />} />
+				<BottomNavigationAction
+					label="Bookmarks"
+					icon={<Bookmarks />}
+				/>
 
-			<BottomNavigationAction label="Search" icon={<SearchIcon />} />
+				<BottomNavigationAction label="Search" icon={<SearchIcon />} />
 
-			<BottomNavigationAction label="Settings" icon={<Settings />} />
-		</BottomNavigation>
+				<BottomNavigationAction label="Settings" icon={<Settings />} />
+			</BottomNavigation>
+		</Paper>
 	);
 }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { Box, Container } from '@mui/material';
@@ -20,6 +21,8 @@ interface Props {
 }
 
 export default function Layout({ data }: Props) {
+	const preview = !useParams<{ id: string }>().id ?? true;
+
 	const [bookmarks, setBookmarks] = useState<Recipe[]>([]);
 
 	// Initialize bookmarks from localStorage
@@ -45,40 +48,53 @@ export default function Layout({ data }: Props) {
 
 	return (
 		<Box
-			// Disable vertical scrolling for the page
-			className={'h-screen mx-auto overflow-hidden w-full'}
 			maxWidth={'xl'}
+			// Disable vertical scrolling for the page
+			sx={{
+				height: '100vh',
+				mx: 'auto',
+				overflow: 'hidden',
+				width: '100%',
+			}}
 		>
 			{/* Header */}
 			<AppBarWithSearch />
 
-			{/* TODO: these three containers are very similar, put them into a map function and split into new component */}
 			{/* Body */}
-			<Box className={'flex h-screen'}>
+			<Box sx={{ display: 'flex', height: '100vh' }}>
 				{/* Left */}
 				<Sidebar bp={'md'} width={225}>
 					<ChapterList />
 				</Sidebar>
 
 				{/* Center */}
-				<Container className={'h-full overflow-y-auto'} disableGutters>
+				<Box sx={{ overflowY: 'auto' }}>
 					{/* Card container */}
-					<Container sx={{ pt: { xs: '1rem', sm: '1.5rem' } }}>
+					<Container
+						sx={{ pb: '8rem', pt: { xs: '1rem', sm: '1.5rem' } }}
+					>
 						<CardDeck
 							addBookmark={addBookmark}
 							data={data}
+							preview={preview}
 							removeBookmark={removeBookmark}
 						/>
 					</Container>
 
 					{/* Bottom navigation */}
-					<Box
-						className={'bottom-0 fixed top-auto w-full'}
-						sx={{ display: { md: 'none' } }}
+					<Container
+						disableGutters
+						sx={{
+							bottom: 0,
+							display: { md: 'none' },
+							position: 'fixed',
+							top: 'auto',
+							width: '100%',
+						}}
 					>
 						<MobileNav />
-					</Box>
-				</Container>
+					</Container>
+				</Box>
 
 				{/* Right */}
 				<Sidebar bp={'lg'} width={300}>

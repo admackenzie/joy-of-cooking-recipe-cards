@@ -9,6 +9,8 @@ import Layout from './Layout';
 import MobileNav from './MobileNav';
 import PopoverMenu from './PopoverMenu';
 import RecipeBody from './RecipeBody';
+import RecipeFooter from './RecipeFooter';
+import RecipeHeader from './RecipeHeader';
 import RecipeCard from './RecipeCard';
 import Search from './Search';
 import Sidebar from './Sidebar';
@@ -25,6 +27,8 @@ export {
 	MobileNav,
 	PopoverMenu,
 	RecipeBody,
+	RecipeFooter,
+	RecipeHeader,
 	RecipeCard,
 	Search,
 	Sidebar,

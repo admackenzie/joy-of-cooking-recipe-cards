@@ -1,6 +1,6 @@
-import { Box, Divider, List, ListItem, Typography } from '@mui/material';
-
 import Link from 'next/link';
+
+import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 
 import { chapters, fileNames, slugifyChapter } from '@/app/lib/definitions';
 
@@ -24,11 +24,9 @@ export default function ChapterList() {
 								</ListItem>
 							</Link>
 
+							{/* Divide chapters into broad categories */}
 							{[1, 5, 10, 15, 19, 26].includes(i) && (
-								<Divider
-									component={'li'}
-									// variant={'middle'}
-								/>
+								<Divider component={'li'} variant={'middle'} />
 							)}
 						</Box>
 					);

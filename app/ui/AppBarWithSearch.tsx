@@ -1,77 +1,64 @@
 'use client';
 
-import {
-	AppBar,
-	Box,
-	InputAdornment,
-	TextField,
-	Fade,
-	Toolbar,
-} from '@mui/material';
 import Link from 'next/link';
-import { Search as SearchIcon } from '@mui/icons-material';
-import { PopoverMenu } from '@/app/ui/index';
 
+import { AppBar, Box, Toolbar } from '@mui/material';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { MenuBook, Bookmarks, Settings } from '@mui/icons-material';
 
-import { Search } from '@/app/ui/index';
+import { PopoverMenu, Search } from '@/app/ui/index';
 
 export default function AppBarWithSearch() {
 	return (
-		<AppBar className={'bg-white sticky'}>
-			<Toolbar className={'justify-between'} sx={{ pr: { md: 0 } }}>
-				{/* Logo -- using a Box with sx attributes allows for easy image swapping based on breakpoints*/}
-				<Link href={'/'}>
-					<Box
-						alt="logo"
-						className={'h-12 mr-8 my-auto'}
-						component="img"
-						sx={{
-							content: {
-								xs: 'url(/images/header-small-variant-0.jpg)',
-								sm: 'url(/images/header-large.jpg)',
-							},
-						}}
-					/>
-				</Link>
-
-				{/* <Box className={'mr-8 my-auto relative'}>
-					<Box
-						className={'h-12 min-w-16'}
-						sx={{ display: { xs: 'block', sm: 'none' } }}
-					>
-						<Image
-							alt={'logo'}
-							fill={true}
-							priority={true}
-							src={logoSmall}
+		<AppBar
+			elevation={3}
+			sx={{
+				backgroundColor: '#fff',
+				position: 'sticky',
+			}}
+		>
+			<Toolbar
+				sx={{
+					justifyContent: 'space-between',
+					// Remove right gutter when icons are present
+					pr: { md: 0 },
+					py: '0.5rem',
+				}}
+			>
+				{/* Display logo */}
+				<Box
+					sx={{
+						flexShrink: 0,
+						mr: '3rem',
+					}}
+				>
+					<Link href={'/'}>
+						{/* Use Box component to allow image switching based on breakpoint with the content attribute */}
+						<Box
+							alt="logo"
+							component="img"
+							sx={{
+								content: {
+									xs: 'url(/images/header-small-variant-0.jpg)',
+									sm: 'url(/images/header-large.jpg)',
+								},
+								height: '3rem',
+								mt: { sm: '0.25rem' },
+							}}
 						/>
-					</Box>
+					</Link>
+				</Box>
 
-					<Box
-						className={'h-12  min-w-56'}
-						sx={{ display: { xs: 'none', sm: 'block' } }}
-					>
-						<Image
-							alt={'logo'}
-							fill={true}
-							priority={true}
-							src={logoLarge}
-						/>
-					</Box>
-				</Box> */}
-
-				{/* Search input */}
-				<Box className={'flex shrink py-2'}>
-					{/* <Box sx={{ mr: { xs: '1rem', sm: '2rem', md: 0 } }}> */}
+				<Box sx={{ display: 'flex' }}>
+					{/* Display search input */}
 					<Search />
-					{/* </Box> */}
 
-					{/* Hamburger menu */}
+					{/* Display menu icons */}
 					<Box
-						className={'my-auto'}
-						sx={{ display: { xs: 'none', md: 'block' } }}
+						sx={{
+							display: { xs: 'none', md: 'block' },
+							my: 'auto',
+						}}
 					>
 						<PopoverMenu />
 					</Box>

@@ -16,7 +16,6 @@ interface Props {
 
 export default async function Page({ params: { slug } }: Props) {
 	// FIXME: try/catch here
-
 	const chapter = undoSlugifyChapter(slug);
 
 	let data: Recipe[] = [];

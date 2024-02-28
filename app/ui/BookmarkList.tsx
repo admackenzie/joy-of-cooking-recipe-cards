@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import {
 	Box,
 	Button,
@@ -9,7 +11,6 @@ import {
 	Typography,
 } from '@mui/material';
 
-import Link from 'next/link';
 import { Recipe } from '../lib/definitions';
 
 interface Props {

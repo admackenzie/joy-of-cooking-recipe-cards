@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
 	Box,
 	Card,
@@ -12,11 +14,9 @@ import {
 import Grid from '@mui/material/Unstable_Grid2';
 import { ExpandMore } from '@mui/icons-material';
 
-import { useState } from 'react';
-
-import { chapters, fileNames } from '@/app/lib/definitions';
 import { findByChapter } from '@/app/lib/CRUD';
 
+import { chapters, fileNames } from '@/app/lib/definitions';
 export default function Chapters() {
 	const [expanded, setExpanded] = useState(false);
 

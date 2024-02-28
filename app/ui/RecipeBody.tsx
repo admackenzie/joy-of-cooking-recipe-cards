@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { createElement, ReactNode } from 'react';
 
-import Grid from '@mui/material/Unstable_Grid2';
+import { Box, List, ListItem, Typography } from '@mui/material';
 
 import { Hyperlink } from '@/app/ui/index';
 
@@ -46,46 +46,63 @@ export default function RecipeBody({ html }: Props) {
 					// Handle lists
 					case 'UL':
 						return (
-							<Grid key={i}>
-								{Array.from(node.childNodes).map((li, i) => {
-									return (
-										<Grid
-											className={'font-bold ml-4'}
-											key={i}
-										>
-											{getTSX(li.childNodes)}
-										</Grid>
-									);
-								})}
-							</Grid>
+							<List key={i}>
+								{Array.from(node.childNodes)
+									.filter(node =>
+										// Remove line breaks
+										/\w/.test(node.textContent ?? '')
+									)
+									.map((li, i) => {
+										return (
+											<ListItem
+												disablePadding
+												key={i}
+												sx={{
+													display: 'inline-block',
+													fontWeight: 'bold',
+													ml: '1rem',
+													py: '0.25rem',
+												}}
+											>
+												{getTSX(li.childNodes)}
+											</ListItem>
+										);
+									})}
+							</List>
 						);
 
 					// Render hyperlinks only when on a /recipe/[id] route. This removes links from RecipeCards with 'preview' styling and prevents hydration errors with <a> as a descendent of <a>
 					case 'A':
-						if (params.id) {
-							return (
-								<Hyperlink
-									id={params.id}
-									key={i}
-									text={node.textContent!}
-									url={newProps.href}
-								/>
-							);
-						}
+						return (
+							<Hyperlink
+								id={params.id}
+								key={i}
+								text={node.textContent!}
+								url={newProps.href}
+							/>
+						);
 
 					// Remove default styling from emphasis tags
-					case 'B':
-					case 'I':
-						// Replace with Tailwind styling
-						newProps['className'] = `${
-							tagName === 'B' ? 'font-bold' : 'italic'
-						}`;
+					// case 'B':
+					// case 'I':
 
-						return createElement(
-							'span',
-							{ key: i, ...newProps },
-							getTSX(node.childNodes)
-						);
+					// 	return (
+					// 		<Box
+					// 			component={'span'}
+					// 			key={i}
+					// 			sx={{
+					// 				fontStyle: `${
+					// 					tagName === 'B' ? 'normal' : 'italic'
+					// 				}`,
+					// 				fontWeight: `${
+					// 					tagName === 'B' ? 'bold' : 'normal'
+					// 				}`,
+					// 			}}
+					// 			{...newProps}
+					// 		>
+					// 			{node.textContent}
+					// 		</Box>
+					// 	);
 
 					// Remove images
 					case 'IMG':
@@ -109,7 +126,11 @@ export default function RecipeBody({ html }: Props) {
 			}
 			// Text node
 			else if (node.nodeType === 3) {
-				return node.textContent;
+				return (
+					<Box component={'span'} key={i}>
+						{node.textContent}
+					</Box>
+				);
 			} else {
 				// TODO: throw error here
 				console.log('WEIRD NODE TYPE');
@@ -118,5 +139,14 @@ export default function RecipeBody({ html }: Props) {
 		});
 	};
 
-	return getTSX(bodyDOM);
+	return (
+		<Typography
+			// Render as <div> to prevent hydration errors with <p> as a descendant of <p>
+			component={'div'}
+			sx={{ fontSize: '1.25rem', textWrap: 'pretty' }}
+			variant={'body1'}
+		>
+			{getTSX(bodyDOM)}
+		</Typography>
+	);
 }

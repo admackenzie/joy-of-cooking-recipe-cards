@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Box, Fade, IconButton, Tooltip } from '@mui/material';
+import { Fade, IconButton } from '@mui/material';
 import { Bookmark, BookmarkAdd } from '@mui/icons-material';
 
 import { Recipe } from '@/app/lib/definitions';
@@ -25,18 +25,6 @@ export default function BookmarkButton({
 	useEffect(() => {
 		localStorage.getItem(`joc-${id}`) && setBookmarked(true);
 	}, [id]);
-
-	// const [tooltipOpen, setTooltipOpen] = useState(false);
-
-	/* 	const handleBookmark = () => {
-		// setTooltipOpen(true);
-
-		setBookmarked(!bookmarked);
-
-		// setTimeout(() => {
-		// 	setTooltipOpen(false);
-		// }, 1000);
-	}; */
 
 	const handleAddBookmark = () => {
 		setBookmarked(true);
@@ -63,9 +51,9 @@ export default function BookmarkButton({
 
 			{!bookmarked ? (
 				<IconButton
-					className={'opacity-20'}
 					color={'primary'}
 					onClick={handleAddBookmark}
+					sx={{ opacity: 0.2 }}
 				>
 					<Fade in={!bookmarked} timeout={animationTimeout}>
 						<BookmarkAdd />

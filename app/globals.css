@@ -9,10 +9,10 @@ font: EB Garamond
 */
 
 /* Style Dividers with interstitial text */
-.MuiDivider-root::before,
+/* .MuiDivider-root::before,
 .MuiDivider-root::after {
 	background-color: #cc802a;
-}
+} */
 
 /* .MuiTooltip-tooltip {
 	background-color: #fff;
