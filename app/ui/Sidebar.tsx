@@ -1,8 +1,10 @@
+import { ReactElement } from 'react';
+
 import { Container } from '@mui/material';
 
 interface Props {
 	bp: string;
-	children: React.ReactElement;
+	children: ReactElement;
 	width: number;
 }
 

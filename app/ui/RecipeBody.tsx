@@ -3,11 +3,23 @@
 import { useParams } from 'next/navigation';
 import { createElement, ReactNode } from 'react';
 
-import { Box, List, ListItem, Typography } from '@mui/material';
+import {
+	Box,
+	List,
+	ListItem,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Typography,
+} from '@mui/material';
 
 import { Hyperlink } from '@/app/ui/index';
+import { HtmlTableToMuiTable } from './RecipeTable';
 
-import parse from 'node-html-parser';
+import parse, { NodeType } from 'node-html-parser';
 
 /**
 
@@ -23,9 +35,15 @@ export default function RecipeBody({ html }: Props) {
 
 	// Isolate the string 'body' (excluding the title and servings elements) and parse into a DOM for node manipulation
 	const bodyDOM = parse(html.split('\u2003').at(1)!)
-		.childNodes as unknown as NodeList;
+		.childNodes as unknown as Node[];
 
-	const getTSX = (nodeList: NodeList): ReactNode[] => {
+	// Remove text nodes of just whitespace characters
+	const filterWS = (nodeList: NodeListOf<ChildNode> | ChildNode[]) =>
+		Array.from(nodeList).filter(node =>
+			/\w/.test(node.textContent ?? '')
+		) as Node[];
+
+	const getTSX = (nodeList: Node[] | NodeListOf<ChildNode>): ReactNode[] => {
 		return Array.from(nodeList).map((node, i) => {
 			// Element nodes
 			if (node.nodeType === 1) {
@@ -42,33 +60,132 @@ export default function RecipeBody({ html }: Props) {
 						}),
 					]);
 
+				// Handle edge case: subsection with servings
+				if (attributes.class === 'r-serve')
+					return (
+						<Box
+							key={i}
+							sx={{
+								fontStyle: 'italic',
+								fontWeight: 'bold',
+							}}
+						>
+							{node.textContent}
+						</Box>
+					);
+
+				// Handle edge case: Pizza Margherita subsection table
+				if (attributes.id === 'lev39') {
+					return (
+						<Box
+							key={i}
+							sx={{
+								fontWeight: 'bold',
+								marginTop: '2rem',
+								textAlign: 'center',
+							}}
+						>
+							{node.textContent}
+						</Box>
+					);
+				}
+
 				switch (tagName) {
 					// Handle lists
 					case 'UL':
 						return (
 							<List key={i}>
-								{Array.from(node.childNodes)
-									.filter(node =>
-										// Remove line breaks
-										/\w/.test(node.textContent ?? '')
-									)
-									.map((li, i) => {
-										return (
-											<ListItem
-												disablePadding
-												key={i}
-												sx={{
-													display: 'inline-block',
-													fontWeight: 'bold',
-													ml: '1rem',
-													py: '0.25rem',
-												}}
-											>
-												{getTSX(li.childNodes)}
-											</ListItem>
-										);
-									})}
+								{filterWS(node.childNodes).map((li, i) => {
+									return (
+										<ListItem
+											disablePadding
+											key={i}
+											sx={{
+												display: 'inline-block',
+												fontWeight: 'bold',
+												ml: '1rem',
+												py: '0.25rem',
+											}}
+										>
+											{getTSX(li.childNodes)}
+										</ListItem>
+									);
+								})}
 							</List>
+						);
+
+					// FIXME: add collapsible/accordion component for displaying table data at < 600px
+					// Handle tables
+					case 'TABLE':
+						const headRows = Array.from(node.childNodes).at(
+							0
+						) as unknown as Node[];
+						const bodyRows = Array.from(node.childNodes).slice(1);
+
+						return (
+							<TableContainer
+								key={i}
+								sx={{
+									marginTop: '1rem',
+									marginBottom: 0,
+								}}
+							>
+								<Table
+									sx={{
+										display: { xs: 'none', sm: 'block' },
+										overflow: 'scroll',
+									}}
+								>
+									<TableHead>{getTSX(headRows)}</TableHead>
+									<TableBody>
+										{getTSX(filterWS(bodyRows))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						);
+
+					case 'TR':
+						return (
+							<TableRow
+								key={i}
+								sx={{
+									'&:last-child td, &:last-child th': {
+										border: 0,
+									},
+								}}
+							>
+								{getTSX(filterWS(node.childNodes))}
+							</TableRow>
+						);
+
+					case 'TD':
+					case 'TH':
+						return (
+							<TableCell
+								key={i}
+								sx={{ textAlign: 'center', textWrap: 'pretty' }}
+							>
+								<Typography
+									component={'span'}
+									variant={'body1'}
+								>
+									{getTSX(node.childNodes)}
+								</Typography>
+							</TableCell>
+						);
+
+					// Handle subsection titles
+					case 'H4':
+						return (
+							<Box
+								key={i}
+								sx={{
+									fontWeight: 'bold',
+									marginTop: '1rem',
+								}}
+							>
+								{node.textContent}
+							</Box>
 						);
 
 					// Render hyperlinks only when on a /recipe/[id] route. This removes links from RecipeCards with 'preview' styling and prevents hydration errors with <a> as a descendent of <a>
@@ -81,28 +198,6 @@ export default function RecipeBody({ html }: Props) {
 								url={newProps.href}
 							/>
 						);
-
-					// Remove default styling from emphasis tags
-					// case 'B':
-					// case 'I':
-
-					// 	return (
-					// 		<Box
-					// 			component={'span'}
-					// 			key={i}
-					// 			sx={{
-					// 				fontStyle: `${
-					// 					tagName === 'B' ? 'normal' : 'italic'
-					// 				}`,
-					// 				fontWeight: `${
-					// 					tagName === 'B' ? 'bold' : 'normal'
-					// 				}`,
-					// 			}}
-					// 			{...newProps}
-					// 		>
-					// 			{node.textContent}
-					// 		</Box>
-					// 	);
 
 					// Remove images
 					case 'IMG':

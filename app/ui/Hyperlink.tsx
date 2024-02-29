@@ -26,7 +26,10 @@ export default function Hyperlink({ id, text, url }: Props) {
 		const hyperlinkBlue = theme.palette.info.main;
 
 		return (
-			<Box component={'span'} sx={{ color: hyperlinkBlue }}>
+			<Box
+				component={'span'}
+				sx={{ color: hyperlinkBlue, fontWeight: 'bold' }}
+			>
 				<Link href={`/recipe/${href}`} key={href}>
 					{text}
 				</Link>
