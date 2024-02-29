@@ -16,7 +16,9 @@ export default async function Main({ searchParams }: Props) {
 
 	let data: Recipe[] = [];
 
+	// ---- TEST RECIPE DATA ----
 	data = temp as unknown as Recipe[];
+
 	if (query) {
 		data = (await findBySearch(query)) as Recipe[];
 	}

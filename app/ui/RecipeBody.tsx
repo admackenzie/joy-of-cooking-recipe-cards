@@ -17,9 +17,8 @@ import {
 } from '@mui/material';
 
 import { Hyperlink } from '@/app/ui/index';
-import { HtmlTableToMuiTable } from './RecipeTable';
 
-import parse, { NodeType } from 'node-html-parser';
+import parse from 'node-html-parser';
 
 /**
 
@@ -60,14 +59,18 @@ export default function RecipeBody({ html }: Props) {
 						}),
 					]);
 
-				// Handle edge case: subsection with servings
-				if (attributes.class === 'r-serve')
+				const attrToStr = (nnm: NamedNodeMap) =>
+					Object.values(nnm).map(attr => attr.toString());
+
+				// Handle edge case: subsections with listed servings
+				if (attrToStr(attributes).includes('r-serve'))
 					return (
 						<Box
 							key={i}
 							sx={{
 								fontStyle: 'italic',
 								fontWeight: 'bold',
+								marginLeft: '1.5rem',
 							}}
 						>
 							{node.textContent}
@@ -75,7 +78,7 @@ export default function RecipeBody({ html }: Props) {
 					);
 
 				// Handle edge case: Pizza Margherita subsection table
-				if (attributes.id === 'lev39') {
+				if (attrToStr(attributes).includes('lev39')) {
 					return (
 						<Box
 							key={i}
