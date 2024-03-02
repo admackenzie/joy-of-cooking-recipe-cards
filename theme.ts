@@ -11,15 +11,15 @@ const globalFont = EB_Garamond({
 const theme = createTheme({
 	palette: {
 		primary: {
-			// 'jocRed ('Joy')
+			// 'Joy' red
 			main: '#ee2424',
 		},
 		secondary: {
-			// jocBrown ('of cooking')
+			// 'Of cooking' orange
 			main: '#cc802a',
 		},
 		info: {
-			// hyperlinkBlue
+			// Hyperlink blue
 			main: '#2563eb',
 		},
 	},

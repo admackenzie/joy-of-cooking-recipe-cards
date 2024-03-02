@@ -11,8 +11,6 @@ import {
 } from '@mui/material';
 import { Close, Search as SearchIcon } from '@mui/icons-material';
 
-import theme from '@/theme';
-
 // TODO: transition when input text is cleared
 // TODO: refactor input as styled(TextField)
 
@@ -24,8 +22,6 @@ export default function Search() {
 		searchParams.get('search')?.toString() ?? ''
 	);
 	const [focus, setFocus] = useState(false);
-
-	const jocRed = theme.palette.primary.main;
 
 	// Clear search bar when there are no search params
 	useEffect(() => {
@@ -84,7 +80,7 @@ export default function Search() {
 							>
 								<SearchIcon
 									sx={{
-										color: `${focus && jocRed}`,
+										color: `${focus && 'primary.main'}`,
 									}}
 								/>
 							</InputAdornment>

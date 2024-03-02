@@ -4,17 +4,12 @@ import { Box, Divider, Typography } from '@mui/material';
 
 import { slugifyChapter } from '@/app/lib/definitions';
 
-import theme from '@/theme';
-
 interface Props {
 	chapter: string;
 	page: string | null;
 }
 
 export default function RecipeFooter({ chapter, page }: Props) {
-	const hyperlinkBlue = theme.palette.info.main;
-	const jocBrown = theme.palette.secondary.main;
-
 	return (
 		<Box
 			sx={{ marginTop: '3rem', textAlign: 'center', textWrap: 'pretty' }}
@@ -32,7 +27,7 @@ export default function RecipeFooter({ chapter, page }: Props) {
 
 			<Divider
 				sx={{
-					backgroundColor: `${jocBrown}`,
+					backgroundColor: 'secondary.main',
 					marginX: 'auto',
 					marginY: '0.5rem',
 					width: '60%',
@@ -42,7 +37,7 @@ export default function RecipeFooter({ chapter, page }: Props) {
 			{/* Chapter link */}
 			<Typography
 				sx={{
-					color: `${hyperlinkBlue}`,
+					color: 'info.main',
 					fontWeight: 'bold',
 				}}
 				variant={'h6'}

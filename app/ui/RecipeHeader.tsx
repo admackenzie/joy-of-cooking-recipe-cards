@@ -6,8 +6,6 @@ import { useRouter } from 'next/navigation';
 import { Box, Divider, IconButton, Typography } from '@mui/material';
 import { ArrowBackIosNew, Close } from '@mui/icons-material';
 
-import theme from '@/theme';
-
 interface Props {
 	preview: boolean;
 	servings: string | null;
@@ -15,7 +13,6 @@ interface Props {
 }
 
 export default function RecipeHeader({ preview, servings, title }: Props) {
-	const jocBrown = theme.palette.secondary.main;
 	const router = useRouter();
 
 	return (
@@ -71,7 +68,7 @@ export default function RecipeHeader({ preview, servings, title }: Props) {
 
 			<Divider
 				sx={{
-					backgroundColor: `${jocBrown}`,
+					backgroundColor: 'secondary.main',
 					marginBottom: '1rem',
 					marginTop: '0.5rem',
 					width: '85%',

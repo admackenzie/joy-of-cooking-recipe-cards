@@ -16,6 +16,8 @@ import {
 
 import { Recipe } from '../lib/definitions';
 
+import Landing from './Landing';
+
 interface Props {
 	data: Recipe[];
 }
@@ -54,7 +56,7 @@ export default function Layout({ data }: Props) {
 				height: '100vh',
 				mx: 'auto',
 				overflow: 'hidden',
-				width: '100%',
+				// width: '100%',
 			}}
 		>
 			{/* Header */}
@@ -73,6 +75,8 @@ export default function Layout({ data }: Props) {
 					<Container
 						sx={{ pb: '8rem', pt: { xs: '1rem', sm: '1.5rem' } }}
 					>
+						{/* <Landing /> */}
+
 						<CardDeck
 							addBookmark={addBookmark}
 							data={data}

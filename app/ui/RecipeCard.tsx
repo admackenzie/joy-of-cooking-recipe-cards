@@ -6,7 +6,7 @@ import { RecipeBody, RecipeFooter, RecipeHeader } from '@/app/ui/index';
 
 import { Recipe } from '@/app/lib/definitions';
 
-import theme from '@/theme';
+import { grey } from '@mui/material/colors';
 
 interface Props {
 	preview: boolean;
@@ -14,8 +14,6 @@ interface Props {
 }
 
 export default function RecipeCard({ preview, recipe }: Props) {
-	const borderGrey = theme.palette.grey['300'];
-
 	if (!recipe) {
 		// TODO: Error
 		return <h1>ERROR</h1>;
@@ -27,7 +25,7 @@ export default function RecipeCard({ preview, recipe }: Props) {
 				// Clip cards to same height in 'preview' styling
 				elevation={3}
 				sx={{
-					borderTop: `2px solid ${borderGrey}`,
+					borderTop: `2px solid ${grey['200']}`,
 					height: `${preview ? '33vh' : '100%'}`,
 				}}
 			>

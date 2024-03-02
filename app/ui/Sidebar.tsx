@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 interface Props {
 	bp: string;
@@ -10,15 +10,15 @@ interface Props {
 
 export default function Sidebar({ bp, children, width }: Props) {
 	return (
-		<Container
+		<Box
 			sx={{
 				display: { xs: 'none', [`${bp}`]: 'block' },
-				flexShrink: { [`${bp}`]: 0 },
+				flexShrink: 0,
 				overflowY: 'auto',
-				width: { [`${bp}`]: width },
+				width: width,
 			}}
 		>
 			{children}
-		</Container>
+		</Box>
 	);
 }

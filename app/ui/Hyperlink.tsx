@@ -4,8 +4,6 @@ import Link from 'next/link';
 
 import { Box } from '@mui/material';
 
-import theme from '@/theme';
-
 interface Props {
 	id?: string;
 	text: string;
@@ -23,12 +21,10 @@ export default function Hyperlink({ id, text, url }: Props) {
 
 	// Filter out anchors that link to themselves or to non-recipe text
 	if (href && id && href !== id) {
-		const hyperlinkBlue = theme.palette.info.main;
-
 		return (
 			<Box
 				component={'span'}
-				sx={{ color: hyperlinkBlue, fontWeight: 'bold' }}
+				sx={{ color: 'info.main', fontWeight: 'bold' }}
 			>
 				<Link href={`/recipe/${href}`} key={href}>
 					{text}
