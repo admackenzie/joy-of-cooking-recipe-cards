@@ -61,6 +61,10 @@ export default function ChapterList() {
 							key={i}
 							sx={[
 								{
+									backgroundColor: `${
+										params.slug === slugs[i] &&
+										'rgb(204, 128, 42, 0.03)'
+									}`,
 									borderLeft: `solid ${
 										params.slug === slugs[i]
 											? '2px rgb(204, 128, 42, 1)'
