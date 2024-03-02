@@ -50,7 +50,7 @@ export default function ChapterList() {
 				sx={{
 					marginLeft: '1rem',
 					width: '100%',
-					// Align left border with the top and bottom list items
+					// Align left border with the top and bottom chapter titles
 					'&>*:first-of-type li': { paddingTop: 0 },
 					'&>*:last-of-type li': { paddingBottom: 0 },
 				}}
@@ -61,29 +61,32 @@ export default function ChapterList() {
 							key={i}
 							sx={[
 								{
+									// Highlight selected chapter
 									backgroundColor: `${
 										params.slug === slugs[i] &&
 										'rgb(204, 128, 42, 0.03)'
 									}`,
+									// Accent selected chapter
 									borderLeft: `solid ${
 										params.slug === slugs[i]
 											? '2px rgb(204, 128, 42, 1)'
 											: `1px ${grey['100']}`
 									}`,
+									// Highlight chapter title on hover
 									'&:hover': {
-										// secondary.main, 3% opacity
 										backgroundColor:
 											'rgb(204, 128, 42, 0.03)',
 									},
 								},
 
+								// Add border dividers to separate chapters into theme groups
 								[2, 6, 11, 16, 20, 27].includes(i) && {
 									'&::before': {
+										// Accent bottom border when the last chapter of a group is selected
 										borderBottom: `solid ${
-											[
-												// slugs.at(i),
-												slugs.at(i - 1),
-											].includes(params.slug)
+											[slugs.at(i - 1)].includes(
+												params.slug
+											)
 												? '2px #cc802a'
 												: `1px ${grey['200']}`
 										}`,
@@ -92,70 +95,15 @@ export default function ChapterList() {
 										width: '50%',
 									},
 								},
-
-								// [slugs.at(i), slugs.at(i + 1)].includes(
-								// 	params.slug
-								// )
-								// 	? {
-								// 			borderBottom: {
-								// 				backgroundColor:
-								// 					'secondary.main',
-								// 				height: '2px',
-								// 			},
-								// 	  }
-								// 	: {borderBottom: {
-
-								// 	}
-								// 			backgroundColor: `${grey['100']}`,
-								// 			// height: '2px',
-								// 	  },
 							]}
 						>
 							<Link href={`/recipes/${slugs[i]}`}>
-								<ListItem
-									sx={
-										{
-											// paddingBottom: '0.5rem',
-											// paddingLeft: '1rem',
-										}
-									}
-								>
-									<Typography
-										sx={{ paddingLeft: '0.5rem' }}
-										variant={'h6'}
-									>
-										{chapters[i]?.abbrev}
+								<ListItem>
+									<Typography variant={'h6'}>
+										{chapters[i].abbrev}
 									</Typography>
 								</ListItem>
 							</Link>
-
-							{/* Divide chapters into broad categories */}
-							{/* {[1, 5, 10, 15, 19, 26].includes(i) && (
-										<Divider
-											component={'li'}
-											sx={[
-												[
-													slugs.at(i),
-													slugs.at(i + 1),
-												].includes(params.slug)
-													? {
-															backgroundColor:
-																'secondary.main',
-															height: '2px',
-													  }
-													: {
-															backgroundColor:
-																`${grey['100']}`
-															// height: '2px',
-															
-													  },
-												{
-													width: '50%',
-												},
-											]}
-											// variant={'middle'}
-										/>
-									)} */}
 						</Box>
 					);
 				})}
