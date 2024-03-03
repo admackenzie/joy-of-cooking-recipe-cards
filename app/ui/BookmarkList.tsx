@@ -15,7 +15,7 @@ import {
 	Paper,
 	Typography,
 } from '@mui/material';
-import { BookmarkRemove, Bookmarks, Close } from '@mui/icons-material';
+import { BookmarkAdd, BookmarkRemove, Bookmarks } from '@mui/icons-material';
 
 import { Recipe } from '../lib/definitions';
 
@@ -28,8 +28,17 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 	const handleClear = () => localStorage.clear();
 
 	return (
-		<Box>
-			<Button onClick={handleClear}>Clear</Button>
+		<Box
+			sx={[
+				{
+					height: '100%',
+				},
+				bookmarks.length === 0 && {
+					background: `linear-gradient(to bottom, rgb(250, 250, 250, 0.3)  0%, #fff 50%, rgb(250, 250, 250, 0.3)) 100%`,
+				},
+			]}
+		>
+			{/* <Button onClick={handleClear}>Clear</Button> */}
 			<Container>
 				<Box
 					sx={{
@@ -40,10 +49,6 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 						marginX: 'auto',
 					}}
 				>
-					<Bookmarks
-						sx={{ color: 'primary.main', paddingRight: '0.5rem' }}
-					/>
-
 					<Typography
 						sx={{
 							fontWeight: 500,
@@ -52,6 +57,11 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 					>
 						Bookmarks
 					</Typography>
+
+					<Bookmarks
+						fontSize={'large'}
+						sx={{ color: 'primary.main', paddingLeft: '0.5rem' }}
+					/>
 				</Box>
 
 				<Divider
@@ -63,13 +73,38 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 				></Divider>
 			</Container>
 
-			<List>
-				{(Object.values(bookmarks) ?? []).map((recipe, i) => {
-					const { id, title } = recipe;
+			{bookmarks.length === 0 ? (
+				// Display 'no bookmarks' message
+				<Container>
+					<Typography
+						sx={{
+							color: '666',
+							fontWeight: 500,
+							marginTop: '16rem',
+							padding: '1rem',
+							// textAlign: 'center',
+							textWrap: 'pretty',
+						}}
+						variant={'subtitle1'}
+					>
+						Bookmark your favorite recipes for later. Click
+						<BookmarkAdd
+							color={'primary'}
+							fontSize={'small'}
+							sx={{ marginBottom: '0.25rem', marginX: '0.1rem' }}
+						/>
+						on any recipe to get started.
+					</Typography>
+				</Container>
+			) : (
+				// Display bookmarks
+				<List>
+					{(Object.values(bookmarks) ?? []).map((recipe, i) => {
+						const { id, title } = recipe;
 
-					return (
-						<ListItem key={i}>
-							<Fade in={true}>
+						return (
+							<ListItem key={i}>
+								{/* <Fade in={true}> */}
 								<Paper
 									elevation={1}
 									sx={{
@@ -89,7 +124,7 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 											// Highlight bookmark on hover
 											'&:hover': {
 												backgroundColor:
-													'rgb(204, 128, 42, 0.05)',
+													'rgb(204, 128, 42, 0.02)',
 											},
 										}}
 									>
@@ -112,39 +147,31 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 										</Typography>
 									</Box>
 
-									<Box
+									<IconButton
+										disableRipple
+										onClick={() => removeBookmark(id)}
+										size={'small'}
 										sx={{
-											// borderLeft: '1px solid ',
+											alignItems: 'start',
+											borderRadius: 0,
+											color: 'rgb(238, 36, 36, 0.2)',
 											display: 'flex',
-											flexDirection: 'column',
-
 											'&:hover': {
 												backgroundColor:
 													'rgb(238, 36, 36, 0.05)',
-												'&>*:first-of-type svg': {
-													color: 'primary.main',
-												},
+												color: 'primary.main',
 											},
 										}}
 									>
-										<IconButton
-											disableRipple
-											onClick={() => removeBookmark(id)}
-											sx={{
-												color: 'rgb(238, 36, 36, 0.2)',
-											}}
-										>
-											<BookmarkRemove />
-										</IconButton>
-
-										<Box />
-									</Box>
+										<BookmarkRemove fontSize={'small'} />
+									</IconButton>
 								</Paper>
-							</Fade>
-						</ListItem>
-					);
-				})}
-			</List>
+								{/* </Fade> */}
+							</ListItem>
+						);
+					})}
+				</List>
+			)}
 		</Box>
 	);
 }
