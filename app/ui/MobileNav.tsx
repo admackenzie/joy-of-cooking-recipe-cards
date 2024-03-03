@@ -1,9 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
-import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
-
+import {
+	Box,
+	BottomNavigation,
+	BottomNavigationAction,
+	Paper,
+	Typography,
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 import {
 	Bookmarks,
 	MenuBook,
@@ -11,50 +17,99 @@ import {
 	Settings,
 } from '@mui/icons-material';
 
-export default function MobileNav() {
+import { BookmarkList, ChapterList, DrawerWrapper } from '@/app/ui/index';
+
+import { chapters, Recipe } from '../lib/definitions';
+
+interface Props {
+	bookmarks: Recipe[];
+	removeBookmark: any;
+}
+
+export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 	// Highlight icons on bottom nav
 	const [value, setValue] = useState(2);
 
+	const [bookmarksOpen, setBookmarksOpen] = useState(false);
+	const [chaptersOpen, setChaptersOpen] = useState(false);
+
 	return (
-		<Paper elevation={6}>
-			<BottomNavigation
-				onChange={(_e, newValue) => {
-					setValue(newValue);
-				}}
-				showLabels
-				// sx={{ borderTop: `2px solid ${borderGrey}` }}
-				value={value}
+		<>
+			<Paper elevation={6}>
+				<BottomNavigation
+					onChange={(_e, newValue) => {
+						setValue(newValue);
+					}}
+					showLabels
+					sx={{
+						bottom: 0,
+						position: 'fixed',
+						width: '100%',
+					}}
+					value={value}
+				>
+					<BottomNavigationAction
+						onClick={() => setChaptersOpen(true)}
+						label="Chapters"
+						icon={<MenuBook />}
+					/>
+
+					<BottomNavigationAction
+						onClick={() => setBookmarksOpen(true)}
+						label="Bookmarks"
+						icon={<Bookmarks />}
+					/>
+
+					<BottomNavigationAction
+						label="Search"
+						icon={<SearchIcon />}
+					/>
+
+					<BottomNavigationAction
+						label="Settings"
+						icon={<Settings />}
+					/>
+				</BottomNavigation>
+			</Paper>
+
+			{/* Display chapters drawer */}
+			<DrawerWrapper
+				anchor={'bottom'}
+				close={setChaptersOpen}
+				open={chaptersOpen}
 			>
-				<BottomNavigationAction label="Chapters" icon={<MenuBook />} />
+				<Grid container spacing={2}>
+					{chapters.map((chapter, i) => {
+						return (
+							<Grid
+								key={i}
+								xs={6}
+								sm={4}
+								sx={{
+									// border: '1px solid',
+									textAlign: 'center',
+								}}
+							>
+								<Typography variant={'h5'}>
+									{chapter.abbrev}
+								</Typography>
+							</Grid>
+						);
+					})}
+				</Grid>
+			</DrawerWrapper>
 
-				<BottomNavigationAction
-					label="Bookmarks"
-					icon={<Bookmarks />}
+			{/* Display bookmarks drawer */}
+			<DrawerWrapper
+				anchor={'bottom'}
+				close={setBookmarksOpen}
+				open={bookmarksOpen}
+			>
+				<BookmarkList
+					bookmarks={bookmarks}
+					removeBookmark={removeBookmark}
 				/>
-
-				<BottomNavigationAction label="Search" icon={<SearchIcon />} />
-
-				<BottomNavigationAction label="Settings" icon={<Settings />} />
-			</BottomNavigation>
-		</Paper>
+			</DrawerWrapper>
+		</>
 	);
 }
-
-/* // Pixel width of the sidebars
-const leftWidth = 225;
-const rightWidth = 300;
-
-// Sidebar breakpoints
-const leftBP = 'md'; // 900px
-const rightBP = 'lg'; // 1200px
-
-// XL breakpoint
-const maxWidth = 1536;
-
-sx={{
-				maxWidth: {
-					// [`${leftBP}`]: `calc(100% - ${leftWidth}px)`,
-					[`${rightBP}`]: `calc(100% - ${leftWidth + rightWidth}px)`,
-					xl: `calc(${maxWidth}px - ${leftWidth + rightWidth}px)`,
-				},
-			}} */

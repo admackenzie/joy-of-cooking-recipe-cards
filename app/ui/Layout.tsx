@@ -97,7 +97,10 @@ export default function Layout({ data }: Props) {
 							width: '100%',
 						}}
 					>
-						<MobileNav />
+						<MobileNav
+							bookmarks={bookmarks}
+							removeBookmark={removeBookmark}
+						/>
 					</Container>
 				</Box>
 
