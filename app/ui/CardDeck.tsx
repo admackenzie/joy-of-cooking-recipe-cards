@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Box, CardActionArea, Container } from '@mui/material';
+import { Box, Button, CardActionArea, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { BookmarkButton, RecipeCard } from '@/app/ui/index';
@@ -9,13 +9,20 @@ import { Recipe } from '@/app/lib/definitions';
 
 interface Props {
 	addBookmark: any;
+	bookmarks: Recipe[];
 	data: Recipe[];
 	preview: boolean;
 	removeBookmark: any;
 }
 
 export default function CardDeck({ ...props }: Props) {
-	const { addBookmark, data: recipes, preview, removeBookmark } = props;
+	const {
+		addBookmark,
+		bookmarks,
+		data: recipes,
+		preview,
+		removeBookmark,
+	} = props;
 
 	// FIXME: find a way to make this work without also displaying the close button in preview state
 	// Remove 'preview card' styling when only one record is returned
@@ -42,7 +49,17 @@ export default function CardDeck({ ...props }: Props) {
 						// sm={singleRecord ? 12 : 6}
 						sm={6}
 					>
-						<CardActionArea>
+						<CardActionArea
+							// FIXME: adjust the opacity of these effects
+							sx={{
+								'& .MuiCardActionArea-focusHighlight': {
+									backgroundColor: 'secondary.main',
+								},
+								' && .MuiTouchRipple-child': {
+									backgroundColor: 'secondary.main',
+								},
+							}}
+						>
 							<Link href={`/recipe/${id}`}>
 								<RecipeCard preview={true} recipe={recipe} />
 							</Link>
@@ -58,6 +75,7 @@ export default function CardDeck({ ...props }: Props) {
 						>
 							<BookmarkButton
 								addBookmark={addBookmark}
+								bookmarks={bookmarks}
 								recipe={recipe}
 								removeBookmark={removeBookmark}
 							/>
@@ -79,6 +97,7 @@ export default function CardDeck({ ...props }: Props) {
 						>
 							<BookmarkButton
 								addBookmark={addBookmark}
+								bookmarks={bookmarks}
 								recipe={recipe}
 								removeBookmark={removeBookmark}
 							/>

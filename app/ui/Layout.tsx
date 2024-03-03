@@ -79,6 +79,7 @@ export default function Layout({ data }: Props) {
 
 						<CardDeck
 							addBookmark={addBookmark}
+							bookmarks={bookmarks}
 							data={data}
 							preview={preview}
 							removeBookmark={removeBookmark}
@@ -102,7 +103,10 @@ export default function Layout({ data }: Props) {
 
 				{/* Right */}
 				<Sidebar bp={'lg'} width={300}>
-					<BookmarkList bookmarks={bookmarks} />
+					<BookmarkList
+						bookmarks={bookmarks}
+						removeBookmark={removeBookmark}
+					/>
 				</Sidebar>
 			</Box>
 		</Box>

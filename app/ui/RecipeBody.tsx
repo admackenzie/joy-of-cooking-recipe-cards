@@ -5,6 +5,7 @@ import { createElement, ReactNode } from 'react';
 
 import {
 	Box,
+	Container,
 	List,
 	ListItem,
 	Table,
@@ -97,24 +98,24 @@ export default function RecipeBody({ html }: Props) {
 					// Handle lists
 					case 'UL':
 						return (
-							<List key={i}>
-								{filterWS(node.childNodes).map((li, i) => {
-									return (
-										<ListItem
-											disablePadding
-											key={i}
-											sx={{
-												display: 'inline-block',
-												fontWeight: 'bold',
-												ml: '1rem',
-												py: '0.25rem',
-											}}
-										>
-											{getTSX(li.childNodes)}
-										</ListItem>
-									);
-								})}
-							</List>
+							<Container key={i}>
+								<List>
+									{filterWS(node.childNodes).map((li, i) => {
+										return (
+											<ListItem
+												disablePadding
+												key={i}
+												sx={{
+													display: 'inline-block',
+													fontWeight: 'bold',
+												}}
+											>
+												{getTSX(li.childNodes)}
+											</ListItem>
+										);
+									})}
+								</List>
+							</Container>
 						);
 
 					// FIXME: add collapsible/accordion component for displaying table data at < 600px

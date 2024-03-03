@@ -64,7 +64,7 @@ export default function ChapterList() {
 									// Highlight selected chapter
 									backgroundColor: `${
 										params.slug === slugs[i] &&
-										'rgb(204, 128, 42, 0.03)'
+										'rgb(204, 128, 42, 0.05)'
 									}`,
 									// Accent selected chapter
 									borderLeft: `solid ${
@@ -75,7 +75,7 @@ export default function ChapterList() {
 									// Highlight chapter title on hover
 									'&:hover': {
 										backgroundColor:
-											'rgb(204, 128, 42, 0.03)',
+											'rgb(204, 128, 42, 0.05)',
 									},
 								},
 
