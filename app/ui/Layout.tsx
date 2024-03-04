@@ -61,11 +61,12 @@ export default function Layout({ data }: Props) {
 			<AppBarWithSearch />
 
 			{/* Body */}
-			<Box sx={{ display: 'flex' }}>
+			{/* BUG: Putting display: flex on this Box component causes the screen to be swipeable left and right on mobile. Find another way to align the sidebars */}
+			<Box sx={{}}>
 				{/* Left */}
-				{/* <Sidebar bp={'md'} width={225}>
+				<Sidebar bp={'md'} width={225}>
 					<ChapterList />
-				</Sidebar> */}
+				</Sidebar>
 
 				{/* Center */}
 				<Box
