@@ -51,11 +51,11 @@ export default function Layout({ data }: Props) {
 	return (
 		<Box
 			maxWidth={'xl'}
-			// Disable vertical scrolling for the page
 			sx={{
 				height: '100dvh',
 				mx: 'auto',
-				overflow: 'hidden',
+				// Disable vertical scrolling for the page on desktop layouts
+				overflow: { lg: 'hidden' },
 				// width: '100%',
 			}}
 		>
