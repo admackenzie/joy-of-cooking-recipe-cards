@@ -1,11 +1,11 @@
 'use client';
 
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 import {
-	Box,
 	BottomNavigation,
 	BottomNavigationAction,
+	Fade,
 	Paper,
 	Typography,
 } from '@mui/material';
@@ -21,6 +21,8 @@ import { BookmarkList, ChapterList, DrawerWrapper } from '@/app/ui/index';
 
 import { chapters, Recipe } from '../lib/definitions';
 
+import { grey } from '@mui/material/colors';
+
 interface Props {
 	bookmarks: Recipe[];
 	removeBookmark: any;
@@ -33,46 +35,70 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 	const [bookmarksOpen, setBookmarksOpen] = useState(false);
 	const [chaptersOpen, setChaptersOpen] = useState(false);
 
+	// Hide component when scrolling upward
+	const [prevScrollPos, setPrevScrollPos] = useState(0);
+	const [visible, setVisible] = useState(true);
+
+	const handleScroll = () => {
+		const currentScrollPos = window.scrollY;
+
+		currentScrollPos < prevScrollPos ? setVisible(false) : setVisible(true);
+
+		setPrevScrollPos(currentScrollPos);
+	};
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+
+		return () => window.removeEventListener('scroll', handleScroll);
+	});
+
 	return (
 		<>
-			<Paper elevation={6} sx={{}}>
-				<BottomNavigation
-					onChange={(_e, newValue) => {
-						setValue(newValue);
-					}}
-					showLabels
-					sx={{
-						bottom: 0,
-						height: '4.5rem',
-						// paddingBottom: '0.5rem',
-						position: 'fixed',
-						width: '100%',
-					}}
-					value={value}
+			<Fade in={visible}>
+				{/* BUG: this paper is not showing elevation shadows */}
+				<Paper
+					elevation={6}
+					// sx={{ display: `${!visible && 'none'}` }}
 				>
-					<BottomNavigationAction
-						onClick={() => setChaptersOpen(true)}
-						label="Chapters"
-						icon={<MenuBook />}
-					/>
+					<BottomNavigation
+						onChange={(_e, newValue) => {
+							setValue(newValue);
+						}}
+						showLabels
+						sx={{
+							bottom: 0,
+							height: '4.5rem',
+							paddingBottom: '0.5rem',
+							position: 'fixed',
+							width: '100%',
+						}}
+						value={value}
+					>
+						<BottomNavigationAction
+							onClick={() => setChaptersOpen(true)}
+							label="Chapters"
+							icon={<MenuBook />}
+						/>
 
-					<BottomNavigationAction
-						onClick={() => setBookmarksOpen(true)}
-						label="Bookmarks"
-						icon={<Bookmarks />}
-					/>
+						<BottomNavigationAction
+							onClick={() => setBookmarksOpen(true)}
+							label="Bookmarks"
+							icon={<Bookmarks />}
+						/>
 
-					<BottomNavigationAction
-						label="Search"
-						icon={<SearchIcon />}
-					/>
+						<BottomNavigationAction
+							label="Search"
+							icon={<SearchIcon />}
+						/>
 
-					<BottomNavigationAction
-						label="Settings"
-						icon={<Settings />}
-					/>
-				</BottomNavigation>
-			</Paper>
+						<BottomNavigationAction
+							label="Settings"
+							icon={<Settings />}
+						/>
+					</BottomNavigation>
+				</Paper>
+			</Fade>
 
 			{/* Display chapters drawer */}
 			<DrawerWrapper
