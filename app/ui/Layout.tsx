@@ -53,7 +53,7 @@ export default function Layout({ data }: Props) {
 			maxWidth={'xl'}
 			// Disable vertical scrolling for the page
 			sx={{
-				height: '100vh',
+				height: '100dvh',
 				mx: 'auto',
 				overflow: 'hidden',
 				// width: '100%',
@@ -63,7 +63,7 @@ export default function Layout({ data }: Props) {
 			<AppBarWithSearch />
 
 			{/* Body */}
-			<Box sx={{ display: 'flex', height: '100vh' }}>
+			<Box sx={{ display: 'flex', height: '100dvh' }}>
 				{/* Left */}
 				<Sidebar bp={'md'} width={225}>
 					<ChapterList />
