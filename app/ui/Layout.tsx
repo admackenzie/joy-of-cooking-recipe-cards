@@ -63,8 +63,9 @@ export default function Layout({ data }: Props) {
 
 			{/* Body */}
 			<Box sx={{ display: 'flex', height: '100dvh' }}>
+				{/* FIXME: This needs a refactor. On mobile browsers, it makes the screen swipeable  from left to right. OverflowX cannot be used here because it prevents the browser from automatically hiding it's top and bottom navigation bars on scroll */}
 				{/* Left sidebar */}
-				<Box
+				{/* <Box
 					sx={{
 						display: { xs: 'none', md: 'block' },
 						flexShrink: 0,
@@ -73,7 +74,7 @@ export default function Layout({ data }: Props) {
 					}}
 				>
 					<ChapterList />
-				</Box>
+				</Box> */}
 
 				{/* Center */}
 				<Box
