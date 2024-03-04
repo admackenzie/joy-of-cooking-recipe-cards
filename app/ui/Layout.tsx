@@ -62,7 +62,7 @@ export default function Layout({ data }: Props) {
 			}}
 		>
 			{/* Header */}
-			{/* <AppBarWithSearch /> */}
+			<AppBarWithSearch />
 
 			{/* Body */}
 			<Box sx={{ display: 'flex', height: '100dvh' }}>
@@ -92,7 +92,7 @@ export default function Layout({ data }: Props) {
 					</Container>
 
 					{/* Bottom navigation */}
-					<Container
+					{/* <Container
 						disableGutters
 						sx={{
 							bottom: 0,
@@ -106,7 +106,7 @@ export default function Layout({ data }: Props) {
 							bookmarks={bookmarks}
 							removeBookmark={removeBookmark}
 						/>
-					</Container>
+					</Container> */}
 				</Box>
 
 				{/* Right */}
