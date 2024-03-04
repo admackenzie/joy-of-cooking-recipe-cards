@@ -54,7 +54,7 @@ export default function Layout({ data }: Props) {
 			sx={{
 				height: '100dvh',
 				// mx: 'auto',
-				overflowX: 'hidden',
+				// overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
 
@@ -62,14 +62,16 @@ export default function Layout({ data }: Props) {
 			}}
 		>
 			{/* Header */}
-			{/* <AppBarWithSearch /> */}
+			<AppBarWithSearch />
 
 			{/* Body */}
-			<Box sx={{ display: 'flex', height: '100dvh' }}>
+			<Box
+			// sx={{ display: 'flex', height: '100dvh' }}
+			>
 				{/* Left */}
-				<Sidebar bp={'md'} width={225}>
+				{/* <Sidebar bp={'md'} width={225}>
 					<ChapterList />
-				</Sidebar>
+				</Sidebar> */}
 
 				{/* Center */}
 				<Box
@@ -92,7 +94,7 @@ export default function Layout({ data }: Props) {
 					</Container>
 
 					{/* Bottom navigation */}
-					{/* <Container
+					<Container
 						disableGutters
 						sx={{
 							bottom: 0,
@@ -106,7 +108,7 @@ export default function Layout({ data }: Props) {
 							bookmarks={bookmarks}
 							removeBookmark={removeBookmark}
 						/>
-					</Container> */}
+					</Container>
 				</Box>
 
 				{/* Right */}
