@@ -64,6 +64,7 @@ export default function Layout({ data }: Props) {
 			maxWidth={'xl'}
 			sx={{
 				height: '100vh',
+				overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
 			}}
@@ -73,7 +74,7 @@ export default function Layout({ data }: Props) {
 
 			{/* Body */}
 			{/* BUG: Putting display: flex on this Box component causes the screen to be swipeable left and right on mobile. Find another way to align the sidebars */}
-			<Box sx={{}}>
+			<Box sx={{ display: 'flex' }}>
 				{/* Left */}
 				<Sidebar bp={'md'} width={225}>
 					<ChapterList />
@@ -118,6 +119,7 @@ export default function Layout({ data }: Props) {
 
 					<Box
 						sx={{
+							display: { xs: 'block', md: 'none' },
 							height: '2rem',
 							backgroundColor: 'lime',
 							position: 'fixed',
