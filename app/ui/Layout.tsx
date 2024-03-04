@@ -58,11 +58,11 @@ export default function Layout({ data }: Props) {
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
 
-				width: '100%',
+				// width: '100%',
 			}}
 		>
 			{/* Header */}
-			<AppBarWithSearch />
+			{/* <AppBarWithSearch /> */}
 
 			{/* Body */}
 			<Box sx={{ display: 'flex', height: '100dvh' }}>
