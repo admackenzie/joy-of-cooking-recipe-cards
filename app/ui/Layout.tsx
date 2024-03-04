@@ -61,7 +61,7 @@ export default function Layout({ data }: Props) {
 			<AppBarWithSearch />
 
 			{/* Body */}
-			<Box sx={{ height: '100dvh' }}>
+			<Box sx={{ display: 'flex' }}>
 				{/* Left */}
 				{/* <Sidebar bp={'md'} width={225}>
 					<ChapterList />
