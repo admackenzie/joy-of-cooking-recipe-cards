@@ -53,28 +53,23 @@ export default function Layout({ data }: Props) {
 			maxWidth={'xl'}
 			sx={{
 				height: '100dvh',
-				mx: 'auto',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
+
+				// width: '100%',
 			}}
 		>
 			{/* Header */}
 			<AppBarWithSearch />
 
 			{/* Body */}
-			<Box sx={{ display: 'flex', height: '100dvh' }}>
-				{/* FIXME: TSidebars need a refactor. On mobile browsers, it makes the screen swipeable  from left to right. OverflowX cannot be used here because it prevents the browser from automatically hiding it's top and bottom navigation bars on scroll */}
-				{/* Left sidebar */}
-				{/* <Box
-					sx={{
-						display: { xs: 'none', md: 'block' },
-						flexShrink: 0,
-						overflowY: 'auto',
-						width: '14rem',
-					}}
-				>
+			<Box
+			// sx={{ display: 'flex', height: '100dvh' }}
+			>
+				{/* Left */}
+				{/* <Sidebar bp={'md'} width={225}>
 					<ChapterList />
-				</Box> */}
+				</Sidebar> */}
 
 				{/* Center */}
 				<Box
@@ -114,20 +109,13 @@ export default function Layout({ data }: Props) {
 					</Container>
 				</Box>
 
-				{/* Right sidebar*/}
-				{/* <Box
-					sx={{
-						display: { xs: 'none', lg: 'block' },
-						flexShrink: 0,
-						overflowY: 'auto',
-						width: '18rem',
-					}}
-				>
+				{/* Right */}
+				<Sidebar bp={'lg'} width={300}>
 					<BookmarkList
 						bookmarks={bookmarks}
 						removeBookmark={removeBookmark}
 					/>
-				</Box> */}
+				</Sidebar>
 			</Box>
 		</Box>
 	);
