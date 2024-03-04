@@ -53,25 +53,27 @@ export default function Layout({ data }: Props) {
 			maxWidth={'xl'}
 			sx={{
 				height: '100dvh',
-				// mx: 'auto',
-				// overflowX: 'hidden',
+				mx: 'auto',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
-
-				// width: '100%',
 			}}
 		>
 			{/* Header */}
 			<AppBarWithSearch />
 
 			{/* Body */}
-			<Box
-			// sx={{ display: 'flex', height: '100dvh' }}
-			>
-				{/* Left */}
-				{/* <Sidebar bp={'md'} width={225}>
+			<Box sx={{ display: 'flex', height: '100dvh' }}>
+				{/* Left sidebar */}
+				<Box
+					sx={{
+						display: { xs: 'none', md: 'block' },
+						flexShrink: 0,
+						overflowY: 'auto',
+						width: '14rem',
+					}}
+				>
 					<ChapterList />
-				</Sidebar> */}
+				</Box>
 
 				{/* Center */}
 				<Box
@@ -111,13 +113,20 @@ export default function Layout({ data }: Props) {
 					</Container>
 				</Box>
 
-				{/* Right */}
-				<Sidebar bp={'lg'} width={300}>
+				{/* Right sidebar*/}
+				<Box
+					sx={{
+						display: { xs: 'none', lg: 'block' },
+						flexShrink: 0,
+						overflowY: 'auto',
+						width: '18rem',
+					}}
+				>
 					<BookmarkList
 						bookmarks={bookmarks}
 						removeBookmark={removeBookmark}
 					/>
-				</Sidebar>
+				</Box>
 			</Box>
 		</Box>
 	);
