@@ -53,11 +53,12 @@ export default function Layout({ data }: Props) {
 			maxWidth={'xl'}
 			sx={{
 				height: '100dvh',
-				mx: 'auto',
+				// mx: 'auto',
 				// overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
-				width: '100%',
+				position: 'static',
+				width: 'auto',
 			}}
 		>
 			{/* Header */}
