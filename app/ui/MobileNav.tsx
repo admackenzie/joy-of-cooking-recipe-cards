@@ -35,7 +35,7 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 
 	return (
 		<>
-			<Paper elevation={6}>
+			<Paper elevation={6} sx={{}}>
 				<BottomNavigation
 					onChange={(_e, newValue) => {
 						setValue(newValue);
@@ -43,6 +43,8 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 					showLabels
 					sx={{
 						bottom: 0,
+						height: '4.5rem',
+						// paddingBottom: '0.5rem',
 						position: 'fixed',
 						width: '100%',
 					}}
