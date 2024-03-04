@@ -54,7 +54,7 @@ export default function Layout({ data }: Props) {
 			sx={{
 				height: '100dvh',
 				// mx: 'auto',
-				// overflowX: 'hidden',
+				overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
 
@@ -62,7 +62,7 @@ export default function Layout({ data }: Props) {
 			}}
 		>
 			{/* Header */}
-			<AppBarWithSearch />
+			{/* <AppBarWithSearch /> */}
 
 			{/* Body */}
 			<Box sx={{ display: 'flex', height: '100dvh' }}>
