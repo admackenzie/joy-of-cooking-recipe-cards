@@ -54,7 +54,7 @@ export default function Layout({ data }: Props) {
 			sx={{
 				height: '100dvh',
 				mx: 'auto',
-				// Disable vertical scrolling for the page on desktop layouts
+				// Disable vertical scrolling in desktop viewports
 				overflow: { lg: 'hidden' },
 				// width: '100%',
 			}}
@@ -70,7 +70,10 @@ export default function Layout({ data }: Props) {
 				</Sidebar>
 
 				{/* Center */}
-				<Box sx={{ overflowY: 'auto' }}>
+				<Box
+					// Allow independent column scrolling in desktop viewports
+					sx={{ overflowY: { lg: 'auto' } }}
+				>
 					{/* Card container */}
 					<Container
 						sx={{ pb: '8rem', pt: { xs: '1rem', sm: '1.5rem' } }}
