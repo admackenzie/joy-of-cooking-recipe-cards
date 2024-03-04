@@ -3,8 +3,17 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { Box, Container, Drawer, Button } from '@mui/material';
-
+import {
+	Box,
+	Container,
+	Drawer,
+	Button,
+	BottomNavigationAction,
+	BottomNavigation,
+	Typography,
+	Toolbar,
+} from '@mui/material';
+import { MenuBook } from '@mui/icons-material';
 import {
 	AppBarWithSearch,
 	BookmarkList,
@@ -54,7 +63,7 @@ export default function Layout({ data }: Props) {
 		<Box
 			maxWidth={'xl'}
 			sx={{
-				height: '100svh',
+				height: '100vh',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
 			}}
@@ -106,16 +115,23 @@ export default function Layout({ data }: Props) {
 							removeBookmark={removeBookmark}
 						/>
 					</Container> */}
+
 					<Box
 						sx={{
-							position: 'sticky',
+							height: '2rem',
+							backgroundColor: 'lime',
+							position: 'fixed',
 							bottom: 0,
 							width: '100%',
-							height: '100px',
-							backgroundColor: 'blue',
 						}}
 					>
-						<Button onClick={() => setOpen(true)}>Open</Button>
+						<Box sx={{ display: 'flex' }}>
+							<Button onClick={() => setOpen(true)}>^</Button>
+							<Typography variant={'subtitle1'}>
+								Found 1500 recipes
+							</Typography>
+						</Box>
+
 						<Drawer
 							anchor={'bottom'}
 							open={open}
@@ -124,7 +140,7 @@ export default function Layout({ data }: Props) {
 							<MobileNav
 								bookmarks={bookmarks}
 								removeBookmark={removeBookmark}
-							/>
+							></MobileNav>
 						</Drawer>
 					</Box>
 				</Box>
