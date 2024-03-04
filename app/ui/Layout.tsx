@@ -54,9 +54,10 @@ export default function Layout({ data }: Props) {
 			sx={{
 				height: '100dvh',
 				mx: 'auto',
+
 				// Disable vertical scrolling in desktop viewports
-				overflow: { lg: 'hidden' },
-				// width: '100%',
+				overflowY: { lg: 'hidden' },
+				width: '100dvw',
 			}}
 		>
 			{/* Header */}
