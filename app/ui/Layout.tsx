@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { Box, Container, SwipeableDrawer } from '@mui/material';
+import { Box, Container, Drawer, Button } from '@mui/material';
 
 import {
 	AppBarWithSearch,
@@ -49,9 +49,6 @@ export default function Layout({ data }: Props) {
 	};
 
 	const [open, setOpen] = useState(false);
-	const iOS =
-		typeof navigator !== 'undefined' &&
-		/iPad|iPhone|iPod/.test(navigator.userAgent);
 
 	return (
 		<Box
@@ -111,39 +108,24 @@ export default function Layout({ data }: Props) {
 					</Container> */}
 					<Box
 						sx={{
-							position: 'fixed',
+							position: 'sticky',
 							bottom: 0,
-							top: 'auto',
 							width: '100%',
 							height: '100px',
 							backgroundColor: 'blue',
 						}}
 					>
-						<SwipeableDrawer
-							disableBackdropTransition={!iOS}
-							disableDiscovery={iOS}
+						<Button onClick={() => setOpen(true)}>Open</Button>
+						<Drawer
 							anchor={'bottom'}
 							open={open}
 							onClose={() => setOpen(false)}
-							onOpen={() => setOpen(true)}
-							sx={{}}
 						>
-							Lorem ipsum dolor sit amet, consectetur adipisicing
-							elit. Eos dicta debitis molestias nemo fuga maiores
-							itaque ullam iste consequatur neque quasi ut illum
-							unde ratione sunt et odio explicabo, autem cumque?
-							Rem vitae fugit atque quia cum aliquam ratione odio!
-							Ex, ratione quaerat neque porro ad, dignissimos
-							exercitationem maiores cumque pariatur obcaecati
-							voluptatibus totam quae eligendi ipsa cum
-							consequatur consectetur odio nihil optio deserunt
-							accusamus labore eos ducimus. Tempora distinctio
-							error assumenda ea itaque odio ipsum officia natus!
-							Numquam autem iusto, unde, recusandae eos
-							exercitationem laborum accusamus illo voluptatem sit
-							earum consequuntur commodi labore. Ipsam eum eius
-							quaerat maxime quo.
-						</SwipeableDrawer>
+							<MobileNav
+								bookmarks={bookmarks}
+								removeBookmark={removeBookmark}
+							/>
+						</Drawer>
 					</Box>
 				</Box>
 
