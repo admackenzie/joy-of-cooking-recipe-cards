@@ -19,7 +19,8 @@ import {
 
 import { BookmarkList, ChapterList, DrawerWrapper } from '@/app/ui/index';
 
-import { chapters, Recipe } from '../lib/definitions';
+import { chapters, Recipe } from '@/app/lib/definitions';
+import { debounce } from '@/app/lib/utils';
 
 import { grey } from '@mui/material/colors';
 
@@ -39,13 +40,13 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
 	const [visible, setVisible] = useState(true);
 
-	const handleScroll = () => {
+	const handleScroll = debounce(() => {
 		const currentScrollPos = window.scrollY;
 
 		currentScrollPos < prevScrollPos ? setVisible(false) : setVisible(true);
 
 		setPrevScrollPos(currentScrollPos);
-	};
+	}, 50);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
