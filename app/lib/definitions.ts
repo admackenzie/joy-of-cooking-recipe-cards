@@ -1,3 +1,15 @@
+// import { useMediaQuery } from '@mui/material';
+// import { useTheme } from '@mui/material/styles';
+
+// export const Breakpoints = () => {
+// 	const { breakpoints } = useTheme();
+
+// 	return [
+// 		useMediaQuery(breakpoints.down('md')),
+// 		useMediaQuery(breakpoints.up('md')),
+// 	];
+// };
+
 export type Recipe = {
 	id: string;
 	title: string;

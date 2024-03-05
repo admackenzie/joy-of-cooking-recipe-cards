@@ -16,6 +16,7 @@ import {
 	Typography,
 } from '@mui/material';
 import { BookmarkAdd, BookmarkRemove, Bookmarks } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 
 import { Recipe } from '../lib/definitions';
 
@@ -26,6 +27,8 @@ interface Props {
 
 export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 	const handleClear = () => localStorage.clear();
+
+	const { breakpoints } = useTheme();
 
 	return (
 		<Box
@@ -121,10 +124,13 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 											alignItems: 'center',
 											display: 'flex',
 											width: '100%',
-											// Highlight bookmark on hover
-											'&:hover': {
-												backgroundColor:
-													'rgb(204, 128, 42, 0.02)',
+
+											// Disable hover effects for mobile viewports
+											[breakpoints.up('md')]: {
+												'&:hover': {
+													backgroundColor:
+														'rgb(204, 128, 42, 0.02)',
+												},
 											},
 										}}
 									>
@@ -156,10 +162,14 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 											borderRadius: 0,
 											color: 'rgb(238, 36, 36, 0.2)',
 											display: 'flex',
-											'&:hover': {
-												backgroundColor:
-													'rgb(238, 36, 36, 0.05)',
-												color: 'primary.main',
+
+											// Disable hover effects for mobile viewports
+											[breakpoints.up('md')]: {
+												'&:hover': {
+													backgroundColor:
+														'rgb(238, 36, 36, 0.05)',
+													color: 'primary.main',
+												},
 											},
 										}}
 									>
