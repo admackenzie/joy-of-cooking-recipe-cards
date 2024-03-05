@@ -64,6 +64,7 @@ export default function Layout({ data }: Props) {
 			maxWidth={'xl'}
 			sx={{
 				height: '100vh',
+				marginX: 'auto',
 				overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
@@ -83,11 +84,15 @@ export default function Layout({ data }: Props) {
 				{/* Center */}
 				<Box
 					// Allow independent column scrolling in desktop viewports
-					sx={{ overflowY: { lg: 'auto' } }}
+					sx={{
+						height: ' 100vh',
+						overflowY: { lg: 'auto' },
+						width: '100%',
+					}}
 				>
 					{/* Card container */}
 					<Container
-						sx={{ pb: '8rem', pt: { xs: '1rem', sm: '1.5rem' } }}
+						sx={{ pb: '2rem', pt: { xs: '1rem', sm: '1.5rem' } }}
 					>
 						{/* <Landing /> */}
 
@@ -120,30 +125,17 @@ export default function Layout({ data }: Props) {
 					<Box
 						sx={{
 							display: { xs: 'block', md: 'none' },
-							height: '2rem',
+							height: '2.5rem',
 							backgroundColor: 'lime',
 							position: 'fixed',
 							bottom: 0,
 							width: '100%',
 						}}
 					>
-						<Box sx={{ display: 'flex' }}>
-							<Button onClick={() => setOpen(true)}>^</Button>
-							<Typography variant={'subtitle1'}>
-								Found 1500 recipes
-							</Typography>
-						</Box>
-
-						<Drawer
-							anchor={'bottom'}
-							open={open}
-							onClose={() => setOpen(false)}
-						>
-							<MobileNav
-								bookmarks={bookmarks}
-								removeBookmark={removeBookmark}
-							></MobileNav>
-						</Drawer>
+						<MobileNav
+							bookmarks={bookmarks}
+							removeBookmark={removeBookmark}
+						/>
 					</Box>
 				</Box>
 

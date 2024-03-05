@@ -13,6 +13,7 @@ export default function Sidebar({ bp, children, width }: Props) {
 		<Box
 			sx={{
 				display: { xs: 'none', [`${bp}`]: 'block' },
+				height: ' 100vh',
 				flexShrink: 0,
 				overflowY: 'auto',
 				width: width,

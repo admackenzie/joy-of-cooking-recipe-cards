@@ -1,26 +1,34 @@
 'use client';
 
+import { useParams, useSearchParams } from 'next/navigation';
 import { ReactElement, useEffect, useState } from 'react';
 
 import {
 	BottomNavigation,
 	BottomNavigationAction,
+	Box,
+	Button,
+	Drawer,
 	Fade,
+	IconButton,
 	Paper,
+	Tab,
+	Tabs,
 	Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import {
 	Bookmarks,
+	KeyboardArrowUp,
 	MenuBook,
 	Search as SearchIcon,
 	Settings,
+	UnfoldMore,
 } from '@mui/icons-material';
 
 import { BookmarkList, ChapterList, DrawerWrapper } from '@/app/ui/index';
 
-import { chapters, Recipe } from '@/app/lib/definitions';
-import { debounce } from '@/app/lib/utils';
+import { chapters, Recipe, undoSlugifyChapter } from '@/app/lib/definitions';
 
 import { grey } from '@mui/material/colors';
 
@@ -30,127 +38,248 @@ interface Props {
 }
 
 export default function MobileNav({ bookmarks, removeBookmark }: Props) {
-	// Highlight icons on bottom nav
-	const [value, setValue] = useState(2);
+	const params = useParams<{ id: string; slug: string }>();
+	const searchParams = useSearchParams().get('search')?.toString() ?? '';
 
-	const [bookmarksOpen, setBookmarksOpen] = useState(false);
-	const [chaptersOpen, setChaptersOpen] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [value, setValue] = useState(0);
 
-	// Hide component when scrolling upward
-	const [prevScrollPos, setPrevScrollPos] = useState(0);
-	const [visible, setVisible] = useState(true);
-
-	const handleScroll = debounce(() => {
-		const currentScrollPos = window.scrollY;
-
-		// Show nav at this distance in pixels from the top or bottom
-		const threshold = 300;
-
-		const maxY =
-			document.body.scrollHeight - threshold <=
-			currentScrollPos + window.innerHeight;
-
-		const minY = currentScrollPos <= threshold;
-
-		// Show nav when the user scrolls down and when the user is at the top or the bottom of the content
-		currentScrollPos > prevScrollPos || maxY || minY
-			? setVisible(true)
-			: setVisible(false);
-
-		setPrevScrollPos(currentScrollPos);
-	}, 50);
-
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
-
-		return () => window.removeEventListener('scroll', handleScroll);
-	});
+	const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
 
 	return (
 		<>
-			<Fade in={visible}>
-				{/* BUG: this paper is not showing elevation shadows */}
-				<Paper
-					elevation={6}
-					// sx={{ display: `${!visible && 'none'}` }}
+			<Box sx={{}}>
+				<IconButton
+					onClick={() => setOpen(true)}
+					sx={{
+						display: 'flex',
+						justifyContent: 'start',
+						maxHeight: '2.5rem',
+						paddingX: '1rem',
+						paddingY: 'auto',
+						width: '100%',
+					}}
 				>
-					<BottomNavigation
-						onChange={(_e, newValue) => {
-							setValue(newValue);
-						}}
-						showLabels
-						sx={{
-							bottom: 0,
-							height: '4.5rem',
-							paddingBottom: '0.5rem',
-							position: 'fixed',
-							width: '100%',
-						}}
-						value={value}
-					>
-						<BottomNavigationAction
-							onClick={() => setChaptersOpen(true)}
-							label="Chapters"
-							icon={<MenuBook />}
-						/>
+					<UnfoldMore sx={{ marginRight: '1rem' }} />
 
-						<BottomNavigationAction
-							onClick={() => setBookmarksOpen(true)}
-							label="Bookmarks"
-							icon={<Bookmarks />}
-						/>
+					{/* TODO: message for home screen (no params) */}
 
-						<BottomNavigationAction
-							label="Search"
-							icon={<SearchIcon />}
-						/>
+					{/* Display single recipe message */}
+					{params.id && (
+						<Typography variant={'subtitle1'}>
+							More options
+						</Typography>
+					)}
 
-						<BottomNavigationAction
-							label="Settings"
-							icon={<Settings />}
-						/>
-					</BottomNavigation>
-				</Paper>
-			</Fade>
-
-			{/* Display chapters drawer */}
-			<DrawerWrapper
-				anchor={'bottom'}
-				close={setChaptersOpen}
-				open={chaptersOpen}
-			>
-				<Grid container spacing={2}>
-					{chapters.map((chapter, i) => {
-						return (
-							<Grid
-								key={i}
-								xs={6}
-								sm={4}
+					{/* Display chapter message */}
+					{params.slug && (
+						<Typography
+							sx={{
+								alignItems: 'center',
+								display: 'flex',
+								maxHeight: '100%',
+							}}
+							variant={'subtitle1'}
+						>
+							<Box sx={{ flexShrink: 0 }}>
+								Viewing 5858 recipes in &ldquo;
+							</Box>
+							{/* <Box
 								sx={{
-									// border: '1px solid',
-									textAlign: 'center',
+									maxHeight: '2.5rem',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									// whiteSpace: 'nowrap',
 								}}
 							>
-								<Typography variant={'h5'}>
-									{chapter.abbrev}
-								</Typography>
-							</Grid>
-						);
-					})}
-				</Grid>
-			</DrawerWrapper>
+								
+							</Box> */}
+							&ldquo;
+						</Typography>
+					)}
 
-			{/* Display bookmarks drawer */}
-			<DrawerWrapper
+					{/* Display search results */}
+					{searchParams && (
+						<Typography
+							sx={{
+								alignItems: 'center',
+								display: 'flex',
+							}}
+							variant={'subtitle1'}
+						>
+							<Box sx={{ flexShrink: 0 }}>
+								{/* FIXME: add recipe number */}
+								Viewing x recipes with the term &ldquo;
+							</Box>
+							<Box
+								sx={{
+									overflow: 'clip',
+									textOverflow: 'ellipsis',
+								}}
+							>
+								{searchParams}
+							</Box>
+							&ldquo;
+						</Typography>
+					)}
+				</IconButton>
+
+				{/* <Button onClick={() => setOpen(true)} sx={{ width: '100%' }}>
+					^
+				</Button> */}
+			</Box>
+
+			<Drawer
 				anchor={'bottom'}
-				close={setBookmarksOpen}
-				open={bookmarksOpen}
+				open={open}
+				onClose={() => setOpen(false)}
 			>
-				<BookmarkList
-					bookmarks={bookmarks}
-					removeBookmark={removeBookmark}
-				/>
-			</DrawerWrapper>
+				{/* Display drawer heading */}
+				<Box sx={{ display: 'flex' }}>
+					{/* <Typography variant={'subtitle1'}>
+						Found 1500 recipes
+					</Typography> */}
+				</Box>
+
+				{/* Display tab headings */}
+				<Tabs
+					onChange={handleChange}
+					sx={{
+						'& button': { textTransform: 'none' },
+					}}
+					value={value}
+					variant={'fullWidth'}
+				>
+					<Tab icon={<Bookmarks />} label={'Bookmarks'} />
+					<Tab icon={<MenuBook />} label={'Chapters'} />
+					{/* <Tab icon={<SearchIcon />} label={'Search'} /> */}
+					<Tab disabled icon={<Settings />} label={'Settings'} />
+				</Tabs>
+
+				{/* Display tab content */}
+
+				<TabPanel index={0} value={value}>
+					<BookmarkList
+						bookmarks={bookmarks}
+						removeBookmark={removeBookmark}
+					/>
+				</TabPanel>
+
+				<TabPanel index={1} value={value}>
+					<ChapterList />
+				</TabPanel>
+
+				{/* <TabPanel index={2} value={value}>
+					// TODO: search
+				</TabPanel> */}
+
+				<TabPanel index={3} value={value}>
+					{/* Settings page */}
+				</TabPanel>
+			</Drawer>
 		</>
 	);
 }
+
+interface TabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+function TabPanel({ children, index, value }: TabPanelProps) {
+	return (
+		<Box hidden={value !== index} sx={{ height: '50svh' }}>
+			{value === index && <Box>{children}</Box>}
+		</Box>
+	);
+}
+// return (
+// 	<>
+// 		<Fade in={visible}>
+// 			{/* BUG: this paper is not showing elevation shadows */}
+// 			<Paper
+// 				elevation={6}
+// 				// sx={{ display: `${!visible && 'none'}` }}
+// 			>
+// 				<BottomNavigation
+// 					onChange={(_e, newValue) => {
+// 						setValue(newValue);
+// 					}}
+// 					showLabels
+// 					sx={{
+// 						bottom: 0,
+// 						height: '4.5rem',
+// 						paddingBottom: '0.5rem',
+// 						position: 'fixed',
+// 						width: '100%',
+// 					}}
+// 					value={value}
+// 				>
+// 					<BottomNavigationAction
+// 						onClick={() => setChaptersOpen(true)}
+// 						label="Chapters"
+// 						icon={<MenuBook />}
+// 					/>
+
+// 					<BottomNavigationAction
+// 						onClick={() => setBookmarksOpen(true)}
+// 						label="Bookmarks"
+// 						icon={<Bookmarks />}
+// 					/>
+
+// 					<BottomNavigationAction
+// 						label="Search"
+// 						icon={<SearchIcon />}
+// 					/>
+
+// 					<BottomNavigationAction
+// 						label="Settings"
+// 						icon={<Settings />}
+// 					/>
+// 				</BottomNavigation>
+// 			</Paper>
+// 		</Fade>
+
+// 		{/* Display chapters drawer */}
+// 		<DrawerWrapper
+// 			anchor={'bottom'}
+// 			close={setChaptersOpen}
+// 			open={chaptersOpen}
+// 		>
+// 			<Grid container spacing={2}>
+// 				{chapters.map((chapter, i) => {
+// 					return (
+// 						<Grid
+// 							key={i}
+// 							xs={6}
+// 							sm={4}
+// 							sx={{
+// 								// border: '1px solid',
+// 								textAlign: 'center',
+// 							}}
+// 						>
+// 							<Typography variant={'h5'}>
+// 								{chapter.abbrev}
+// 							</Typography>
+// 						</Grid>
+// 					);
+// 				})}
+// 			</Grid>
+// 		</DrawerWrapper>
+
+// 		{/* Display bookmarks drawer */}
+// 		<DrawerWrapper
+// 			anchor={'bottom'}
+// 			close={setBookmarksOpen}
+// 			open={bookmarksOpen}
+// 		>
+// 			<BookmarkList
+// 				bookmarks={bookmarks}
+// 				removeBookmark={removeBookmark}
+// 			/>
+// 		</DrawerWrapper>
+// 	</>
+// );
