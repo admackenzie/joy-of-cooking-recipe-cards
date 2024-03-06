@@ -118,7 +118,6 @@ export default function RecipeBody({ html }: Props) {
 							</Container>
 						);
 
-					// FIXME: add collapsible/accordion component for displaying table data at < 600px
 					// Handle tables
 					case 'TABLE':
 						const headRows = Array.from(node.childNodes).at(
@@ -136,7 +135,8 @@ export default function RecipeBody({ html }: Props) {
 							>
 								<Table
 									sx={{
-										display: { xs: 'none', sm: 'block' },
+										// FIXME: add collapsible/accordion component for displaying table data at < 600px
+										// display: { xs: 'none', sm: 'block' },
 										overflow: 'scroll',
 									}}
 								>

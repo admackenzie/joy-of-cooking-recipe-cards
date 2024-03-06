@@ -19,6 +19,7 @@ import {
 import Grid from '@mui/material/Unstable_Grid2';
 import {
 	Bookmarks,
+	BorderTop,
 	KeyboardArrowUp,
 	MenuBook,
 	Search as SearchIcon,
@@ -26,7 +27,7 @@ import {
 	UnfoldMore,
 } from '@mui/icons-material';
 
-import { BookmarkList, ChapterList, DrawerWrapper } from '@/app/ui/index';
+import { BookmarkList, ChapterList } from '@/app/ui/index';
 
 import { chapters, Recipe, undoSlugifyChapter } from '@/app/lib/definitions';
 
@@ -34,10 +35,12 @@ import { grey } from '@mui/material/colors';
 
 interface Props {
 	bookmarks: Recipe[];
+	data: Recipe[];
 	removeBookmark: any;
 }
 
-export default function MobileNav({ bookmarks, removeBookmark }: Props) {
+export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
+	const numRecipes = (data ?? []).length.toLocaleString('en-US');
 	const params = useParams<{ id: string; slug: string }>();
 	const searchParams = useSearchParams().get('search')?.toString() ?? '';
 
@@ -52,8 +55,11 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 		<>
 			<Box sx={{}}>
 				<IconButton
+					component={'div'}
 					onClick={() => setOpen(true)}
 					sx={{
+						borderRadius: 0,
+						// color: 'secondary.main',
 						display: 'flex',
 						justifyContent: 'start',
 						maxHeight: '2.5rem',
@@ -62,14 +68,21 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 						width: '100%',
 					}}
 				>
-					<UnfoldMore sx={{ marginRight: '1rem' }} />
+					<UnfoldMore
+						sx={{ color: 'secondary.main', marginRight: '1rem' }}
+					/>
 
-					{/* TODO: message for home screen (no params) */}
+					{/* Display message with no URL parameters*/}
+					{!params.id && !params.slug && !searchParams && (
+						<Typography variant={'subtitle1'}>
+							View bookmarks, chapters, and more
+						</Typography>
+					)}
 
 					{/* Display single recipe message */}
 					{params.id && (
 						<Typography variant={'subtitle1'}>
-							More options
+							View bookmarks, chapters, and more
 						</Typography>
 					)}
 
@@ -77,26 +90,14 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 					{params.slug && (
 						<Typography
 							sx={{
-								alignItems: 'center',
-								display: 'flex',
-								maxHeight: '100%',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
 							}}
 							variant={'subtitle1'}
 						>
-							<Box sx={{ flexShrink: 0 }}>
-								Viewing 5858 recipes in &ldquo;
-							</Box>
-							{/* <Box
-								sx={{
-									maxHeight: '2.5rem',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									// whiteSpace: 'nowrap',
-								}}
-							>
-								
-							</Box> */}
-							&ldquo;
+							Viewing {numRecipes} recipes in
+							{` "${undoSlugifyChapter(params.slug)}"`}
 						</Typography>
 					)}
 
@@ -104,37 +105,29 @@ export default function MobileNav({ bookmarks, removeBookmark }: Props) {
 					{searchParams && (
 						<Typography
 							sx={{
-								alignItems: 'center',
-								display: 'flex',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
 							}}
 							variant={'subtitle1'}
 						>
-							<Box sx={{ flexShrink: 0 }}>
-								{/* FIXME: add recipe number */}
-								Viewing x recipes with the term &ldquo;
-							</Box>
-							<Box
-								sx={{
-									overflow: 'clip',
-									textOverflow: 'ellipsis',
-								}}
-							>
-								{searchParams}
-							</Box>
-							&ldquo;
+							Viewing {numRecipes} recipes with
+							{` "${searchParams}"`}
 						</Typography>
 					)}
 				</IconButton>
-
-				{/* <Button onClick={() => setOpen(true)} sx={{ width: '100%' }}>
-					^
-				</Button> */}
 			</Box>
 
 			<Drawer
 				anchor={'bottom'}
 				open={open}
 				onClose={() => setOpen(false)}
+				PaperProps={{
+					square: false,
+					sx: {
+						marginX: { xs: '0.5rem', sm: '0.75rem' },
+					},
+				}}
 			>
 				{/* Display drawer heading */}
 				<Box sx={{ display: 'flex' }}>

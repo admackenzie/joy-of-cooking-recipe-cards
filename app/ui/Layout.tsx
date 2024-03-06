@@ -10,6 +10,7 @@ import {
 	Button,
 	BottomNavigationAction,
 	BottomNavigation,
+	Paper,
 	Typography,
 	Toolbar,
 } from '@mui/material';
@@ -106,37 +107,22 @@ export default function Layout({ data }: Props) {
 					</Container>
 
 					{/* Bottom navigation */}
-					{/* <Container
-						disableGutters
+					<Paper
+						elevation={3}
 						sx={{
 							bottom: 0,
-							display: { md: 'none' },
-							position: 'fixed',
-							top: 'auto',
-							width: '100%',
-						}}
-					>
-						<MobileNav
-							bookmarks={bookmarks}
-							removeBookmark={removeBookmark}
-						/>
-					</Container> */}
-
-					<Box
-						sx={{
 							display: { xs: 'block', md: 'none' },
 							height: '2.5rem',
-							backgroundColor: 'lime',
 							position: 'fixed',
-							bottom: 0,
 							width: '100%',
 						}}
 					>
 						<MobileNav
 							bookmarks={bookmarks}
+							data={data}
 							removeBookmark={removeBookmark}
 						/>
-					</Box>
+					</Paper>
 				</Box>
 
 				{/* Right */}
