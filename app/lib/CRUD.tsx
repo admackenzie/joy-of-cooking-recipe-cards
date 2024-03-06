@@ -1,34 +1,30 @@
 import prisma from '@/prisma/instantiate';
 
-// FIXME: add search bodyText functionality
-export async function findBySearch(query: any) {
-	// Replace diacritics in query and use unaccent extension to make an accent insensitive database
-	/* 	const sql = `%${query
+import { Recipe } from '@/app/lib/definitions';
+
+/**
+ * Find accent-insensitive, case-insensitive database records matching the user query
+ * @param query - User-submitted string from Search
+ * @returns - Array of Recipe objects, ordered by title matches first, then body_text matches
+ */
+export async function findBySearch(query: string) {
+	// Replace diacritics in query
+	const str = `%${query
 		.normalize('NFD')
 		.replace(/\p{Diacritic}/giu, '')
-		.toUpperCase()}%`;
+		.toLowerCase()}%`;
 
-	// FIXME: make this also query body_text, then order by title => body_text
-	const data =
-		await prisma.$queryRaw`SELECT * FROM recipes WHERE unaccent(title) LIKE ${sql}LIMIT 5`;
+	// Use unaccent database extension to return accent-insensitive records
+	const titles: Recipe[] =
+		await prisma.$queryRaw`SELECT * FROM recipes WHERE LOWER(unaccent(title)) LIKE ${str}`;
 
-	return data; */
+	const bodyText: Recipe[] =
+		await prisma.$queryRaw`SELECT * FROM recipes WHERE LOWER(unaccent(body_text)) LIKE ${str} AND LOWER(unaccent(title)) NOT LIKE ${str}`;
 
-	const data = await prisma.recipes.findMany({
-		where: {
-			title: {
-				contains: query,
-				// Search without case sensitivity
-				mode: 'insensitive',
-			},
-		},
-		// FIXME: (testing) Return max of five records
-		take: 5,
-	});
-	return data;
+	return [...titles, ...bodyText];
 }
 
-export async function findByID(query: any) {
+export async function findByID(query: string) {
 	const data = await prisma.recipes.findUnique({
 		where: {
 			id: query,
@@ -37,7 +33,7 @@ export async function findByID(query: any) {
 	return data;
 }
 
-export async function deleteByID(query: any) {
+export async function deleteByID(query: string) {
 	const data = await prisma.recipes.delete({
 		where: {
 			id: query,
@@ -55,8 +51,6 @@ export async function findByChapter(query: string) {
 				mode: 'insensitive',
 			},
 		},
-		// FIXME: (testing) Return max of five records
-		take: 5,
 	});
 	return data;
 }
