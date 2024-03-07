@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import {
 	AppBar,
 	Box,
+	Fab,
 	Fade,
 	Slide,
 	Toolbar,
@@ -13,7 +14,12 @@ import {
 	useScrollTrigger,
 } from '@mui/material';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { MenuBook, Bookmarks, Settings } from '@mui/icons-material';
+import {
+	MenuBook,
+	Bookmarks,
+	Search as SearchIcon,
+	Settings,
+} from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
 import { PopoverMenu, Search } from '@/app/ui/index';

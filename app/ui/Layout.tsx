@@ -8,15 +8,19 @@ import {
 	Container,
 	Drawer,
 	Button,
+	ButtonBase,
 	BottomNavigationAction,
 	BottomNavigation,
+	Fab,
 	Paper,
 	Slide,
 	Typography,
 	Toolbar,
-	useScrollTrigger,
+	useMediaQuery,
+	useTheme,
 } from '@mui/material';
-import { MenuBook } from '@mui/icons-material';
+import { MenuBook, Search as SearchIcon } from '@mui/icons-material';
+
 import {
 	AppBarWithSearch,
 	BookmarkList,
@@ -62,6 +66,11 @@ export default function Layout({ data }: Props) {
 		localStorage.removeItem(`joc-${id}`);
 	};
 
+	// Assign viewport breakpoints for style behavior
+	const { breakpoints } = useTheme();
+	const mobileVP = useMediaQuery(breakpoints.down('md'));
+	const desktopVP = useMediaQuery(breakpoints.up('md'));
+
 	return (
 		<Box
 			maxWidth={'xl'}
@@ -72,6 +81,7 @@ export default function Layout({ data }: Props) {
 				// overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
+				position: 'relative',
 			}}
 		>
 			{/* Display header */}
@@ -129,7 +139,6 @@ export default function Layout({ data }: Props) {
 							bookmarks={bookmarks}
 							data={data}
 							removeBookmark={removeBookmark}
-							setSearchFocus={setSearchFocus}
 						/>
 					</Paper>
 				</Box>
@@ -142,6 +151,29 @@ export default function Layout({ data }: Props) {
 					/>
 				</Sidebar>
 			</Box>
+
+			{/* Display FAB only on mobile viewports */}
+			{mobileVP && (
+				<Fab
+					component={'div'}
+					onClick={() => setSearchFocus(!searchFocus)}
+					size={'small'}
+					sx={{
+						backgroundColor: 'primary.main',
+						color: 'white',
+
+						position: 'fixed',
+						bottom: '3rem',
+						right: '1rem',
+
+						'&:hover': {
+							backgroundColor: 'primary.main',
+						},
+					}}
+				>
+					<SearchIcon />
+				</Fab>
+			)}
 		</Box>
 	);
 }

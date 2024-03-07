@@ -4,7 +4,6 @@ import BookmarkList from './BookmarkList';
 import CardDeck from './CardDeck';
 import ChapterList from './ChapterList';
 import Chapters from './Chapters';
-import DrawerWrapper from './DrawerWrapper';
 import Hyperlink from './Hyperlink';
 import Layout from './Layout';
 import MobileNav from './MobileNav';
@@ -23,7 +22,6 @@ export {
 	CardDeck,
 	ChapterList,
 	Chapters,
-	DrawerWrapper,
 	Hyperlink,
 	Layout,
 	MobileNav,

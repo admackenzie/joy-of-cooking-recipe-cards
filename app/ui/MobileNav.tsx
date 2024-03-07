@@ -38,15 +38,15 @@ interface Props {
 	bookmarks: Recipe[];
 	data: Recipe[];
 	removeBookmark: any;
-	setSearchFocus: any;
+	// setSearchFocus: any;
 }
 
 export default function MobileNav({
 	bookmarks,
 	data,
 	removeBookmark,
-	setSearchFocus,
-}: Props) {
+}: // setSearchFocus,
+Props) {
 	const numRecipes = (data ?? []).length.toLocaleString('en-US');
 	const params = useParams<{ id: string; slug: string }>();
 	const searchParams = useSearchParams().get('search')?.toString() ?? '';
@@ -58,10 +58,10 @@ export default function MobileNav({
 		setValue(newValue);
 	};
 
-	const handleSearch = () => {
-		setOpen(false);
-		setSearchFocus(true);
-	};
+	// const handleSearch = () => {
+	// 	setOpen(false);
+	// 	setSearchFocus(true);
+	// };
 
 	return (
 		<>
@@ -161,11 +161,12 @@ export default function MobileNav({
 					>
 						<Tab icon={<Bookmarks />} label={'Bookmarks'} />
 						<Tab icon={<MenuBook />} label={'Chapters'} />
-						<Tab
+						{/* <Tab
 							icon={<SearchIcon />}
 							onClick={handleSearch}
 							label={'Search'}
-						/>
+						/> */}
+
 						{/* <Tab disabled icon={<Settings />} label={'Settings'} /> */}
 					</Tabs>
 
@@ -182,11 +183,11 @@ export default function MobileNav({
 						<ChapterList />
 					</TabPanel>
 
-					<TabPanel index={2} value={value} />
+					{/* <TabPanel index={2} value={value} /> */}
 
 					{/* <TabPanel index={3} value={value}>
-				Settings
-				</TabPanel> */}
+						Settings
+					</TabPanel> */}
 				</Container>
 			</Drawer>
 		</>
@@ -206,90 +207,3 @@ function TabPanel({ children, index, value }: TabPanelProps) {
 		</Box>
 	);
 }
-// return (
-// 	<>
-// 		<Fade in={visible}>
-// 			{/* BUG: this paper is not showing elevation shadows */}
-// 			<Paper
-// 				elevation={6}
-// 				// sx={{ display: `${!visible && 'none'}` }}
-// 			>
-// 				<BottomNavigation
-// 					onChange={(_e, newValue) => {
-// 						setValue(newValue);
-// 					}}
-// 					showLabels
-// 					sx={{
-// 						bottom: 0,
-// 						height: '4.5rem',
-// 						paddingBottom: '0.5rem',
-// 						position: 'fixed',
-// 						width: '100%',
-// 					}}
-// 					value={value}
-// 				>
-// 					<BottomNavigationAction
-// 						onClick={() => setChaptersOpen(true)}
-// 						label="Chapters"
-// 						icon={<MenuBook />}
-// 					/>
-
-// 					<BottomNavigationAction
-// 						onClick={() => setBookmarksOpen(true)}
-// 						label="Bookmarks"
-// 						icon={<Bookmarks />}
-// 					/>
-
-// 					<BottomNavigationAction
-// 						label="Search"
-// 						icon={<SearchIcon />}
-// 					/>
-
-// 					<BottomNavigationAction
-// 						label="Settings"
-// 						icon={<Settings />}
-// 					/>
-// 				</BottomNavigation>
-// 			</Paper>
-// 		</Fade>
-
-// 		{/* Display chapters drawer */}
-// 		<DrawerWrapper
-// 			anchor={'bottom'}
-// 			close={setChaptersOpen}
-// 			open={chaptersOpen}
-// 		>
-// 			<Grid container spacing={2}>
-// 				{chapters.map((chapter, i) => {
-// 					return (
-// 						<Grid
-// 							key={i}
-// 							xs={6}
-// 							sm={4}
-// 							sx={{
-// 								// border: '1px solid',
-// 								textAlign: 'center',
-// 							}}
-// 						>
-// 							<Typography variant={'h5'}>
-// 								{chapter.abbrev}
-// 							</Typography>
-// 						</Grid>
-// 					);
-// 				})}
-// 			</Grid>
-// 		</DrawerWrapper>
-
-// 		{/* Display bookmarks drawer */}
-// 		<DrawerWrapper
-// 			anchor={'bottom'}
-// 			close={setBookmarksOpen}
-// 			open={bookmarksOpen}
-// 		>
-// 			<BookmarkList
-// 				bookmarks={bookmarks}
-// 				removeBookmark={removeBookmark}
-// 			/>
-// 		</DrawerWrapper>
-// 	</>
-// );

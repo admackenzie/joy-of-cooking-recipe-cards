@@ -66,17 +66,19 @@ export default function Search({ searchFocus, setSearchFocus }: Props) {
 			<ClickAwayListener
 				onClickAway={() => {
 					setFocus(false);
-					setSearchFocus(false);
+					// setSearchFocus(false);
 				}}
 			>
 				<TextField
 					color={'primary'}
 					id={'search'}
+					// Change submit button text on mobile keyboards
+					inputProps={{ enterKeyHint: 'Search' }}
 					InputProps={{
 						// Clear input text
 						endAdornment: (
 							<InputAdornment
-								onClick={e => {
+								onClick={() => {
 									setQuery('');
 									setFocus(false);
 								}}
