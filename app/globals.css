@@ -10,6 +10,7 @@ font: EB Garamond
 
 /* Keep mobile browser UI open */
 body {
+	overscroll-behavior-x: contain;
 	overscroll-behavior-y: contain;
 }
 
