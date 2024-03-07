@@ -10,8 +10,8 @@ font: EB Garamond
 
 /* Keep mobile browser UI open */
 body {
-	overscroll-behavior-x: contain;
-	overscroll-behavior-y: contain;
+	overscroll-behavior-x: none;
+	overscroll-behavior-y: none;
 }
 
 /* Style Dividers with interstitial text */
