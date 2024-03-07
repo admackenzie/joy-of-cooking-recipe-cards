@@ -17,6 +17,7 @@ import {
 	Typography,
 	Toolbar,
 	useMediaQuery,
+	useScrollTrigger,
 	useTheme,
 } from '@mui/material';
 import { MenuBook, Search as SearchIcon } from '@mui/icons-material';
@@ -45,8 +46,6 @@ export default function Layout({ data }: Props) {
 
 	const [searchFocus, setSearchFocus] = useState(false);
 
-	const [showFooter, setShowFooter] = useState(true);
-
 	// Initialize bookmarks from localStorage
 	useEffect(() => {
 		const storage = Object.keys(localStorage)
@@ -54,18 +53,6 @@ export default function Layout({ data }: Props) {
 			.map(key => JSON.parse(localStorage.getItem(key) ?? ''));
 
 		setBookmarks(storage);
-
-		let windowHeight = window.innerHeight;
-
-		window.addEventListener('resize', function () {
-			const newHeight = window.innerHeight;
-
-			newHeight < windowHeight
-				? setShowFooter(false)
-				: setShowFooter(true);
-
-			windowHeight = newHeight;
-		});
 	}, []);
 
 	const addBookmark = (data: Recipe) => {
@@ -84,6 +71,8 @@ export default function Layout({ data }: Props) {
 	const { breakpoints } = useTheme();
 	const mobileVP = useMediaQuery(breakpoints.down('md'));
 	const desktopVP = useMediaQuery(breakpoints.up('md'));
+
+	const trigger = useScrollTrigger();
 
 	return (
 		<Box
@@ -107,7 +96,7 @@ export default function Layout({ data }: Props) {
 			{/* 'Bounce' body component below the app bar */}
 			<Toolbar sx={{ height: '5rem' }} />
 
-			{/* Display ody */}
+			{/* Display body */}
 			<Box sx={{ display: 'flex' }}>
 				{/* Left */}
 				<Sidebar bp={'md'} width={225}>
@@ -126,7 +115,6 @@ export default function Layout({ data }: Props) {
 					{/* Card container */}
 					<Container
 						sx={{
-							paddingBottom: '2rem',
 							paddingTop: { xs: '1rem', sm: '1.5rem' },
 						}}
 					>
@@ -142,23 +130,25 @@ export default function Layout({ data }: Props) {
 					</Container>
 
 					{/* Hide bottom navigation when mobile browser UI is open */}
-					{mobileVP && !showFooter && (
-						<Paper
-							elevation={3}
-							sx={{
-								bottom: 0,
-								display: { xs: 'block', md: 'none' },
-								height: '2.5rem',
-								position: 'fixed',
-								width: '100%',
-							}}
-						>
-							<MobileNav
-								bookmarks={bookmarks}
-								data={data}
-								removeBookmark={removeBookmark}
-							/>
-						</Paper>
+					{mobileVP && (
+						<Slide appear={false} direction={'up'} in={!trigger}>
+							<Paper
+								elevation={3}
+								sx={{
+									bottom: 0,
+									display: { xs: 'block', md: 'none' },
+									height: '2.5rem',
+									position: 'fixed',
+									width: '100%',
+								}}
+							>
+								<MobileNav
+									bookmarks={bookmarks}
+									data={data}
+									removeBookmark={removeBookmark}
+								/>
+							</Paper>
+						</Slide>
 					)}
 				</Box>
 
