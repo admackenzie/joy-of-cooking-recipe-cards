@@ -142,7 +142,7 @@ export default function Layout({ data }: Props) {
 					</Container>
 
 					{/* Hide bottom navigation when mobile browser UI is open */}
-					{mobileVP && showFooter && (
+					{mobileVP && !showFooter && (
 						<Paper
 							elevation={3}
 							sx={{

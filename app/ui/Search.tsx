@@ -37,11 +37,16 @@ export default function Search({ searchFocus, setSearchFocus }: Props) {
 	useEffect(() => {
 		const input = document.getElementById('search');
 
-		if (searchFocus) {
-			// setFocus(true);
-			input?.focus();
-		}
+		searchFocus && input?.focus();
 	}, [searchFocus]);
+
+	// Hide app bar after 3000 ms of inactivity
+	useEffect(() => {
+		!highlight &&
+			setTimeout(() => {
+				setSearchFocus(false);
+			}, 3000);
+	}, [highlight, setSearchFocus]);
 
 	const handleSearch = (e: React.FormEvent, term: string) => {
 		const params = new URLSearchParams(searchParams);
