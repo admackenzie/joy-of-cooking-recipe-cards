@@ -45,6 +45,8 @@ export default function Layout({ data }: Props) {
 
 	const [searchFocus, setSearchFocus] = useState(false);
 
+	const [showFooter, setShowFooter] = useState(true);
+
 	// Initialize bookmarks from localStorage
 	useEffect(() => {
 		const storage = Object.keys(localStorage)
@@ -52,6 +54,18 @@ export default function Layout({ data }: Props) {
 			.map(key => JSON.parse(localStorage.getItem(key) ?? ''));
 
 		setBookmarks(storage);
+
+		let windowHeight = window.innerHeight;
+
+		window.addEventListener('resize', function () {
+			const newHeight = window.innerHeight;
+
+			newHeight < windowHeight
+				? setShowFooter(false)
+				: setShowFooter(true);
+
+			windowHeight = newHeight;
+		});
 	}, []);
 
 	const addBookmark = (data: Recipe) => {
@@ -111,7 +125,10 @@ export default function Layout({ data }: Props) {
 				>
 					{/* Card container */}
 					<Container
-						sx={{ pb: '2rem', pt: { xs: '1rem', sm: '1.5rem' } }}
+						sx={{
+							paddingBottom: '2rem',
+							paddingTop: { xs: '1rem', sm: '1.5rem' },
+						}}
 					>
 						{/* <Landing /> */}
 
@@ -124,23 +141,25 @@ export default function Layout({ data }: Props) {
 						/>
 					</Container>
 
-					{/* Bottom navigation */}
-					<Paper
-						elevation={3}
-						sx={{
-							bottom: 0,
-							display: { xs: 'block', md: 'none' },
-							height: '2.5rem',
-							position: 'fixed',
-							width: '100%',
-						}}
-					>
-						<MobileNav
-							bookmarks={bookmarks}
-							data={data}
-							removeBookmark={removeBookmark}
-						/>
-					</Paper>
+					{/* Hide bottom navigation when mobile browser UI is open */}
+					{mobileVP && showFooter && (
+						<Paper
+							elevation={3}
+							sx={{
+								bottom: 0,
+								display: { xs: 'block', md: 'none' },
+								height: '2.5rem',
+								position: 'fixed',
+								width: '100%',
+							}}
+						>
+							<MobileNav
+								bookmarks={bookmarks}
+								data={data}
+								removeBookmark={removeBookmark}
+							/>
+						</Paper>
+					)}
 				</Box>
 
 				{/* Right */}
@@ -155,6 +174,7 @@ export default function Layout({ data }: Props) {
 			{/* Display FAB only on mobile viewports */}
 			{mobileVP && (
 				<Fab
+					disableTouchRipple
 					component={'div'}
 					onClick={() => setSearchFocus(!searchFocus)}
 					size={'small'}
@@ -163,8 +183,8 @@ export default function Layout({ data }: Props) {
 						color: 'white',
 
 						position: 'fixed',
-						bottom: '3rem',
-						right: '1rem',
+						bottom: '4rem',
+						right: '2rem',
 
 						'&:hover': {
 							backgroundColor: 'primary.main',

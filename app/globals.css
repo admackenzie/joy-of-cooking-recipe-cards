@@ -8,12 +8,6 @@ brown: #cc802a
 font: EB Garamond 
 */
 
-/* Keep mobile browser UI open */
-body {
-	overscroll-behavior-x: none;
-	overscroll-behavior-y: none;
-}
-
 /* Style Dividers with interstitial text */
 /* .MuiDivider-root::before,
 .MuiDivider-root::after {

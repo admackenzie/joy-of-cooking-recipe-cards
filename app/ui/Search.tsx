@@ -26,7 +26,7 @@ export default function Search({ searchFocus, setSearchFocus }: Props) {
 	const [query, setQuery] = useState(
 		searchParams.get('search')?.toString() ?? ''
 	);
-	const [focus, setFocus] = useState(false);
+	const [highlight, setHighlight] = useState(false);
 
 	// Clear search bar when there are no search params
 	useEffect(() => {
@@ -38,7 +38,7 @@ export default function Search({ searchFocus, setSearchFocus }: Props) {
 		const input = document.getElementById('search');
 
 		if (searchFocus) {
-			setFocus(true);
+			// setFocus(true);
 			input?.focus();
 		}
 	}, [searchFocus]);
@@ -58,76 +58,76 @@ export default function Search({ searchFocus, setSearchFocus }: Props) {
 		// Remove input focus after submission
 		const target = e.target as HTMLElement;
 		target.blur();
-		setFocus(false);
+		// setFocus(false);
 	};
 
 	return (
 		<FormGroup row={true}>
-			<ClickAwayListener
+			{/* <ClickAwayListener
 				onClickAway={() => {
-					setFocus(false);
-					// setSearchFocus(false);
+					// setFocus(false);
+					setSearchFocus(false);
 				}}
-			>
-				<TextField
-					color={'primary'}
-					id={'search'}
-					// Change submit button text on mobile keyboards
-					inputProps={{ enterKeyHint: 'Search' }}
-					InputProps={{
-						// Clear input text
-						endAdornment: (
-							<InputAdornment
-								onClick={() => {
-									setQuery('');
-									setFocus(false);
-								}}
-								position="start"
-								sx={{
-									display: `${
-										query === '' ? 'none' : 'flex'
-									}`,
-								}}
-							>
-								<Close />
-							</InputAdornment>
-						),
+			> */}
+			<TextField
+				// autoFocus
+				color={'primary'}
+				id={'search'}
+				// Change submit button text on mobile keyboards
+				inputProps={{ enterKeyHint: 'Search' }}
+				InputProps={{
+					// Clear input text
+					endAdornment: (
+						<InputAdornment
+							onClick={() => {
+								setQuery('');
+								// setFocus(false);
+							}}
+							position="start"
+							sx={{
+								display: `${query === '' ? 'none' : 'flex'}`,
+							}}
+						>
+							<Close />
+						</InputAdornment>
+					),
 
-						// Submit query with mouse/touch event
-						startAdornment: (
-							<InputAdornment
-								onClick={e => {
-									handleSearch(e, query);
+					// Submit query with mouse/touch event
+					startAdornment: (
+						<InputAdornment
+							onClick={e => {
+								handleSearch(e, query);
+							}}
+							position="start"
+						>
+							<SearchIcon
+								sx={{
+									color: `${highlight && 'primary.main'}`,
 								}}
-								position="start"
-							>
-								<SearchIcon
-									sx={{
-										color: `${focus && 'primary.main'}`,
-									}}
-								/>
-							</InputAdornment>
-						),
-						sx: { fontSize: '1.25rem', maxWidth: '20rem' },
-					}}
-					onChange={e => {
-						setQuery(e.target.value);
-					}}
-					// Clear existing query when input is focused
-					onFocus={() => {
-						setQuery('');
-						setFocus(true);
-					}}
-					// Submit query with Enter key
-					onKeyDown={e => {
-						e.key === 'Enter' && handleSearch(e, query);
-					}}
-					placeholder={`${focus ? '' : 'Search recipes'}`}
-					// type="search"
-					value={query}
-					variant={'outlined'}
-				/>
-			</ClickAwayListener>
+							/>
+						</InputAdornment>
+					),
+					sx: { fontSize: '1.25rem', maxWidth: '20rem' },
+				}}
+				onBlur={() => setHighlight(false)}
+				onChange={e => {
+					setQuery(e.target.value);
+				}}
+				onClick={() => setHighlight(true)}
+				// Clear existing query when input is focused
+				onFocus={() => {
+					setQuery('');
+					setHighlight(true);
+				}}
+				// Submit query with Enter key
+				onKeyDown={e => {
+					e.key === 'Enter' && handleSearch(e, query);
+				}}
+				placeholder={`${highlight ? '' : 'Search recipes'}`}
+				// type="search"
+				value={query}
+				variant={'outlined'}
+			/>
 		</FormGroup>
 	);
 }

@@ -37,28 +37,37 @@ export default function AppBarWithSearch({
 }: Props) {
 	const trigger = useScrollTrigger();
 
+	// Assign viewport breakpoints for style behavior
+	const { breakpoints } = useTheme();
+	const mobileVP = useMediaQuery(breakpoints.down('md'));
+	const desktopVP = useMediaQuery(breakpoints.up('md'));
+
 	return (
-		<Slide appear={false} direction={'down'} in={!trigger || searchFocus}>
+		<Slide
+			appear={false}
+			direction={'down'}
+			in={mobileVP ? searchFocus || !trigger : true}
+		>
 			<AppBar
 				elevation={3}
 				sx={{
 					backgroundColor: '#fff',
-					// position: 'fixed',
+					position: 'fixed',
 				}}
 			>
 				<Toolbar
 					sx={{
 						justifyContent: 'space-between',
 						// Remove right gutter when icons are present
-						pr: { md: 0 },
-						py: '0.5rem',
+						paddingRight: { md: 0 },
+						paddingY: '0.5rem',
 					}}
 				>
 					{/* Display logo */}
 					<Box
 						sx={{
 							flexShrink: 0,
-							mr: '3rem',
+							marginRight: '3rem',
 						}}
 					>
 						<Link href={'/'}>
