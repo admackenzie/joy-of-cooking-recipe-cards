@@ -33,7 +33,7 @@ export default function Landing() {
 				// sizes={'50vw'}
 			/>
 
-			<Search />
+			{/* <Search /> */}
 		</Container>
 	);
 }
