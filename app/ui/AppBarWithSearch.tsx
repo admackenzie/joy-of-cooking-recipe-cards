@@ -35,7 +35,8 @@ export default function AppBarWithSearch({
 	searchFocus,
 	setSearchFocus,
 }: Props) {
-	const trigger = useScrollTrigger();
+	// Display the bar only at the top of the screen
+	const trigger = useScrollTrigger({ disableHysteresis: true });
 
 	// Assign viewport breakpoints for style behavior
 	const { breakpoints } = useTheme();

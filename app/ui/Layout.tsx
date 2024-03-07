@@ -131,7 +131,12 @@ export default function Layout({ data }: Props) {
 
 					{/* Hide bottom navigation when mobile browser UI is open */}
 					{mobileVP && (
-						<Slide appear={false} direction={'up'} in={!trigger}>
+						<Slide
+							appear={false}
+							direction={'up'}
+							in={!trigger}
+							style={{ transitionDelay: '1s' }}
+						>
 							<Paper
 								elevation={3}
 								sx={{
