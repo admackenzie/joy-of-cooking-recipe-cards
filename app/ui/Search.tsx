@@ -14,7 +14,12 @@ import { Close, Search as SearchIcon } from '@mui/icons-material';
 // TODO: transition when input text is cleared
 // TODO: refactor input as styled(TextField)
 
-export default function Search() {
+interface Props {
+	searchFocus: boolean;
+	setSearchFocus: any;
+}
+
+export default function Search({ searchFocus, setSearchFocus }: Props) {
 	const { replace } = useRouter();
 	const searchParams = useSearchParams();
 
@@ -27,6 +32,16 @@ export default function Search() {
 	useEffect(() => {
 		!searchParams.size && setQuery('');
 	}, [searchParams]);
+
+	// Focus search bar when search icon is clicked in MobileNav
+	useEffect(() => {
+		const input = document.getElementById('search');
+
+		if (searchFocus) {
+			setFocus(true);
+			input?.focus();
+		}
+	}, [searchFocus]);
 
 	const handleSearch = (e: React.FormEvent, term: string) => {
 		const params = new URLSearchParams(searchParams);
@@ -48,9 +63,15 @@ export default function Search() {
 
 	return (
 		<FormGroup row={true}>
-			<ClickAwayListener onClickAway={() => setFocus(false)}>
+			<ClickAwayListener
+				onClickAway={() => {
+					setFocus(false);
+					setSearchFocus(false);
+				}}
+			>
 				<TextField
 					color={'primary'}
+					id={'search'}
 					InputProps={{
 						// Clear input text
 						endAdornment: (

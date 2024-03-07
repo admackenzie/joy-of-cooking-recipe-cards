@@ -20,11 +20,19 @@ import { PopoverMenu, Search } from '@/app/ui/index';
 
 import { debounce } from '@/app/lib/utils';
 
-export default function AppBarWithSearch() {
+interface Props {
+	searchFocus: boolean;
+	setSearchFocus: any;
+}
+
+export default function AppBarWithSearch({
+	searchFocus,
+	setSearchFocus,
+}: Props) {
 	const trigger = useScrollTrigger();
 
 	return (
-		<Slide appear={false} direction={'down'} in={!trigger}>
+		<Slide appear={false} direction={'down'} in={!trigger || searchFocus}>
 			<AppBar
 				elevation={3}
 				sx={{
@@ -66,7 +74,10 @@ export default function AppBarWithSearch() {
 
 					<Box sx={{ display: 'flex' }}>
 						{/* Display search input */}
-						<Search />
+						<Search
+							searchFocus={searchFocus}
+							setSearchFocus={setSearchFocus}
+						/>
 
 						{/* Display menu icons */}
 						<Box

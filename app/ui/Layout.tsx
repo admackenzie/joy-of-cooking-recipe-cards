@@ -39,6 +39,8 @@ export default function Layout({ data }: Props) {
 
 	const [bookmarks, setBookmarks] = useState<Recipe[]>([]);
 
+	const [searchFocus, setSearchFocus] = useState(false);
+
 	// Initialize bookmarks from localStorage
 	useEffect(() => {
 		const storage = Object.keys(localStorage)
@@ -73,7 +75,10 @@ export default function Layout({ data }: Props) {
 			}}
 		>
 			{/* Display header */}
-			<AppBarWithSearch />
+			<AppBarWithSearch
+				searchFocus={searchFocus}
+				setSearchFocus={setSearchFocus}
+			/>
 
 			{/* 'Bounce' body component below the app bar */}
 			<Toolbar sx={{ height: '5rem' }} />
@@ -124,6 +129,7 @@ export default function Layout({ data }: Props) {
 							bookmarks={bookmarks}
 							data={data}
 							removeBookmark={removeBookmark}
+							setSearchFocus={setSearchFocus}
 						/>
 					</Paper>
 				</Box>

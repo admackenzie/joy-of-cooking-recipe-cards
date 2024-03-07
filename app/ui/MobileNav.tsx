@@ -7,6 +7,7 @@ import {
 	BottomNavigation,
 	BottomNavigationAction,
 	Box,
+	Container,
 	Button,
 	Drawer,
 	Fade,
@@ -27,7 +28,7 @@ import {
 	UnfoldMore,
 } from '@mui/icons-material';
 
-import { BookmarkList, ChapterList } from '@/app/ui/index';
+import { BookmarkList, ChapterList, Search } from '@/app/ui/index';
 
 import { chapters, Recipe, undoSlugifyChapter } from '@/app/lib/definitions';
 
@@ -37,9 +38,15 @@ interface Props {
 	bookmarks: Recipe[];
 	data: Recipe[];
 	removeBookmark: any;
+	setSearchFocus: any;
 }
 
-export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
+export default function MobileNav({
+	bookmarks,
+	data,
+	removeBookmark,
+	setSearchFocus,
+}: Props) {
 	const numRecipes = (data ?? []).length.toLocaleString('en-US');
 	const params = useParams<{ id: string; slug: string }>();
 	const searchParams = useSearchParams().get('search')?.toString() ?? '';
@@ -49,6 +56,11 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 
 	const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
+	};
+
+	const handleSearch = () => {
+		setOpen(false);
+		setSearchFocus(true);
 	};
 
 	return (
@@ -129,48 +141,53 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 					},
 				}}
 			>
-				{/* Display drawer heading */}
-				<Box sx={{ display: 'flex' }}>
-					{/* <Typography variant={'subtitle1'}>
+				{' '}
+				<Container sx={{ paddingY: '1rem' }}>
+					{/* Display drawer heading */}
+					<Box sx={{ display: 'flex' }}>
+						{/* <Typography variant={'subtitle1'}>
 						Found 1500 recipes
 					</Typography> */}
-				</Box>
+					</Box>
 
-				{/* Display tab headings */}
-				<Tabs
-					onChange={handleChange}
-					sx={{
-						'& button': { textTransform: 'none' },
-					}}
-					value={value}
-					variant={'fullWidth'}
-				>
-					<Tab icon={<Bookmarks />} label={'Bookmarks'} />
-					<Tab icon={<MenuBook />} label={'Chapters'} />
-					{/* <Tab icon={<SearchIcon />} label={'Search'} /> */}
-					<Tab disabled icon={<Settings />} label={'Settings'} />
-				</Tabs>
+					{/* Display tab headings */}
+					<Tabs
+						onChange={handleChange}
+						sx={{
+							'& button': { textTransform: 'none' },
+						}}
+						value={value}
+						variant={'fullWidth'}
+					>
+						<Tab icon={<Bookmarks />} label={'Bookmarks'} />
+						<Tab icon={<MenuBook />} label={'Chapters'} />
+						<Tab
+							icon={<SearchIcon />}
+							onClick={handleSearch}
+							label={'Search'}
+						/>
+						{/* <Tab disabled icon={<Settings />} label={'Settings'} /> */}
+					</Tabs>
 
-				{/* Display tab content */}
+					{/* Display tab content */}
 
-				<TabPanel index={0} value={value}>
-					<BookmarkList
-						bookmarks={bookmarks}
-						removeBookmark={removeBookmark}
-					/>
-				</TabPanel>
+					<TabPanel index={0} value={value}>
+						<BookmarkList
+							bookmarks={bookmarks}
+							removeBookmark={removeBookmark}
+						/>
+					</TabPanel>
 
-				<TabPanel index={1} value={value}>
-					<ChapterList />
-				</TabPanel>
+					<TabPanel index={1} value={value}>
+						<ChapterList />
+					</TabPanel>
 
-				{/* <TabPanel index={2} value={value}>
-					// TODO: search
+					<TabPanel index={2} value={value} />
+
+					{/* <TabPanel index={3} value={value}>
+				Settings
 				</TabPanel> */}
-
-				<TabPanel index={3} value={value}>
-					{/* Settings page */}
-				</TabPanel>
+				</Container>
 			</Drawer>
 		</>
 	);
