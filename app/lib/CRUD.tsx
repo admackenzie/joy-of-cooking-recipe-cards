@@ -7,7 +7,7 @@ import { Recipe } from '@/app/lib/definitions';
  * @param query - User-submitted string from Search
  * @returns - Array of Recipe objects, ordered by title matches first, then body_text matches
  */
-export async function findBySearch(query: string) {
+export async function findBySearch(query: any) {
 	// Replace diacritics in query
 	const str = `%${query
 		.normalize('NFD')

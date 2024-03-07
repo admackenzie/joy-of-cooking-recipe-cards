@@ -11,8 +11,10 @@ import {
 	BottomNavigationAction,
 	BottomNavigation,
 	Paper,
+	Slide,
 	Typography,
 	Toolbar,
+	useScrollTrigger,
 } from '@mui/material';
 import { MenuBook } from '@mui/icons-material';
 import {
@@ -58,24 +60,25 @@ export default function Layout({ data }: Props) {
 		localStorage.removeItem(`joc-${id}`);
 	};
 
-	const [open, setOpen] = useState(false);
-
 	return (
 		<Box
 			maxWidth={'xl'}
 			sx={{
 				height: '100vh',
 				marginX: 'auto',
-				overflowX: 'hidden',
+				// BUG: overflow X makes scroll triggers not work
+				// overflowX: 'hidden',
 				// Disable vertical scrolling in desktop viewports
 				overflowY: { lg: 'hidden' },
 			}}
 		>
-			{/* Header */}
+			{/* Display header */}
 			<AppBarWithSearch />
 
-			{/* Body */}
-			{/* BUG: Putting display: flex on this Box component causes the screen to be swipeable left and right on mobile. Find another way to align the sidebars */}
+			{/* 'Bounce' body component below the app bar */}
+			<Toolbar sx={{ height: '5rem' }} />
+
+			{/* Display ody */}
 			<Box sx={{ display: 'flex' }}>
 				{/* Left */}
 				<Sidebar bp={'md'} width={225}>

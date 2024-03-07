@@ -48,7 +48,7 @@ export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
 						alignItems: 'center',
 						display: 'flex',
 						justifyContent: 'center',
-						paddingTop: '2.5rem',
+						paddingTop: '1.5rem',
 						marginX: 'auto',
 					}}
 				>

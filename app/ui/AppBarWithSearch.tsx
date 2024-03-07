@@ -1,70 +1,85 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { AppBar, Box, Toolbar } from '@mui/material';
+import {
+	AppBar,
+	Box,
+	Fade,
+	Slide,
+	Toolbar,
+	useMediaQuery,
+	useScrollTrigger,
+} from '@mui/material';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { MenuBook, Bookmarks, Settings } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 
 import { PopoverMenu, Search } from '@/app/ui/index';
 
+import { debounce } from '@/app/lib/utils';
+
 export default function AppBarWithSearch() {
+	const trigger = useScrollTrigger();
+
 	return (
-		<AppBar
-			elevation={3}
-			sx={{
-				backgroundColor: '#fff',
-				position: 'sticky',
-			}}
-		>
-			<Toolbar
+		<Slide appear={false} direction={'down'} in={!trigger}>
+			<AppBar
+				elevation={3}
 				sx={{
-					justifyContent: 'space-between',
-					// Remove right gutter when icons are present
-					pr: { md: 0 },
-					py: '0.5rem',
+					backgroundColor: '#fff',
+					// position: 'fixed',
 				}}
 			>
-				{/* Display logo */}
-				<Box
+				<Toolbar
 					sx={{
-						flexShrink: 0,
-						mr: '3rem',
+						justifyContent: 'space-between',
+						// Remove right gutter when icons are present
+						pr: { md: 0 },
+						py: '0.5rem',
 					}}
 				>
-					<Link href={'/'}>
-						{/* Use Box component to allow image switching based on breakpoint with the content attribute */}
-						<Box
-							alt="logo"
-							component="img"
-							sx={{
-								content: {
-									xs: 'url(/images/header-small-variant-0.jpg)',
-									sm: 'url(/images/header-large.jpg)',
-								},
-								height: '3rem',
-								mt: { sm: '0.25rem' },
-							}}
-						/>
-					</Link>
-				</Box>
-
-				<Box sx={{ display: 'flex' }}>
-					{/* Display search input */}
-					<Search />
-
-					{/* Display menu icons */}
+					{/* Display logo */}
 					<Box
 						sx={{
-							display: { xs: 'none', md: 'block' },
-							my: 'auto',
+							flexShrink: 0,
+							mr: '3rem',
 						}}
 					>
-						<PopoverMenu />
+						<Link href={'/'}>
+							{/* Use Box component to allow image switching based on breakpoint with the content attribute */}
+							<Box
+								alt="logo"
+								component="img"
+								sx={{
+									content: {
+										xs: 'url(/images/header-small-variant-0.jpg)',
+										sm: 'url(/images/header-large.jpg)',
+									},
+									height: '3rem',
+									mt: { sm: '0.25rem' },
+								}}
+							/>
+						</Link>
 					</Box>
-				</Box>
 
-				{/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+					<Box sx={{ display: 'flex' }}>
+						{/* Display search input */}
+						<Search />
+
+						{/* Display menu icons */}
+						<Box
+							sx={{
+								display: { xs: 'none', md: 'block' },
+								my: 'auto',
+							}}
+						>
+							<PopoverMenu />
+						</Box>
+					</Box>
+
+					{/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 					<BottomNavigation showLabels>
 						<BottomNavigationAction
 							label="Bookmarks"
@@ -84,7 +99,8 @@ export default function AppBarWithSearch() {
 						/>
 					</BottomNavigation>
 				</Box> */}
-			</Toolbar>
-		</AppBar>
+				</Toolbar>
+			</AppBar>
+		</Slide>
 	);
 }
