@@ -10,6 +10,17 @@ interface Props {
 	};
 }
 
+/* TODO: by Friday, March 15
+ - Footer for /id/* pages
+ - Footer card for end of CardDeck/no search results
+ - Chapters tab
+ - Bookmarks tab
+ - Improve bookmarks appearance
+ - Landing page
+ - Loading component
+ - Pagination?
+*/
+
 export default async function Main({ searchParams }: Props) {
 	// FIXME: try/catch here
 	const { search: query } = searchParams || '';
