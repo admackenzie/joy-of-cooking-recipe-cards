@@ -170,6 +170,7 @@ export default function Layout({ data }: Props) {
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP && (
 				<Box
+					autoFocus
 					component={'button'}
 					onTouchStart={() => setSearchFocus(!searchFocus)}
 					sx={{
