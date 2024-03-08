@@ -135,7 +135,7 @@ export default function Layout({ data }: Props) {
 							appear={false}
 							direction={'up'}
 							in={!trigger}
-							style={{ transitionDelay: '1s' }}
+							style={{ transitionDelay: '500ms' }}
 						>
 							<Paper
 								elevation={3}
@@ -172,13 +172,13 @@ export default function Layout({ data }: Props) {
 					disableTouchRipple
 					component={'div'}
 					onClick={() => setSearchFocus(!searchFocus)}
-					size={'small'}
+					size={'medium'}
 					sx={{
 						backgroundColor: 'primary.main',
 						color: 'white',
 
 						position: 'fixed',
-						bottom: '4rem',
+						bottom: '10%',
 						right: '2rem',
 
 						'&:hover': {
