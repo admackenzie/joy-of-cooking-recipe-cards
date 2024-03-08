@@ -169,26 +169,42 @@ export default function Layout({ data }: Props) {
 			{/* Display FAB only on mobile viewports */}
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP && (
-				<Fab
-					disableTouchRipple
-					component={'div'}
+				<Box
+					component={'button'}
 					onClick={() => setSearchFocus(!searchFocus)}
-					size={'medium'}
 					sx={{
 						backgroundColor: 'primary.main',
-						color: 'white',
-
-						position: 'fixed',
+						borderRadius: '50%',
 						bottom: '6rem',
+						color: 'white',
+						height: '3rem',
+						position: 'fixed',
 						right: '2rem',
-
-						'&:hover': {
-							backgroundColor: 'primary.main',
-						},
+						width: '3rem',
 					}}
 				>
 					<SearchIcon />
-				</Fab>
+				</Box>
+				// <Fab
+				// 	// disableTouchRipple
+				// 	component={'div'}
+				// 	onClick={() => setSearchFocus(!searchFocus)}
+				// 	size={'medium'}
+				// 	sx={{
+				// 		backgroundColor: 'primary.main',
+				// 		color: 'white',
+
+				// 		position: 'fixed',
+				// 		bottom: '6rem',
+				// 		right: '2rem',
+
+				// 		'&:hover': {
+				// 			backgroundColor: 'primary.main',
+				// 		},
+				// 	}}
+				// >
+				// 	<SearchIcon />
+				// </Fab>
 			)}
 		</Box>
 	);
