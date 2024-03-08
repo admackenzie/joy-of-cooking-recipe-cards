@@ -171,7 +171,7 @@ export default function Layout({ data }: Props) {
 			{mobileVP && (
 				<Box
 					component={'button'}
-					onClick={() => setSearchFocus(!searchFocus)}
+					onTouchStart={() => setSearchFocus(!searchFocus)}
 					sx={{
 						backgroundColor: 'primary.main',
 						borderRadius: '50%',
