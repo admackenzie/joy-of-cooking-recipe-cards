@@ -35,8 +35,6 @@ import { Recipe } from '../lib/definitions';
 
 import Landing from './Landing';
 
-import SearchFAB from './SearchFAB';
-
 interface Props {
 	data: Recipe[];
 }
@@ -179,26 +177,29 @@ export default function Layout({ data }: Props) {
 			{/* Display FAB only on mobile viewports */}
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP && (
-				<Box
+				<Fab
+					component={'div'}
+					disabled={searchFocus}
+					onClick={handleOpenKeyboard}
+					size={'medium'}
 					sx={{
 						backgroundColor: 'primary.main',
-						borderRadius: '50%',
 						bottom: '6rem',
-						color: 'white',
-
+						color: '#fff',
 						position: 'fixed',
 						right: '2rem',
+						'&:hover': { backgroundColor: 'primary.main' },
+						'&.Mui-disabled': {
+							// backdropFilter: 'blur(5px)',
+							// backgroundColor: 'rgb(238, 36, 36, 0.2)',
+							// border: '1px solid rgb(238, 36, 36)',
+							backgroundColor: 'primary.main',
+							color: '#fff',
+						},
 					}}
 				>
-					<Fab
-						color="primary"
-						disabled={searchFocus}
-						aria-label="Open Keyboard"
-						onClick={handleOpenKeyboard}
-					>
-						<SearchIcon />
-					</Fab>
-				</Box>
+					<SearchIcon />
+				</Fab>
 
 				// <Box
 				// 	autoFocus
