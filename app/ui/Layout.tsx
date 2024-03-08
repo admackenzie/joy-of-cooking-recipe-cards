@@ -76,7 +76,13 @@ export default function Layout({ data }: Props) {
 
 	const trigger = useScrollTrigger();
 
-	const handleOpenKeyboard = () => {};
+	const handleOpenKeyboard = () => {
+		const search = document.getElementById('search');
+
+		setSearchFocus(!searchFocus);
+
+		searchFocus ? search?.focus() : search?.blur();
+	};
 
 	return (
 		<Box
