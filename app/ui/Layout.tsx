@@ -35,6 +35,8 @@ import { Recipe } from '../lib/definitions';
 
 import Landing from './Landing';
 
+import SearchFAB from './SearchFAB';
+
 interface Props {
 	data: Recipe[];
 }
@@ -73,6 +75,8 @@ export default function Layout({ data }: Props) {
 	const desktopVP = useMediaQuery(breakpoints.up('md'));
 
 	const trigger = useScrollTrigger();
+
+	const handleOpenKeyboard = () => {};
 
 	return (
 		<Box
@@ -170,22 +174,36 @@ export default function Layout({ data }: Props) {
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP && (
 				<Box
-					autoFocus
-					component={'button'}
-					onTouchStart={() => setSearchFocus(!searchFocus)}
 					sx={{
 						backgroundColor: 'primary.main',
 						borderRadius: '50%',
 						bottom: '6rem',
 						color: 'white',
-						height: '3rem',
+
 						position: 'fixed',
 						right: '2rem',
-						width: '3rem',
 					}}
 				>
-					<SearchIcon />
+					<SearchFAB onOpenKeyboard={handleOpenKeyboard} />
 				</Box>
+
+				// <Box
+				// 	autoFocus
+				// 	component={'button'}
+				// 	onTouchStart={() => setSearchFocus(!searchFocus)}
+				// 	sx={{
+				// 		backgroundColor: 'primary.main',
+				// 		borderRadius: '50%',
+				// 		bottom: '6rem',
+				// 		color: 'white',
+				// 		height: '3rem',
+				// 		position: 'fixed',
+				// 		right: '2rem',
+				// 		width: '3rem',
+				// 	}}
+				// >
+				// 	<SearchIcon />
+				// </Box>
 				// <Fab
 				// 	// disableTouchRipple
 				// 	component={'div'}
