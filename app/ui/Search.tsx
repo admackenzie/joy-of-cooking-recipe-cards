@@ -45,7 +45,7 @@ export default function Search({ searchFocus, setSearchFocus }: Props) {
 		!highlight &&
 			setTimeout(() => {
 				setSearchFocus(false);
-			}, 3000);
+			}, 1000);
 	}, [highlight, setSearchFocus]);
 
 	const handleSearch = (e: React.FormEvent, term: string) => {

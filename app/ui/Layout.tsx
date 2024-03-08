@@ -79,7 +79,7 @@ export default function Layout({ data }: Props) {
 	const handleOpenKeyboard = () => {
 		const search = document.getElementById('search');
 
-		setSearchFocus(!searchFocus);
+		setSearchFocus(true);
 
 		searchFocus ? search?.focus() : search?.blur();
 	};
@@ -190,7 +190,14 @@ export default function Layout({ data }: Props) {
 						right: '2rem',
 					}}
 				>
-					<SearchFAB onOpenKeyboard={handleOpenKeyboard} />
+					<Fab
+						color="primary"
+						disabled={searchFocus}
+						aria-label="Open Keyboard"
+						onClick={handleOpenKeyboard}
+					>
+						<SearchIcon />
+					</Fab>
 				</Box>
 
 				// <Box
