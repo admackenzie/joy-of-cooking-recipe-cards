@@ -167,6 +167,7 @@ export default function Layout({ data }: Props) {
 			</Box>
 
 			{/* Display FAB only on mobile viewports */}
+			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP && (
 				<Fab
 					disableTouchRipple
@@ -178,7 +179,7 @@ export default function Layout({ data }: Props) {
 						color: 'white',
 
 						position: 'fixed',
-						bottom: '10%',
+						bottom: '6rem',
 						right: '2rem',
 
 						'&:hover': {
