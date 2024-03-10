@@ -154,7 +154,7 @@ export default function Layout({ data }: Props) {
 				<Box
 					// Allow independent column scrolling in desktop viewports
 					sx={{
-						height: ' 100vh',
+						height: { xs: '100%', lg: '100vh' },
 						overflowY: { lg: 'auto' },
 						width: '100%',
 					}}
