@@ -159,7 +159,7 @@ export default function Layout({ data }: Props) {
 							direction={'up'}
 							// Display component when scrolling up or on a /id/* route
 							in={visible}
-							style={{ transitionDelay: '500ms' }}
+							// style={{ transitionDelay: '500ms' }}
 						>
 							{/* Add span component for Slide ForwardRef */}
 							<span>
