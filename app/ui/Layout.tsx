@@ -81,7 +81,7 @@ export default function Layout({ data }: Props) {
 	const mobileVP = useMediaQuery(breakpoints.down('md'));
 	const desktopVP = useMediaQuery(breakpoints.up('md'));
 
-	const trigger = useScrollTrigger({ threshold: 300 });
+	const trigger = useScrollTrigger({ threshold: 0 });
 
 	// const [visible, setVisible] = useState(false);
 
