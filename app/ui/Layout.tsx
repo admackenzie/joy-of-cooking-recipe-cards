@@ -125,7 +125,7 @@ export default function Layout({ data }: Props) {
 		<Box
 			maxWidth={'xl'}
 			sx={{
-				height: '100vh',
+				// height: '100vh',
 				marginX: 'auto',
 				// BUG: overflow X makes scroll triggers not work
 				// overflowX: 'hidden',
