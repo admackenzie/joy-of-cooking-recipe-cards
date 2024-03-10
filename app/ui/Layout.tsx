@@ -35,6 +35,8 @@ import { Recipe } from '../lib/definitions';
 
 import Landing from './Landing';
 
+import { debounce } from '../lib/utils';
+
 interface Props {
 	data: Recipe[];
 }
@@ -81,40 +83,38 @@ export default function Layout({ data }: Props) {
 	const mobileVP = useMediaQuery(breakpoints.down('md'));
 	const desktopVP = useMediaQuery(breakpoints.up('md'));
 
-	const trigger = useScrollTrigger({ threshold: 0 });
+	const trigger = useScrollTrigger();
 
-	// const [visible, setVisible] = useState(false);
+	// Hide component when scrolling upward
+	const [prevScrollPos, setPrevScrollPos] = useState(0);
+	const [visible, setVisible] = useState(true);
 
-	// useEffect(() => {
-	// 	const height = window.innerHeight;
-	// 	const threshold = 300;
+	const handleScroll = debounce(() => {
+		const currentScrollPos = window.scrollY;
 
-	// 	const atBottom =
-	// 		document.body.scrollHeight - threshold <=
-	// 		window.scrollY + window.innerHeight;
+		// Trigger show/hide behavior at this distance in pixels from the top or bottom
+		const threshold = 300;
 
-	// 	const atTop = threshold >= window.scrollY;
+		const maxY =
+			document.body.scrollHeight - threshold <=
+			currentScrollPos + window.innerHeight;
 
-	// 	const handleHeight = () => {
-	// 		const parameters =
-	// 			window.innerHeight < height ||
-	// 			document.body.scrollHeight - threshold <=
-	// 				window.scrollY + window.innerHeight ||
-	// 			threshold >= window.scrollY;
+		const minY = currentScrollPos <= threshold;
 
-	// 		// console.log(atBottom);
+		// Show nav when the user scrolls up and at the top of the content
+		setVisible(currentScrollPos <= prevScrollPos || minY);
 
-	// 		setVisible(atBottom);
-	// 	};
+		// Hide nav at the bottom of the content to prevent 'bouncing' when scrolling down in mobile browsers
+		maxY && setVisible(false);
 
-	// 	window.addEventListener('scroll', handleHeight);
+		setPrevScrollPos(currentScrollPos);
+	}, 50);
 
-	// 	return () => {
-	// 		window.removeEventListener('scroll', handleHeight);
-	// 	};
-	// });
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
 
-	// console.log(visible);
+		return () => window.removeEventListener('scroll', handleScroll);
+	});
 
 	return (
 		<Box
@@ -177,8 +177,8 @@ export default function Layout({ data }: Props) {
 							appear={false}
 							direction={'up'}
 							// Display component when scrolling up or on a /id/* route
-							in={!trigger}
-							// style={{ transitionDelay: '500ms' }}
+							in={visible}
+							style={{ transitionDelay: '500ms' }}
 						>
 							{/* Add span component for Slide ForwardRef */}
 							<span>

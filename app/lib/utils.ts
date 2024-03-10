@@ -35,7 +35,7 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
 		const minY = currentScrollPos <= threshold;
 
 		// Show nav when the user scrolls down and when the user is at the top or the bottom of the content
-		currentScrollPos > prevScrollPos || maxY || minY
+		currentScrollPos > prevScrollPos || minY
 			? setVisible(true)
 			: setVisible(false);
 
