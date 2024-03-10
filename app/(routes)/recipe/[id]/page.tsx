@@ -22,19 +22,5 @@ export default async function Page({ params: { id } }: Props) {
 		data = [result];
 	}
 
-	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-			<Layout data={data} />
-
-			{/* <Box
-				sx={{
-					height: '3rem',
-					backgroundColor: 'red',
-					bottom: 0,
-					top: 'auto',
-					// display: 'inline',
-				}}
-			></Box> */}
-		</Box>
-	);
+	return <Layout data={data} />;
 }

@@ -68,13 +68,6 @@ export default function Layout({ data }: Props) {
 		localStorage.removeItem(`joc-${id}`);
 	};
 
-	// Assign viewport breakpoints for style behavior
-	const { breakpoints } = useTheme();
-	const mobileVP = useMediaQuery(breakpoints.down('md'));
-	const desktopVP = useMediaQuery(breakpoints.up('md'));
-
-	const trigger = useScrollTrigger();
-
 	const handleOpenKeyboard = () => {
 		const search = document.getElementById('search');
 
@@ -82,6 +75,27 @@ export default function Layout({ data }: Props) {
 
 		searchFocus ? search?.focus() : search?.blur();
 	};
+
+	// Assign viewport breakpoints for style behavior
+	const { breakpoints } = useTheme();
+	const mobileVP = useMediaQuery(breakpoints.down('md'));
+	const desktopVP = useMediaQuery(breakpoints.up('md'));
+
+	const trigger = useScrollTrigger();
+
+	const [visible, setVisible] = useState(false);
+
+	useEffect(() => {
+		const height = window.innerHeight;
+
+		const handleHeight = () => setVisible(window.innerHeight < height);
+
+		window.addEventListener('resize', handleHeight);
+
+		return () => {
+			window.removeEventListener('resize', handleHeight);
+		};
+	});
 
 	return (
 		<Box
@@ -144,7 +158,7 @@ export default function Layout({ data }: Props) {
 							appear={false}
 							direction={'up'}
 							// Display component when scrolling up or on a /id/* route
-							in={!trigger}
+							in={visible}
 							style={{ transitionDelay: '500ms' }}
 						>
 							{/* Add span component for Slide ForwardRef */}

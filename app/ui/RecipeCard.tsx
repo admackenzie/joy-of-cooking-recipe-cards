@@ -1,5 +1,7 @@
 'use client';
 
+import { useParams } from 'next/navigation';
+
 import { Box, Card, CardContent } from '@mui/material';
 
 import { RecipeBody, RecipeFooter, RecipeHeader } from '@/app/ui/index';
@@ -14,6 +16,8 @@ interface Props {
 }
 
 export default function RecipeCard({ preview, recipe }: Props) {
+	const params = useParams<{ id: string }>();
+
 	if (!recipe) {
 		// TODO: Error
 		return <h1>ERROR</h1>;
@@ -28,8 +32,8 @@ export default function RecipeCard({ preview, recipe }: Props) {
 					sx={{
 						borderTop: `2px solid ${grey['200']}`,
 						height: `${preview ? '33vh' : '100%'}`,
-						// Add spacer to accommodate mobile browser UI
-						marginBottom: '5rem',
+						// Add spacer on /id* routes to accommodate mobile browser UI
+						marginBottom: `${params.id && '4rem'}`,
 					}}
 				>
 					<CardContent>
