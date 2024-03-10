@@ -98,7 +98,7 @@ export default function Layout({ data }: Props) {
 		const currentScrollPos = window.scrollY;
 
 		// Trigger show/hide behavior at this distance in pixels from the top or bottom
-		const threshold = 300;
+		const threshold = 100;
 
 		const maxY =
 			document.body.scrollHeight - threshold <=
