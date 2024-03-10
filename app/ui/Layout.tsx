@@ -81,21 +81,40 @@ export default function Layout({ data }: Props) {
 	const mobileVP = useMediaQuery(breakpoints.down('md'));
 	const desktopVP = useMediaQuery(breakpoints.up('md'));
 
-	const trigger = useScrollTrigger();
+	const trigger = useScrollTrigger({ threshold: 300 });
 
-	const [visible, setVisible] = useState(false);
+	// const [visible, setVisible] = useState(false);
 
-	useEffect(() => {
-		const height = window.innerHeight;
+	// useEffect(() => {
+	// 	const height = window.innerHeight;
+	// 	const threshold = 300;
 
-		const handleHeight = () => setVisible(window.innerHeight < height);
+	// 	const atBottom =
+	// 		document.body.scrollHeight - threshold <=
+	// 		window.scrollY + window.innerHeight;
 
-		window.addEventListener('resize', handleHeight);
+	// 	const atTop = threshold >= window.scrollY;
 
-		return () => {
-			window.removeEventListener('resize', handleHeight);
-		};
-	});
+	// 	const handleHeight = () => {
+	// 		const parameters =
+	// 			window.innerHeight < height ||
+	// 			document.body.scrollHeight - threshold <=
+	// 				window.scrollY + window.innerHeight ||
+	// 			threshold >= window.scrollY;
+
+	// 		// console.log(atBottom);
+
+	// 		setVisible(atBottom);
+	// 	};
+
+	// 	window.addEventListener('scroll', handleHeight);
+
+	// 	return () => {
+	// 		window.removeEventListener('scroll', handleHeight);
+	// 	};
+	// });
+
+	// console.log(visible);
 
 	return (
 		<Box
@@ -158,7 +177,7 @@ export default function Layout({ data }: Props) {
 							appear={false}
 							direction={'up'}
 							// Display component when scrolling up or on a /id/* route
-							in={visible}
+							in={!trigger}
 							// style={{ transitionDelay: '500ms' }}
 						>
 							{/* Add span component for Slide ForwardRef */}
