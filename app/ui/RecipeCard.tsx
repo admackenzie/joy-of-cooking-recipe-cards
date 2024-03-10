@@ -33,7 +33,7 @@ export default function RecipeCard({ preview, recipe }: Props) {
 						borderTop: `2px solid ${grey['200']}`,
 						height: `${preview ? '33vh' : '100%'}`,
 						// Add spacer on /id* routes to accommodate mobile browser UI
-						marginBottom: `${params.id && '2rem'}`,
+						marginBottom: `${params.id && '4rem'}`,
 					}}
 				>
 					<CardContent>

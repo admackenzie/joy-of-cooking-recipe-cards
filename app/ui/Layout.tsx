@@ -212,7 +212,7 @@ export default function Layout({ data }: Props) {
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP &&
 				(params.id ? (
-					<Fade in={trigger}>
+					<Fade in={!visible}>
 						<Fab
 							component={'div'}
 							onClick={() => scrollTo(0, 0)}
