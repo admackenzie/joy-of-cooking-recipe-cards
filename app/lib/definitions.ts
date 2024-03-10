@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
@@ -18,7 +18,7 @@ export const Viewport = () => {
 	}, [breakpoints, setViewport]);
 
 	return viewport;
-};
+}; */
 
 export type Recipe = {
 	id: string;
