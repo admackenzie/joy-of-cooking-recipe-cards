@@ -12,6 +12,7 @@ import {
 	BottomNavigationAction,
 	BottomNavigation,
 	Fab,
+	Fade,
 	Paper,
 	Slide,
 	Typography,
@@ -20,7 +21,11 @@ import {
 	useScrollTrigger,
 	useTheme,
 } from '@mui/material';
-import { MenuBook, Search as SearchIcon } from '@mui/icons-material';
+import {
+	KeyboardArrowUp,
+	MenuBook,
+	Search as SearchIcon,
+} from '@mui/icons-material';
 
 import {
 	AppBarWithSearch,
@@ -205,31 +210,51 @@ export default function Layout({ data }: Props) {
 
 			{/* Display FAB only on mobile viewports */}
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
-			{mobileVP && (
-				<Fab
-					component={'div'}
-					disabled={searchFocus}
-					onClick={handleOpenKeyboard}
-					size={'medium'}
-					sx={{
-						backgroundColor: 'primary.main',
-						bottom: '6rem',
-						color: '#fff',
-						position: 'fixed',
-						right: '2rem',
-						'&:hover': { backgroundColor: 'primary.main' },
-						'&.Mui-disabled': {
-							// backdropFilter: 'blur(5px)',
-							// backgroundColor: 'rgb(238, 36, 36, 0.2)',
-							// border: '1px solid rgb(238, 36, 36)',
+			{mobileVP &&
+				(params.id ? (
+					<Fade in={trigger}>
+						<Fab
+							component={'div'}
+							onClick={() => scrollTo(0, 0)}
+							size={'small'}
+							sx={{
+								backgroundColor: '#fff',
+								bottom: '6rem',
+								color: 'secondary.main',
+
+								position: 'fixed',
+								right: '2rem',
+								'&:hover': { backgroundColor: '#fff' },
+							}}
+						>
+							<KeyboardArrowUp />
+						</Fab>
+					</Fade>
+				) : (
+					<Fab
+						component={'div'}
+						disabled={searchFocus}
+						onClick={handleOpenKeyboard}
+						size={'medium'}
+						sx={{
 							backgroundColor: 'primary.main',
+							bottom: '6rem',
 							color: '#fff',
-						},
-					}}
-				>
-					<SearchIcon />
-				</Fab>
-			)}
+							position: 'fixed',
+							right: '2rem',
+							'&:hover': { backgroundColor: 'primary.main' },
+							'&.Mui-disabled': {
+								// backdropFilter: 'blur(5px)',
+								// backgroundColor: 'rgb(238, 36, 36, 0.2)',
+								// border: '1px solid rgb(238, 36, 36)',
+								backgroundColor: 'primary.main',
+								color: '#fff',
+							},
+						}}
+					>
+						<SearchIcon />
+					</Fab>
+				))}
 		</Box>
 	);
 }
