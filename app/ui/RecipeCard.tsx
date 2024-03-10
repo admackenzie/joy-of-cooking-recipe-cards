@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@mui/material';
+import { Box, Card, CardContent } from '@mui/material';
 
 import { RecipeBody, RecipeFooter, RecipeHeader } from '@/app/ui/index';
 
@@ -21,27 +21,42 @@ export default function RecipeCard({ preview, recipe }: Props) {
 		const { chapter, html, page, servings, title } = recipe;
 
 		return (
-			<Card
-				// Clip cards to same height in 'preview' styling
-				elevation={3}
-				sx={{
-					borderTop: `2px solid ${grey['200']}`,
-					height: `${preview ? '33vh' : '100%'}`,
-				}}
-			>
-				<CardContent>
-					<RecipeHeader
-						preview={preview}
-						servings={servings}
-						title={title}
-					/>
+			<>
+				<Card
+					// Clip cards to same height in 'preview' styling
+					elevation={3}
+					sx={{
+						borderTop: `2px solid ${grey['200']}`,
+						height: `${preview ? '33vh' : '100%'}`,
+						// Add spacer to accommodate mobile browser UI
+						marginBottom: '5rem',
+					}}
+				>
+					<CardContent>
+						<RecipeHeader
+							preview={preview}
+							servings={servings}
+							title={title}
+						/>
 
-					<RecipeBody html={html} />
+						<RecipeBody html={html} />
 
-					{/* Hide footer in 'preview' styling */}
-					{!preview && <RecipeFooter chapter={chapter} page={page} />}
-				</CardContent>
-			</Card>
+						{/* Hide footer in 'preview' styling */}
+						{!preview && (
+							<RecipeFooter chapter={chapter} page={page} />
+						)}
+					</CardContent>
+				</Card>
+
+				{/* <Box
+					sx={{
+						height: '3rem',
+						width: '100%',
+						// backgroundColor: 'red',
+						// bottom: 0,
+					}}
+				/> */}
+			</>
 		);
 	}
 }

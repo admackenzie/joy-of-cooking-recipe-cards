@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { Fade, IconButton, useMediaQuery } from '@mui/material';
 import { Bookmark, BookmarkAdd, BookmarkRemove } from '@mui/icons-material';

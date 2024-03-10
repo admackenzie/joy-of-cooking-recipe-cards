@@ -38,15 +38,9 @@ interface Props {
 	bookmarks: Recipe[];
 	data: Recipe[];
 	removeBookmark: any;
-	// setSearchFocus: any;
 }
 
-export default function MobileNav({
-	bookmarks,
-	data,
-	removeBookmark,
-}: // setSearchFocus,
-Props) {
+export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 	const numRecipes = (data ?? []).length.toLocaleString('en-US');
 	const params = useParams<{ id: string; slug: string }>();
 	const searchParams = useSearchParams().get('search')?.toString() ?? '';
@@ -58,13 +52,17 @@ Props) {
 		setValue(newValue);
 	};
 
-	// const handleSearch = () => {
-	// 	setOpen(false);
-	// 	setSearchFocus(true);
-	// };
-
 	return (
-		<>
+		<Paper
+			elevation={3}
+			sx={{
+				bottom: 0,
+				display: { xs: 'block', md: 'none' },
+				height: '2.5rem',
+				position: 'fixed',
+				width: '100%',
+			}}
+		>
 			<Box sx={{}}>
 				<IconButton
 					component={'div'}
@@ -141,7 +139,6 @@ Props) {
 					},
 				}}
 			>
-				{' '}
 				<Container sx={{ paddingY: '1rem' }}>
 					{/* Display drawer heading */}
 					<Box sx={{ display: 'flex' }}>
@@ -161,12 +158,6 @@ Props) {
 					>
 						<Tab icon={<Bookmarks />} label={'Bookmarks'} />
 						<Tab icon={<MenuBook />} label={'Chapters'} />
-						{/* <Tab
-							icon={<SearchIcon />}
-							onClick={handleSearch}
-							label={'Search'}
-						/> */}
-
 						{/* <Tab disabled icon={<Settings />} label={'Settings'} /> */}
 					</Tabs>
 
@@ -183,14 +174,12 @@ Props) {
 						<ChapterList />
 					</TabPanel>
 
-					{/* <TabPanel index={2} value={value} /> */}
-
-					{/* <TabPanel index={3} value={value}>
+					{/* <TabPanel index={2} value={value}>
 						Settings
 					</TabPanel> */}
 				</Container>
 			</Drawer>
-		</>
+		</Paper>
 	);
 }
 

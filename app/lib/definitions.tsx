@@ -1,14 +1,24 @@
-// import { useMediaQuery } from '@mui/material';
-// import { useTheme } from '@mui/material/styles';
+'use client';
 
-// export const Breakpoints = () => {
-// 	const { breakpoints } = useTheme();
+import { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material';
 
-// 	return [
-// 		useMediaQuery(breakpoints.down('md')),
-// 		useMediaQuery(breakpoints.up('md')),
-// 	];
-// };
+// Return boolean representing maxWidth < 900px
+export const Viewport = () => {
+	const [viewport, setViewport] = useState<boolean>(false);
+	const { breakpoints } = useTheme();
+
+	useEffect(() => {
+		// Create media query list that matches mobile viewport sizes
+		const mql = window.matchMedia(
+			`(max-width: ${breakpoints.values['md']}px)`
+		);
+
+		setViewport(mql.matches);
+	}, [breakpoints, setViewport]);
+
+	return viewport;
+};
 
 export type Recipe = {
 	id: string;

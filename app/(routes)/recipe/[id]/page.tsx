@@ -1,4 +1,6 @@
-import { Layout } from '@/app/ui/index';
+import { AppBar, Box, Toolbar } from '@mui/material';
+
+import { Layout, MobileNav } from '@/app/ui/index';
 
 import { findByID } from '@/app/lib/CRUD';
 
@@ -20,5 +22,19 @@ export default async function Page({ params: { id } }: Props) {
 		data = [result];
 	}
 
-	return <Layout data={data} />;
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+			<Layout data={data} />
+
+			{/* <Box
+				sx={{
+					height: '3rem',
+					backgroundColor: 'red',
+					bottom: 0,
+					top: 'auto',
+					// display: 'inline',
+				}}
+			></Box> */}
+		</Box>
+	);
 }

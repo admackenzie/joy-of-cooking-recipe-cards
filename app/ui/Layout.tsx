@@ -40,7 +40,8 @@ interface Props {
 }
 
 export default function Layout({ data }: Props) {
-	const preview = !useParams<{ id: string }>().id ?? true;
+	const params = useParams<{ id: string }>();
+	const preview = !params.id ?? true;
 
 	const [bookmarks, setBookmarks] = useState<Recipe[]>([]);
 
@@ -142,25 +143,18 @@ export default function Layout({ data }: Props) {
 						<Slide
 							appear={false}
 							direction={'up'}
+							// Display component when scrolling up or on a /id/* route
 							in={!trigger}
 							style={{ transitionDelay: '500ms' }}
 						>
-							<Paper
-								elevation={3}
-								sx={{
-									bottom: 0,
-									display: { xs: 'block', md: 'none' },
-									height: '2.5rem',
-									position: 'fixed',
-									width: '100%',
-								}}
-							>
+							{/* Add span component for Slide ForwardRef */}
+							<span>
 								<MobileNav
 									bookmarks={bookmarks}
 									data={data}
 									removeBookmark={removeBookmark}
 								/>
-							</Paper>
+							</span>
 						</Slide>
 					)}
 				</Box>
@@ -200,44 +194,6 @@ export default function Layout({ data }: Props) {
 				>
 					<SearchIcon />
 				</Fab>
-
-				// <Box
-				// 	autoFocus
-				// 	component={'button'}
-				// 	onTouchStart={() => setSearchFocus(!searchFocus)}
-				// 	sx={{
-				// 		backgroundColor: 'primary.main',
-				// 		borderRadius: '50%',
-				// 		bottom: '6rem',
-				// 		color: 'white',
-				// 		height: '3rem',
-				// 		position: 'fixed',
-				// 		right: '2rem',
-				// 		width: '3rem',
-				// 	}}
-				// >
-				// 	<SearchIcon />
-				// </Box>
-				// <Fab
-				// 	// disableTouchRipple
-				// 	component={'div'}
-				// 	onClick={() => setSearchFocus(!searchFocus)}
-				// 	size={'medium'}
-				// 	sx={{
-				// 		backgroundColor: 'primary.main',
-				// 		color: 'white',
-
-				// 		position: 'fixed',
-				// 		bottom: '6rem',
-				// 		right: '2rem',
-
-				// 		'&:hover': {
-				// 			backgroundColor: 'primary.main',
-				// 		},
-				// 	}}
-				// >
-				// 	<SearchIcon />
-				// </Fab>
 			)}
 		</Box>
 	);
