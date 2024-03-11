@@ -64,7 +64,9 @@ export default function Layout({ data }: Props) {
 		setBookmarks(storage);
 
 		// Detect if page has a vertical scrollbar
-		setScrollable(document.body.scrollHeight > window.innerHeight);
+		setTimeout(() => {
+			setScrollable(document.body.scrollHeight > window.innerHeight);
+		}, 3000);
 	}, []);
 
 	const addBookmark = (data: Recipe) => {
