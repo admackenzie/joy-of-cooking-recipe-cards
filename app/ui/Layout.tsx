@@ -64,9 +64,9 @@ export default function Layout({ data }: Props) {
 		setBookmarks(storage);
 
 		// Detect if page has a vertical scrollbar
-		setTimeout(() => {
-			setScrollable(document.body.scrollHeight > window.innerHeight);
-		}, 3000);
+		// setTimeout(() => {
+		// 	setScrollable(document.body.scrollHeight > window.innerHeight);
+		// }, 3000);
 	}, []);
 
 	const addBookmark = (data: Recipe) => {
@@ -115,11 +115,13 @@ export default function Layout({ data }: Props) {
 
 		// Show nav when the user scrolls up and at the top of the content
 		setVisible(currentScrollPos <= prevScrollPos || minY);
+		setPrevScrollPos(currentScrollPos);
 
 		// Hide nav at the bottom of the content to prevent 'bouncing' when scrolling down in mobile browsers
 		maxY && setVisible(false);
 
-		setPrevScrollPos(currentScrollPos);
+		// Show scroll FAB only when the page has a vertical scroll bar and the page is at the bottom of the content
+		setScrollable(maxY && document.body.scrollHeight > window.innerHeight);
 	}, 50);
 
 	useEffect(() => {
@@ -220,8 +222,8 @@ export default function Layout({ data }: Props) {
 			{mobileVP &&
 				(params.id ? (
 					<Fade
-						// Hide FAB when scrolling up or content is too short to scroll
-						in={!visible && !scrollable}
+						// Hide FAB when content is too short to scroll
+						in={scrollable}
 					>
 						<Fab
 							component={'div'}
