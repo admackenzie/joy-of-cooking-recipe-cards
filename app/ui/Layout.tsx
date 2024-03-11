@@ -34,7 +34,7 @@ interface Props {
 }
 
 export default function Layout({ data }: Props) {
-	const params = useParams<{ id: string }>();
+	const params = useParams<{ id: string; slug: string }>();
 	const preview = !params.id ?? true;
 	const searchParams = useSearchParams().get('search');
 
@@ -128,7 +128,7 @@ export default function Layout({ data }: Props) {
 		>
 			{/* Display header */}
 
-			{(params.id || searchParams) && (
+			{(params.id || params.slug || searchParams) && (
 				<AppBarWithSearch
 					searchFocus={searchFocus}
 					setSearchFocus={setSearchFocus}
