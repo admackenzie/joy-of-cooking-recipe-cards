@@ -94,6 +94,11 @@ export default function RecipeBody({ html }: Props) {
 					);
 				}
 
+				// Handle edge case: recipes with picture captions
+				if (attrToStr(attributes).includes('caption')) {
+					return;
+				}
+
 				switch (tagName) {
 					// Handle lists
 					case 'UL':

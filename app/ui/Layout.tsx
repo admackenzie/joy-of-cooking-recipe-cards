@@ -228,7 +228,7 @@ export default function Layout({ data }: Props) {
 						</Fab>
 					</Fade>
 				) : (
-					searchParams && (
+					(params.slug || searchParams) && (
 						<Fab
 							component={'div'}
 							disabled={searchFocus}
