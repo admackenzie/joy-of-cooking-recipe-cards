@@ -1,10 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { Box, Divider, IconButton, Typography } from '@mui/material';
-import { ArrowBackIosNew, Close } from '@mui/icons-material';
+import { ArrowBackIosNew } from '@mui/icons-material';
 
 interface Props {
 	preview: boolean;

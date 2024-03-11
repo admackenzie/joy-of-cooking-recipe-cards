@@ -1,31 +1,20 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import {
 	Box,
 	Container,
-	Drawer,
-	Button,
-	ButtonBase,
-	BottomNavigationAction,
-	BottomNavigation,
 	Fab,
 	Fade,
-	Paper,
 	Slide,
-	Typography,
 	Toolbar,
 	useMediaQuery,
 	useScrollTrigger,
 	useTheme,
 } from '@mui/material';
-import {
-	KeyboardArrowUp,
-	MenuBook,
-	Search as SearchIcon,
-} from '@mui/icons-material';
+import { KeyboardArrowUp, Search as SearchIcon } from '@mui/icons-material';
 
 import {
 	AppBarWithSearch,
@@ -38,8 +27,6 @@ import {
 
 import { Recipe } from '../lib/definitions';
 
-import Landing from './Landing';
-
 import { debounce } from '../lib/utils';
 
 interface Props {
@@ -49,6 +36,7 @@ interface Props {
 export default function Layout({ data }: Props) {
 	const params = useParams<{ id: string }>();
 	const preview = !params.id ?? true;
+	const searchParams = useSearchParams().get('search');
 
 	const [bookmarks, setBookmarks] = useState<Recipe[]>([]);
 
@@ -62,12 +50,7 @@ export default function Layout({ data }: Props) {
 			.map(key => JSON.parse(localStorage.getItem(key) ?? ''));
 
 		setBookmarks(storage);
-
-		// Detect if page has a vertical scrollbar
-		// setTimeout(() => {
-		// 	setScrollable(document.body.scrollHeight > window.innerHeight);
-		// }, 3000);
-	}, []);
+	}, [setBookmarks]);
 
 	const addBookmark = (data: Recipe) => {
 		setBookmarks([...bookmarks, data]);
@@ -144,10 +127,13 @@ export default function Layout({ data }: Props) {
 			}}
 		>
 			{/* Display header */}
-			<AppBarWithSearch
-				searchFocus={searchFocus}
-				setSearchFocus={setSearchFocus}
-			/>
+
+			{(params.id || searchParams) && (
+				<AppBarWithSearch
+					searchFocus={searchFocus}
+					setSearchFocus={setSearchFocus}
+				/>
+			)}
 
 			{/* 'Bounce' body component below the app bar */}
 			<Toolbar sx={{ height: '5rem' }} />
@@ -174,14 +160,13 @@ export default function Layout({ data }: Props) {
 							paddingTop: { xs: '1rem', sm: '1.5rem' },
 						}}
 					>
-						{/* <Landing /> */}
-
 						<CardDeck
 							addBookmark={addBookmark}
 							bookmarks={bookmarks}
 							data={data}
 							preview={preview}
 							removeBookmark={removeBookmark}
+							setSearchFocus={setSearchFocus}
 						/>
 					</Container>
 
@@ -243,29 +228,31 @@ export default function Layout({ data }: Props) {
 						</Fab>
 					</Fade>
 				) : (
-					<Fab
-						component={'div'}
-						disabled={searchFocus}
-						onClick={handleOpenKeyboard}
-						size={'medium'}
-						sx={{
-							backgroundColor: 'primary.main',
-							bottom: '6rem',
-							color: '#fff',
-							position: 'fixed',
-							right: '2rem',
-							'&:hover': { backgroundColor: 'primary.main' },
-							'&.Mui-disabled': {
-								// backdropFilter: 'blur(5px)',
-								// backgroundColor: 'rgb(238, 36, 36, 0.2)',
-								// border: '1px solid rgb(238, 36, 36)',
+					searchParams && (
+						<Fab
+							component={'div'}
+							disabled={searchFocus}
+							onClick={handleOpenKeyboard}
+							size={'medium'}
+							sx={{
 								backgroundColor: 'primary.main',
+								bottom: '6rem',
 								color: '#fff',
-							},
-						}}
-					>
-						<SearchIcon />
-					</Fab>
+								position: 'fixed',
+								right: '2rem',
+								'&:hover': { backgroundColor: 'primary.main' },
+								'&.Mui-disabled': {
+									// backdropFilter: 'blur(5px)',
+									// backgroundColor: 'rgb(238, 36, 36, 0.2)',
+									// border: '1px solid rgb(238, 36, 36)',
+									backgroundColor: 'primary.main',
+									color: '#fff',
+								},
+							}}
+						>
+							<SearchIcon />
+						</Fab>
+					)
 				))}
 		</Box>
 	);

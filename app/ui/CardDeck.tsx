@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { BookmarkButton, RecipeCard } from '@/app/ui/index';
+import { BookmarkButton, Landing, RecipeCard } from '@/app/ui/index';
 
 import { Recipe } from '@/app/lib/definitions';
 
@@ -20,6 +20,7 @@ interface Props {
 	data: Recipe[];
 	preview: boolean;
 	removeBookmark: any;
+	setSearchFocus: any;
 }
 
 export default function CardDeck({ ...props }: Props) {
@@ -29,15 +30,13 @@ export default function CardDeck({ ...props }: Props) {
 		data: recipes,
 		preview,
 		removeBookmark,
+		setSearchFocus,
 	} = props;
 
-	// FIXME: find a way to make this work without also displaying the close button in preview state
-	// Remove 'preview card' styling when only one record is returned
-	// const singleRecord = recipes.length === 1;
 	const searchParams = useSearchParams().get('search')?.toString() ?? '';
 
-	if (!recipes || recipes.length === 0) {
-		return (
+	if (recipes.length === 0) {
+		return searchParams ? (
 			<Container
 				sx={{
 					paddingTop: '20%',
@@ -56,6 +55,8 @@ export default function CardDeck({ ...props }: Props) {
 					&quot; Try another search or browse by chapter.
 				</Typography>
 			</Container>
+		) : (
+			<Landing setSearchFocus={setSearchFocus} />
 		);
 	} else {
 		return (

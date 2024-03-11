@@ -2,9 +2,13 @@ import Image from 'next/image';
 
 import { Box, Container } from '@mui/material';
 
-import { Search } from '.';
+import { Search } from '@/app/ui/index';
 
-export default function Landing() {
+interface Props {
+	setSearchFocus: any;
+}
+
+export default function Landing({ setSearchFocus }: Props) {
 	return (
 		<Container
 			sx={{
@@ -31,9 +35,10 @@ export default function Landing() {
 				width={1000}
 				height={1000}
 				// sizes={'50vw'}
+				priority
 			/>
 
-			{/* <Search /> */}
+			<Search searchFocus={true} setSearchFocus={setSearchFocus} />
 		</Container>
 	);
 }

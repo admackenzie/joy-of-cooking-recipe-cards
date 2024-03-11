@@ -5,6 +5,7 @@ import CardDeck from './CardDeck';
 import ChapterList from './ChapterList';
 import Chapters from './Chapters';
 import Hyperlink from './Hyperlink';
+import Landing from './Landing';
 import Layout from './Layout';
 import MobileNav from './MobileNav';
 import PopoverMenu from './PopoverMenu';
@@ -23,6 +24,7 @@ export {
 	ChapterList,
 	Chapters,
 	Hyperlink,
+	Landing,
 	Layout,
 	MobileNav,
 	PopoverMenu,

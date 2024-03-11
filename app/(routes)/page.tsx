@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 import { Layout } from '@/app/ui/index';
 
 import { findBySearch } from '@/app/lib/CRUD';
@@ -11,12 +13,9 @@ interface Props {
 }
 
 /* TODO: by Friday, March 15
- - Footer for /id/* pages
- - Footer card for end of CardDeck/no search results
  - Chapters tab
  - Bookmarks tab
  - Improve bookmarks appearance
- - Landing page
  - Loading component
  - Pagination?
 */
@@ -28,10 +27,17 @@ export default async function Main({ searchParams }: Props) {
 	let data: Recipe[] = [];
 
 	// ---- TEST RECIPE DATA ----
-	data = temp as unknown as Recipe[];
+	// data = temp as unknown as Recipe[];
 
 	if (query) {
 		data = (await findBySearch(query)) as Recipe[];
+
+		// Redirect to individual card page if there's only one search result
+		if (data.length === 1) {
+			const id = data.at(0)?.id;
+
+			redirect(`/recipe/${id}`);
+		}
 	}
 
 	return <Layout data={data} />;
