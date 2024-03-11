@@ -93,6 +93,7 @@ export default function Layout({ data }: Props) {
 	// Hide component when scrolling upward
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
 	const [visible, setVisible] = useState(true);
+	const [scrollable, setScrollable] = useState(false);
 
 	const handleScroll = debounce(() => {
 		const currentScrollPos = window.scrollY;
@@ -113,6 +114,9 @@ export default function Layout({ data }: Props) {
 		maxY && setVisible(false);
 
 		setPrevScrollPos(currentScrollPos);
+
+		// Detect if page has a vertical scrollbar
+		setScrollable(document.body.scrollHeight > window.innerHeight);
 	}, 50);
 
 	useEffect(() => {
@@ -212,7 +216,10 @@ export default function Layout({ data }: Props) {
 			{/* BUG: this button sometimes requires double taps to work in the browser. Try disabling all hover effects */}
 			{mobileVP &&
 				(params.id ? (
-					<Fade in={!visible}>
+					<Fade
+						// Hide FAB when scrolling up or content is too short to scroll
+						in={!visible && !scrollable}
+					>
 						<Fab
 							component={'div'}
 							onClick={() => scrollTo(0, 0)}
