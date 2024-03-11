@@ -54,13 +54,17 @@ export default function Layout({ data }: Props) {
 
 	const [searchFocus, setSearchFocus] = useState(false);
 
-	// Initialize bookmarks from localStorage
+	// Initialize page
 	useEffect(() => {
+		// Retrieve bookmarks from localStorage
 		const storage = Object.keys(localStorage)
 			.filter(key => key.startsWith('joc-'))
 			.map(key => JSON.parse(localStorage.getItem(key) ?? ''));
 
 		setBookmarks(storage);
+
+		// Detect if page has a vertical scrollbar
+		setScrollable(document.body.scrollHeight > window.innerHeight);
 	}, []);
 
 	const addBookmark = (data: Recipe) => {
@@ -114,9 +118,6 @@ export default function Layout({ data }: Props) {
 		maxY && setVisible(false);
 
 		setPrevScrollPos(currentScrollPos);
-
-		// Detect if page has a vertical scrollbar
-		setScrollable(document.body.scrollHeight > window.innerHeight);
 	}, 50);
 
 	useEffect(() => {
