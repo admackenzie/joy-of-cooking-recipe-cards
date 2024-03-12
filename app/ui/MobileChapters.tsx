@@ -23,22 +23,22 @@ export default function MobileChapters({ bottomFunc }: Props) {
 								sx={{
 									alignItems: 'center',
 									display: 'flex',
+
 									paddingX: '1rem',
 									paddingY: '0.5rem',
 								}}
 							>
-								<Box
-									sx={{
-										display: 'flex',
-										flexShrink: 0,
-										width: '30%',
-									}}
-								>
-									{chapter.icon}
-								</Box>
+								{chapter.icon}
 
 								<Typography
-									sx={{ textWrap: 'nowrap' }}
+									sx={{
+										display: 'flex',
+										flexBasis: '100%',
+										flexShrink: 1,
+										justifyContent: 'space-evenly',
+										paddingLeft: '0.5rem',
+										textWrap: 'nowrap',
+									}}
 									variant={'h6'}
 								>
 									{chapter.abbrev}

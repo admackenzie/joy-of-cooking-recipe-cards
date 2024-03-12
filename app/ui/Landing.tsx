@@ -32,7 +32,7 @@ export default function Landing({ setSearchFocus }: Props) {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				marginTop: '20%',
+				marginTop: '10%',
 			}}
 		>
 			<Image
@@ -49,7 +49,7 @@ export default function Landing({ setSearchFocus }: Props) {
 
 			<Card
 				sx={{
-					marginTop: '60%',
+					marginTop: '40%',
 					marginX: 'auto',
 					maxWidth: `${open ? '100%' : '20rem'}`,
 				}}
