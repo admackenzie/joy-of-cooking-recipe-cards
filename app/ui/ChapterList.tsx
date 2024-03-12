@@ -5,13 +5,12 @@ import { useParams } from 'next/navigation';
 
 import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 
-import { chapters, slugifyChapter } from '@/app/lib/definitions';
+import { chapters } from '@/app/lib/definitions';
 
 import { grey } from '@mui/material/colors';
 
 export default function ChapterList() {
 	const params = useParams<{ slug: string }>();
-	const slugs = chapters.map(chapter => slugifyChapter(chapter.name));
 
 	return (
 		// FIXME: height on Sidebar component needs to be something other than 100vh so the columns are scrollable but don't need a huge marginBottom to see all of the content
@@ -26,7 +25,7 @@ export default function ChapterList() {
 					'&>*:last-of-type li': { paddingBottom: 0 },
 				}}
 			>
-				{chapters.map((_el, i) => {
+				{chapters.map((chapter, i) => {
 					return (
 						<Box
 							key={i}
@@ -34,12 +33,12 @@ export default function ChapterList() {
 								{
 									// Highlight selected chapter
 									backgroundColor: `${
-										params.slug === slugs[i] &&
+										params.slug === chapter.slug &&
 										'rgb(204, 128, 42, 0.05)'
 									}`,
 									// Accent selected chapter
 									borderLeft: `solid ${
-										params.slug === slugs[i]
+										params.slug === chapter.slug
 											? '2px rgb(204, 128, 42, 1)'
 											: `1px ${grey['100']}`
 									}`,
@@ -55,9 +54,8 @@ export default function ChapterList() {
 									'&::before': {
 										// Accent bottom border when the last chapter of a group is selected
 										borderBottom: `solid ${
-											[slugs.at(i - 1)].includes(
-												params.slug
-											)
+											chapters.at(i - 1)?.slug ===
+											params.slug
 												? '2px #cc802a'
 												: `1px ${grey['200']}`
 										}`,
@@ -68,10 +66,10 @@ export default function ChapterList() {
 								},
 							]}
 						>
-							<Link href={`/recipes/${slugs[i]}`}>
+							<Link href={`/recipes/${chapter.slug}`}>
 								<ListItem>
 									<Typography variant={'h6'}>
-										{chapters[i].abbrev}
+										{chapter.abbrev}
 									</Typography>
 								</ListItem>
 							</Link>

@@ -3,10 +3,9 @@
 import { useState } from 'react';
 
 import { Box, Container, Drawer, Tab, Tabs } from '@mui/material';
-
 import { Bookmarks, MenuBook, Settings } from '@mui/icons-material';
 
-import { BookmarkList, ChapterList } from '@/app/ui/index';
+import { MobileChapters } from '@/app/ui/index';
 
 interface Props {
 	drawerOpen: boolean;
@@ -18,6 +17,12 @@ export default function MobileNavDrawer({ drawerOpen, setDrawerOpen }: Props) {
 
 	const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
+	};
+
+	const handleScrollToTop = () => {
+		const top = document.getElementById('tabs');
+
+		top?.scrollIntoView({ behavior: 'smooth' });
 	};
 
 	return (
@@ -32,11 +37,13 @@ export default function MobileNavDrawer({ drawerOpen, setDrawerOpen }: Props) {
 				},
 			}}
 		>
-			<Container sx={{ paddingY: '1rem' }}>
+			<Container>
 				{/* Display tab headings */}
 				<Tabs
+					id={'tabs'}
 					onChange={handleChange}
 					sx={{
+						marginBottom: '2rem',
 						'& button': { textTransform: 'none' },
 					}}
 					value={value}
@@ -48,7 +55,6 @@ export default function MobileNavDrawer({ drawerOpen, setDrawerOpen }: Props) {
 				</Tabs>
 
 				{/* Display tab content */}
-
 				<TabPanel index={0} value={value}>
 					{/* <BookmarkList
 							bookmarks={bookmarks}
@@ -58,7 +64,7 @@ export default function MobileNavDrawer({ drawerOpen, setDrawerOpen }: Props) {
 				</TabPanel>
 
 				<TabPanel index={1} value={value}>
-					<ChapterList />
+					<MobileChapters bottomFunc={handleScrollToTop} />
 				</TabPanel>
 
 				{/* <TabPanel index={2} value={value}>

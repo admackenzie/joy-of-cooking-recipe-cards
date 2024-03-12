@@ -7,6 +7,7 @@ import Chapters from './Chapters';
 import Hyperlink from './Hyperlink';
 import Landing from './Landing';
 import Layout from './Layout';
+import MobileChapters from './MobileChapters';
 import MobileNav from './MobileNav';
 import MobileNavDrawer from './MobileNavDrawer';
 import PopoverMenu from './PopoverMenu';
@@ -27,6 +28,7 @@ export {
 	Hyperlink,
 	Landing,
 	Layout,
+	MobileChapters,
 	MobileNav,
 	MobileNavDrawer,
 	PopoverMenu,

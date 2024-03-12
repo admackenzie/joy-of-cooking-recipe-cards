@@ -34,6 +34,7 @@ export default function AppBarWithSearch({
 	const mobileVP = useMediaQuery(breakpoints.down('md'));
 	const desktopVP = useMediaQuery(breakpoints.up('md'));
 
+	// Toggle nav drawer
 	const [drawerOpen, setDrawerOpen] = useState(false);
 
 	return (

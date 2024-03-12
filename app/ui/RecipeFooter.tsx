@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Box, Divider, Typography } from '@mui/material';
 
-import { slugifyChapter } from '@/app/lib/definitions';
+import { chapters } from '@/app/lib/definitions';
 
 interface Props {
 	chapter: string;
@@ -10,6 +10,8 @@ interface Props {
 }
 
 export default function RecipeFooter({ chapter, page }: Props) {
+	const slug = chapters.find(chapterObj => chapterObj.name === chapter)?.slug;
+
 	return (
 		<Box
 			sx={{ marginTop: '3rem', textAlign: 'center', textWrap: 'pretty' }}
@@ -42,9 +44,7 @@ export default function RecipeFooter({ chapter, page }: Props) {
 				}}
 				variant={'h6'}
 			>
-				<Link href={`/recipes/${slugifyChapter(chapter)}`}>
-					{chapter}
-				</Link>
+				<Link href={`/recipes/${slug}`}>{chapter}</Link>
 			</Typography>
 		</Box>
 	);

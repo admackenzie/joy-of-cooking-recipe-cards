@@ -1,20 +1,15 @@
 'use client';
 
 import { useParams, useSearchParams } from 'next/navigation';
-import { ReactElement, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Box, IconButton, Paper, Typography } from '@mui/material';
 
 import { UnfoldMore } from '@mui/icons-material';
 
-import {
-	BookmarkList,
-	ChapterList,
-	Search,
-	MobileNavDrawer,
-} from '@/app/ui/index';
+import { MobileNavDrawer } from '@/app/ui/index';
 
-import { chapters, Recipe, undoSlugifyChapter } from '@/app/lib/definitions';
+import { Recipe, undoSlug } from '@/app/lib/definitions';
 
 interface Props {
 	bookmarks: Recipe[];
@@ -46,7 +41,7 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 					onClick={() => setDrawerOpen(true)}
 					sx={{
 						borderRadius: 0,
-						// color: 'secondary.main',
+
 						display: 'flex',
 						justifyContent: 'start',
 						maxHeight: '2.5rem',
@@ -84,7 +79,7 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 							variant={'subtitle1'}
 						>
 							Viewing {numRecipes} recipes in
-							{` "${undoSlugifyChapter(params.slug)}"`}
+							{` "${undoSlug(params.slug)}"`}
 						</Typography>
 					)}
 

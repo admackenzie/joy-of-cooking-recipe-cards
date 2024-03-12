@@ -127,16 +127,17 @@ export default function Layout({ data }: Props) {
 			}}
 		>
 			{/* Display header */}
-
 			{(params.id || params.slug || searchParams) && (
-				<AppBarWithSearch
-					searchFocus={searchFocus}
-					setSearchFocus={setSearchFocus}
-				/>
-			)}
+				<>
+					<AppBarWithSearch
+						searchFocus={searchFocus}
+						setSearchFocus={setSearchFocus}
+					/>
 
-			{/* 'Bounce' body component below the app bar */}
-			<Toolbar sx={{ height: '5rem' }} />
+					{/* 'Bounce' body component below the app bar */}
+					<Toolbar sx={{ height: '5rem' }} />
+				</>
+			)}
 
 			{/* Display body */}
 			<Box sx={{ display: 'flex' }}>
@@ -171,7 +172,7 @@ export default function Layout({ data }: Props) {
 					</Container>
 
 					{/* Hide bottom navigation when mobile browser UI is open */}
-					{mobileVP && (
+					{mobileVP && (params.id || params.slug || searchParams) && (
 						<Slide
 							appear={false}
 							direction={'up'}
