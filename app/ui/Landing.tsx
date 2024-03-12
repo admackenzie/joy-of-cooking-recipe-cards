@@ -32,7 +32,7 @@ export default function Landing({ setSearchFocus }: Props) {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				marginTop: '10%',
+				// marginTop: '10%',
 			}}
 		>
 			<Image
