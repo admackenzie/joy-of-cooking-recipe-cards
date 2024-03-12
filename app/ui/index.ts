@@ -8,6 +8,7 @@ import Hyperlink from './Hyperlink';
 import Landing from './Landing';
 import Layout from './Layout';
 import MobileNav from './MobileNav';
+import MobileNavDrawer from './MobileNavDrawer';
 import PopoverMenu from './PopoverMenu';
 import RecipeBody from './RecipeBody';
 import RecipeFooter from './RecipeFooter';
@@ -27,6 +28,7 @@ export {
 	Landing,
 	Layout,
 	MobileNav,
+	MobileNavDrawer,
 	PopoverMenu,
 	RecipeBody,
 	RecipeFooter,

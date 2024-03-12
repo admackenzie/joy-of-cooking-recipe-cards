@@ -3,36 +3,18 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import { ReactElement, useEffect, useState } from 'react';
 
-import {
-	BottomNavigation,
-	BottomNavigationAction,
-	Box,
-	Container,
-	Button,
-	Drawer,
-	Fade,
-	IconButton,
-	Paper,
-	Tab,
-	Tabs,
-	Typography,
-} from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import {
-	Bookmarks,
-	BorderTop,
-	KeyboardArrowUp,
-	MenuBook,
-	Search as SearchIcon,
-	Settings,
-	UnfoldMore,
-} from '@mui/icons-material';
+import { Box, IconButton, Paper, Typography } from '@mui/material';
 
-import { BookmarkList, ChapterList, Search } from '@/app/ui/index';
+import { UnfoldMore } from '@mui/icons-material';
+
+import {
+	BookmarkList,
+	ChapterList,
+	Search,
+	MobileNavDrawer,
+} from '@/app/ui/index';
 
 import { chapters, Recipe, undoSlugifyChapter } from '@/app/lib/definitions';
-
-import { grey } from '@mui/material/colors';
 
 interface Props {
 	bookmarks: Recipe[];
@@ -45,12 +27,7 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 	const params = useParams<{ id: string; slug: string }>();
 	const searchParams = useSearchParams().get('search')?.toString() ?? '';
 
-	const [open, setOpen] = useState(false);
-	const [value, setValue] = useState(0);
-
-	const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
-		setValue(newValue);
-	};
+	const [drawerOpen, setDrawerOpen] = useState(false);
 
 	return (
 		<Paper
@@ -66,7 +43,7 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 			<Box sx={{}}>
 				<IconButton
 					component={'div'}
-					onClick={() => setOpen(true)}
+					onClick={() => setDrawerOpen(true)}
 					sx={{
 						borderRadius: 0,
 						// color: 'secondary.main',
@@ -128,71 +105,10 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 				</IconButton>
 			</Box>
 
-			<Drawer
-				anchor={'bottom'}
-				open={open}
-				onClose={() => setOpen(false)}
-				PaperProps={{
-					square: false,
-					sx: {
-						marginX: { xs: '0.5rem', sm: '0.75rem' },
-					},
-				}}
-			>
-				<Container sx={{ paddingY: '1rem' }}>
-					{/* Display drawer heading */}
-					<Box sx={{ display: 'flex' }}>
-						{/* <Typography variant={'subtitle1'}>
-						Found 1500 recipes
-					</Typography> */}
-					</Box>
-
-					{/* Display tab headings */}
-					<Tabs
-						onChange={handleChange}
-						sx={{
-							'& button': { textTransform: 'none' },
-						}}
-						value={value}
-						variant={'fullWidth'}
-					>
-						<Tab icon={<Bookmarks />} label={'Bookmarks'} />
-						<Tab icon={<MenuBook />} label={'Chapters'} />
-						{/* <Tab disabled icon={<Settings />} label={'Settings'} /> */}
-					</Tabs>
-
-					{/* Display tab content */}
-
-					<TabPanel index={0} value={value}>
-						<BookmarkList
-							bookmarks={bookmarks}
-							removeBookmark={removeBookmark}
-						/>
-					</TabPanel>
-
-					<TabPanel index={1} value={value}>
-						<ChapterList />
-					</TabPanel>
-
-					{/* <TabPanel index={2} value={value}>
-						Settings
-					</TabPanel> */}
-				</Container>
-			</Drawer>
+			<MobileNavDrawer
+				drawerOpen={drawerOpen}
+				setDrawerOpen={setDrawerOpen}
+			/>
 		</Paper>
-	);
-}
-
-interface TabPanelProps {
-	children?: React.ReactNode;
-	index: number;
-	value: number;
-}
-
-function TabPanel({ children, index, value }: TabPanelProps) {
-	return (
-		<Box hidden={value !== index} sx={{ height: '50svh' }}>
-			{value === index && <Box>{children}</Box>}
-		</Box>
 	);
 }
