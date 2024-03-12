@@ -12,18 +12,25 @@ interface Props {
 }
 
 export default function MobileChapters({ bottomFunc }: Props) {
+	const lastChild = chapters.length - 1;
+
 	return (
 		<Grid container columnSpacing={2}>
 			{chapters.map((chapter, i) => {
 				return (
-					<Grid key={i} sx={{ paddingBottom: '1rem' }} xs={6}>
+					<Grid
+						key={i}
+						sx={{
+							paddingBottom: `${i === lastChild ? '0' : '1rem'}`,
+						}}
+						xs={6}
+					>
 						<Link href={`/recipes/${chapter.slug}`}>
 							<Paper
 								elevation={1}
 								sx={{
 									alignItems: 'center',
 									display: 'flex',
-
 									paddingX: '1rem',
 									paddingY: '0.5rem',
 								}}
@@ -49,18 +56,18 @@ export default function MobileChapters({ bottomFunc }: Props) {
 				);
 			})}
 
-			<Grid sx={{ paddingBottom: '1rem' }} xs={6}>
+			<Grid xs={6}>
 				<IconButton
 					onClick={bottomFunc}
 					sx={{
 						alignItems: 'center',
 						borderRadius: 0,
 						display: 'flex',
+						height: '100%',
 						justifyContent: 'end',
 						padding: 0,
 						paddingRight: '1rem',
 						width: '100%',
-						height: '100%',
 					}}
 				>
 					<KeyboardArrowUp

@@ -49,6 +49,8 @@ export default function Landing({ setSearchFocus }: Props) {
 
 			<Card
 				sx={{
+					// Accommodate mobile browser UI
+					marginBottom: '4rem',
 					marginTop: '40%',
 					marginX: 'auto',
 					maxWidth: `${open ? '100%' : '20rem'}`,
