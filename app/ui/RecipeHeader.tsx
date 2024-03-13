@@ -35,11 +35,18 @@ export default function RecipeHeader({ preview, servings, title }: Props) {
 					</IconButton>
 				)}
 				<Typography
-					// Truncate title with ellipsis in 'preview' styling
-					noWrap={preview}
 					sx={{
 						fontWeight: 500,
 						width: '85%',
+
+						// Truncate title with ellipsis in 'preview' styling
+						...(preview && {
+							display: '-webkit-box',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							WebkitBoxOrient: 'vertical',
+							WebkitLineClamp: '2',
+						}),
 					}}
 					variant={'h5'}
 				>
