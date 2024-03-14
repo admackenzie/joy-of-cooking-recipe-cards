@@ -241,7 +241,7 @@ const RowData = ({
 					display: '-webkit-box',
 					height: '100%',
 					overflow: 'hidden',
-					textOverflow: 'ellipsis',
+					// textOverflow: 'ellipsis',
 					textWrap: 'pretty',
 					WebkitBoxOrient: 'vertical',
 					WebkitLineClamp: '2',
