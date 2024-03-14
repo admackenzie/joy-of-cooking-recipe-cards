@@ -101,7 +101,9 @@ export default function MobileNav({ bookmarks, data, removeBookmark }: Props) {
 			</Box>
 
 			<MobileNavDrawer
+				bookmarks={bookmarks}
 				drawerOpen={drawerOpen}
+				removeBookmark={removeBookmark}
 				setDrawerOpen={setDrawerOpen}
 			/>
 		</Paper>

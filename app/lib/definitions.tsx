@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
-	BakeryDining,
+	BrunchDining,
 	DinnerDining,
 	EggAlt,
 	KebabDining,
@@ -173,8 +173,8 @@ export const chapters = [
 		slug: 'batters',
 	},
 	{
-		abbrev: 'Pastries',
-		icon: <BakeryDining sx={{ fontSize: '2rem' }} />,
+		abbrev: 'Pies',
+		icon: <FontAwesomeIcon fontSize={'1.5rem'} icon={faCheese} />,
 		name: 'Pies and Pastries',
 		slug: 'pastries',
 	},
@@ -198,7 +198,7 @@ export const chapters = [
 	},
 	{
 		abbrev: 'Desserts',
-		icon: <FontAwesomeIcon fontSize={'1.5rem'} icon={faCheese} />,
+		icon: <BrunchDining />,
 		name: 'Desserts',
 		slug: 'desserts',
 	},

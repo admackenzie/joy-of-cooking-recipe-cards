@@ -3,7 +3,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { Box, Card, CardActionArea, Collapse, Typography } from '@mui/material';
+import {
+	Box,
+	Card,
+	CardActionArea,
+	Collapse,
+	Typography,
+	Paper,
+} from '@mui/material';
 import { KeyboardArrowDown } from '@mui/icons-material';
 
 import { MobileChapters, Search } from '@/app/ui/index';
@@ -13,12 +20,12 @@ interface Props {
 }
 
 export default function Landing({ setSearchFocus }: Props) {
-	const [open, setOpen] = useState(false);
+	const [chaptersOpen, setChaptersOpen] = useState(false);
 
-	const handleOpen = (e: React.SyntheticEvent) => {
+	const handleChaptersOpen = (e: React.SyntheticEvent) => {
 		const target = e.target as HTMLElement;
 
-		setOpen(!open);
+		setChaptersOpen(!chaptersOpen);
 
 		setTimeout(() => {
 			target.scrollIntoView({
@@ -32,7 +39,8 @@ export default function Landing({ setSearchFocus }: Props) {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				// marginTop: '10%',
+				// marginTop: '10svh',
+				// height: `${chaptersOpen ? '100%' : '100svh'}`,
 			}}
 		>
 			<Image
@@ -47,17 +55,55 @@ export default function Landing({ setSearchFocus }: Props) {
 				<Search searchFocus={true} setSearchFocus={setSearchFocus} />
 			</Box>
 
-			<Card
+			{/* <Paper
+				sx={{
+					width: '120px',
+					height: '240px',
+					backgroundColor: '#f0f0f0',
+					position: 'relative',
+					border: '1px solid #ccc',
+					borderRadius: '10px',
+
+					'&:before': {
+						content: '""',
+						position: 'absolute',
+						width: 0,
+						height: 0,
+						borderStyle: 'solid',
+
+						borderWidth: '0 60px 120px 60px',
+						borderColor:
+							'transparent transparent #f0f0f0 transparent',
+						top: '-60px',
+						left: 0,
+					},
+					'&:after': {
+						content: '""',
+						position: 'absolute',
+						width: 0,
+						height: 0,
+						borderStyle: 'solid',
+
+						borderWidth: '0 60px 120px 60px',
+						borderColor: 'transparent transparent #ccc transparent',
+						top: '-61px',
+						left: '-1px',
+					},
+				}}
+			></Paper> */}
+
+			<Paper
+				elevation={chaptersOpen ? 0 : 1}
 				sx={{
 					// Accommodate mobile browser UI
-					marginBottom: '4rem',
+					// marginBottom: '4rem',
 					marginTop: '40%',
 					marginX: 'auto',
-					maxWidth: `${open ? '100%' : '20rem'}`,
+					maxWidth: `${chaptersOpen ? '100%' : '20rem'}`,
 				}}
 			>
 				<CardActionArea
-					onClick={handleOpen}
+					onClick={handleChaptersOpen}
 					sx={{
 						alignItems: 'center',
 						display: 'flex',
@@ -77,18 +123,18 @@ export default function Landing({ setSearchFocus }: Props) {
 						sx={{
 							fontSize: '2rem',
 							marginLeft: '4rem',
-							transform: `rotate(${open && 180}deg)`,
+							transform: `rotate(${chaptersOpen && 180}deg)`,
 							transition: `transform 200ms ease-in`,
 						}}
 					/>
 				</CardActionArea>
 
-				<Collapse in={open}>
+				<Collapse in={chaptersOpen}>
 					<Box sx={{ paddingTop: '1rem' }}>
-						<MobileChapters bottomFunc={handleOpen} />
+						<MobileChapters bottomFunc={handleChaptersOpen} />
 					</Box>
 				</Collapse>
-			</Card>
+			</Paper>
 		</Box>
 	);
 }

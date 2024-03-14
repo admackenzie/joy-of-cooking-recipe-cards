@@ -17,12 +17,18 @@ import { useTheme } from '@mui/material/styles';
 
 import { MobileNavDrawer, Search } from '@/app/ui/index';
 
+import { Recipe } from '@/app/lib/definitions';
+
 interface Props {
+	bookmarks: Recipe[];
+	removeBookmark: any;
 	searchFocus: boolean;
 	setSearchFocus: any;
 }
 
 export default function AppBarWithSearch({
+	bookmarks,
+	removeBookmark,
 	searchFocus,
 	setSearchFocus,
 }: Props) {
@@ -100,7 +106,9 @@ export default function AppBarWithSearch({
 			</Slide>
 
 			<MobileNavDrawer
+				bookmarks={bookmarks}
 				drawerOpen={drawerOpen}
+				removeBookmark={removeBookmark}
 				setDrawerOpen={setDrawerOpen}
 			/>
 		</>

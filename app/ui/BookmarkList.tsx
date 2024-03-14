@@ -1,187 +1,271 @@
 'use client';
 
 import NextLink from 'next/link';
+import { useCallback, useState } from 'react';
 
+import { Box, IconButton, Typography } from '@mui/material';
 import {
-	Box,
-	Button,
-	Container,
-	Divider,
-	Fade,
-	Icon,
-	IconButton,
-	List,
-	ListItem,
-	Paper,
-	Typography,
-} from '@mui/material';
-import { BookmarkAdd, BookmarkRemove, Bookmarks } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
+	DataGrid,
+	GridColDef,
+	GridRowsProp,
+	GridRowSpacingParams,
+	useGridApiRef,
+} from '@mui/x-data-grid';
+import {
+	ArrowDownward,
+	ArrowUpward,
+	BookmarkAdd,
+	Delete,
+	Sort,
+} from '@mui/icons-material';
 
 import { Recipe } from '../lib/definitions';
 
 interface Props {
 	bookmarks: Recipe[];
 	removeBookmark: any;
+	setDrawerOpen: any;
 }
 
-export default function BookmarkList({ bookmarks, removeBookmark }: Props) {
-	const handleClear = () => localStorage.clear();
+export default function BookmarkList({
+	bookmarks,
+	removeBookmark,
+	setDrawerOpen,
+}: Props) {
+	const apiRef = useGridApiRef();
 
-	const { breakpoints } = useTheme();
+	// Structure table columns
+	const columns: GridColDef[] = [
+		{
+			field: 'title',
+			flex: 1,
+
+			// Render column header with sort functionality
+			renderHeader: params => (
+				<ColumnHeader
+					bookmarks={bookmarks.length > 0}
+					sort={() => {
+						apiRef.current.sortColumn(params.colDef);
+					}}
+				/>
+			),
+
+			// Render rows
+			renderCell: params => (
+				<RowData
+					id={params.row.id}
+					removeBookmark={removeBookmark}
+					setDrawerOpen={setDrawerOpen}
+					title={params.row.title}
+				/>
+			),
+		},
+	];
+
+	// Structure table rows
+	const rows: GridRowsProp = [
+		...(Object.values(bookmarks) ?? []).map(bookmark => {
+			return {
+				id: bookmark.id,
+				title: bookmark.title,
+			};
+		}),
+	];
+
+	const rowSpacing = useCallback((params: GridRowSpacingParams) => {
+		return {
+			top: params.isFirstVisible ? 0 : 4,
+			bottom: params.isLastVisible ? 0 : 4,
+		};
+	}, []);
 
 	return (
-		<Box
-			sx={[
-				{
-					height: '100%',
+		<DataGrid
+			apiRef={apiRef}
+			autoHeight
+			columns={columns}
+			disableColumnMenu={true}
+			getRowSpacing={rowSpacing}
+			hideFooter
+			// Prevent default column header behavior
+			onColumnHeaderClick={(_params, e) => {
+				e.defaultMuiPrevented = true;
+			}}
+			rowHeight={80}
+			rows={rows}
+			slots={{
+				// Display message when there are no bookmarks
+				noRowsOverlay: NoBookmarksMessage,
+			}}
+			sx={{
+				'&, [class^=MuiDataGrid]': {
+					border: 'none',
+					padding: 0,
+
+					// Style rows as Paper elevation={1}
+					'& .MuiDataGrid-cell': {
+						border: '1px solid rgba(0, 0, 0, 0.12)',
+						boxShadow: 1,
+						marginY: 'auto',
+					},
+
+					// Recolor column header focus outline
+					'& .MuiDataGrid-columnHeader:focus': {
+						outline: '#fff',
+					},
+
+					// Move sort button to the right side
+					'& .MuiDataGrid-columnHeaderTitleContainer': {
+						justifyContent: 'end',
+					},
+
+					// Hide column dividers and sort icon
+					'& .MuiDataGrid-columnSeparator, & .MuiDataGrid-iconButtonContainer':
+						{
+							display: 'none',
+						},
+
+					// Simulate box shadow for last row (bottom of row container)
+					'& .MuiDataGrid-main': {
+						borderBottom: `${
+							bookmarks.length > 0 && '2px solid #b5b5b5'
+						}`,
+						marginBottom: '6rem',
+					},
 				},
-				bookmarks.length === 0 && {
-					background: `linear-gradient(to bottom, rgb(250, 250, 250, 0.3)  0%, #fff 50%, rgb(250, 250, 250, 0.3)) 100%`,
-				},
-			]}
-		>
-			{/* <Button onClick={handleClear}>Clear</Button> */}
-			<Container>
-				<Box
-					sx={{
-						alignItems: 'center',
-						display: 'flex',
-						justifyContent: 'center',
-						paddingTop: '1.5rem',
-						marginX: 'auto',
-					}}
-				>
-					<Typography
-						sx={{
-							fontWeight: 500,
-						}}
-						variant={'h5'}
-					>
-						Bookmarks
-					</Typography>
-
-					<Bookmarks
-						fontSize={'large'}
-						sx={{ color: 'primary.main', paddingLeft: '0.5rem' }}
-					/>
-				</Box>
-
-				<Divider
-					sx={{
-						backgroundColor: 'secondary.main',
-						marginBottom: '1rem',
-						marginTop: '0.5rem',
-					}}
-				></Divider>
-			</Container>
-
-			{bookmarks.length === 0 ? (
-				// Display 'no bookmarks' message
-				<Container>
-					<Typography
-						sx={{
-							color: '666',
-							fontWeight: 500,
-							marginTop: '16rem',
-							padding: '1rem',
-							// textAlign: 'center',
-							textWrap: 'pretty',
-						}}
-						variant={'subtitle1'}
-					>
-						Bookmark your favorite recipes for later. Click
-						<BookmarkAdd
-							color={'primary'}
-							fontSize={'small'}
-							sx={{ marginBottom: '0.25rem', marginX: '0.1rem' }}
-						/>
-						on any recipe to get started.
-					</Typography>
-				</Container>
-			) : (
-				// Display bookmarks
-				<List>
-					{(Object.values(bookmarks) ?? []).map((recipe, i) => {
-						const { id, title } = recipe;
-
-						return (
-							<ListItem key={i}>
-								{/* <Fade in={true}> */}
-								<Paper
-									elevation={1}
-									sx={{
-										display: 'flex',
-										justifyContent: 'space-between',
-										height: '5rem',
-										width: '100%',
-									}}
-								>
-									<Box
-										component={NextLink}
-										href={`/recipe/${id}`}
-										sx={{
-											alignItems: 'center',
-											display: 'flex',
-											width: '100%',
-
-											// Disable hover effects for mobile viewports
-											[breakpoints.up('md')]: {
-												'&:hover': {
-													backgroundColor:
-														'rgb(204, 128, 42, 0.02)',
-												},
-											},
-										}}
-									>
-										{/* Truncate text after two lines */}
-										<Typography
-											sx={{
-												display: '-webkit-box',
-												marginY: 'auto',
-												overflow: 'hidden',
-												paddingLeft: '1rem',
-												paddingRight: '0.5rem',
-												paddingY: '0.5rem',
-												textOverflow: 'ellipsis',
-												WebkitBoxOrient: 'vertical',
-												WebkitLineClamp: '2',
-											}}
-											variant={'h6'}
-										>
-											{title}
-										</Typography>
-									</Box>
-
-									<IconButton
-										disableRipple
-										onClick={() => removeBookmark(id)}
-										size={'small'}
-										sx={{
-											alignItems: 'start',
-											borderRadius: 0,
-											color: 'rgb(238, 36, 36, 0.2)',
-											display: 'flex',
-
-											// Disable hover effects for mobile viewports
-											[breakpoints.up('md')]: {
-												'&:hover': {
-													backgroundColor:
-														'rgb(238, 36, 36, 0.05)',
-													color: 'primary.main',
-												},
-											},
-										}}
-									>
-										<BookmarkRemove fontSize={'small'} />
-									</IconButton>
-								</Paper>
-								{/* </Fade> */}
-							</ListItem>
-						);
-					})}
-				</List>
-			)}
-		</Box>
+			}}
+		/>
 	);
 }
+
+interface ColumnHeaderProps {
+	bookmarks: boolean;
+	sort: () => void;
+}
+
+const ColumnHeader = ({ bookmarks, sort }: ColumnHeaderProps) => {
+	// Change icon to reflect sort method (null --> asc --> desc)
+	const [iconState, setIconState] = useState(0);
+	const sortIcons = [
+		<Sort key={'SortByAlpha'} />,
+		<ArrowUpward key={'ArrowUpward'} />,
+		<ArrowDownward key={'ArrowDownward'} />,
+	];
+
+	const handleClick = () => {
+		sort();
+		setIconState((iconState + 1) % sortIcons.length);
+	};
+
+	return bookmarks ? (
+		<Box
+			onClick={handleClick}
+			sx={{
+				alignItems: 'center',
+				display: 'flex',
+				justifyContent: 'space-between',
+			}}
+		>
+			<Typography sx={{ paddingRight: '0.25rem' }} variant={'subtitle1'}>
+				Sort
+			</Typography>
+
+			{sortIcons[iconState]}
+		</Box>
+	) : // Hide header when there are no bookmarks
+	null;
+};
+
+// Display message when there are no bookmarks
+const NoBookmarksMessage = () => {
+	return (
+		<Box
+			sx={{
+				alignItems: 'center',
+				display: 'flex',
+				height: '100%',
+				width: '100%',
+			}}
+		>
+			<Typography
+				sx={{
+					padding: '1rem',
+					textAlign: 'center',
+					textWrap: 'pretty',
+				}}
+				variant={'h6'}
+			>
+				Bookmark your favorite recipes for later. Click
+				<BookmarkAdd
+					color={'primary'}
+					fontSize={'small'}
+					sx={{ marginBottom: '0.25rem', marginX: '0.25rem' }}
+				/>
+				on any recipe to get started.
+			</Typography>
+		</Box>
+	);
+};
+
+interface RowDataProps {
+	id: string;
+	removeBookmark: (p: string) => void;
+	setDrawerOpen: (p: boolean) => void;
+	title: string;
+}
+
+const RowData = ({
+	id,
+	removeBookmark,
+	setDrawerOpen,
+	title,
+}: RowDataProps) => {
+	return (
+		<Box
+			sx={{
+				alignItems: 'center',
+				display: 'flex',
+				height: '100%',
+				justifyContent: 'space-between',
+				paddingLeft: '1rem',
+				paddingY: '0.5rem',
+				width: '100%',
+			}}
+		>
+			{/* Render title column */}
+			<Typography
+				component={NextLink}
+				href={`/recipe/${id}`}
+				onClick={() => setDrawerOpen(false)}
+				sx={{
+					display: '-webkit-box',
+					height: '100%',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+					textWrap: 'pretty',
+					WebkitBoxOrient: 'vertical',
+					WebkitLineClamp: '2',
+					width: '100%',
+				}}
+				variant={'h6'}
+			>
+				{title}
+			</Typography>
+
+			{/* Render delete icon column */}
+			<Box sx={{ height: '100%', paddingX: '0.5rem' }}>
+				<IconButton
+					onClick={() => removeBookmark(id)}
+					sx={{
+						color: 'rgb(238, 36, 36, 0.2)',
+						height: '4rem',
+						padding: 0,
+						width: '3rem',
+					}}
+				>
+					<Delete />
+				</IconButton>
+			</Box>
+		</Box>
+	);
+};

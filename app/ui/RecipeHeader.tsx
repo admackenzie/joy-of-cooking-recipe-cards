@@ -83,32 +83,3 @@ export default function RecipeHeader({ preview, servings, title }: Props) {
 		</>
 	);
 }
-
-{
-	/* Hide close button in 'preview' styling */
-}
-// {
-// 	!preview && (
-// 		<>
-// 			{/* 'Bounce' title element to prevent collisions
-// 					with absolute positioned close button */}
-// 			<Box sx={{ minWidth: '15%' }} />
-
-// 			<Link href={`/`}>
-// 				<IconButton
-// 					// Render close button with absolute positioning to keep it in the corner if long title text wraps to multiple lines
-// 					// className={
-// 					// 	'absolute right-0 top-0 '
-// 					// }
-// 					sx={{
-// 						position: 'absolute',
-// 						right: 0,
-// 						top: 0,
-// 					}}
-// 				>
-// 					<Close />
-// 				</IconButton>
-// 			</Link>
-// 		</>
-// 	);
-// }

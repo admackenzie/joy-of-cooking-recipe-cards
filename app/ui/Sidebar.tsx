@@ -16,7 +16,7 @@ export default function Sidebar({ bp, children, width }: Props) {
 				height: ' 100vh',
 				flexShrink: 0,
 				overflowY: 'auto',
-				width: width,
+				width: `${width}px`,
 			}}
 		>
 			{children}

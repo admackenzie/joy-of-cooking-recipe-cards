@@ -1,27 +1,25 @@
 import Link from 'next/link';
 
-import { Box, Fab, IconButton, Button, Paper, Typography } from '@mui/material';
+import { IconButton, Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-
 import { KeyboardArrowUp } from '@mui/icons-material';
 
 import { chapters } from '@/app/lib/definitions';
 
 interface Props {
-	bottomFunc?: any;
+	bottomFunc?: (e: React.SyntheticEvent) => void;
 }
 
 export default function MobileChapters({ bottomFunc }: Props) {
-	const lastChild = chapters.length - 1;
-
 	return (
-		<Grid container columnSpacing={2}>
+		<Grid container columnSpacing={1} sx={{ paddingBottom: '5rem' }}>
 			{chapters.map((chapter, i) => {
 				return (
 					<Grid
 						key={i}
 						sx={{
-							paddingBottom: `${i === lastChild ? '0' : '1rem'}`,
+							// Space rows
+							paddingBottom: '1rem',
 						}}
 						xs={6}
 					>
@@ -72,7 +70,6 @@ export default function MobileChapters({ bottomFunc }: Props) {
 				>
 					<KeyboardArrowUp
 						sx={{
-							// color: 'secondary.main',
 							fontSize: '2rem',
 						}}
 					/>

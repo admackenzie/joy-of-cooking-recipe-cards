@@ -130,6 +130,8 @@ export default function Layout({ data }: Props) {
 			{(params.id || params.slug || searchParams) && (
 				<>
 					<AppBarWithSearch
+						bookmarks={bookmarks}
+						removeBookmark={removeBookmark}
 						searchFocus={searchFocus}
 						setSearchFocus={setSearchFocus}
 					/>
@@ -195,12 +197,13 @@ export default function Layout({ data }: Props) {
 				</Box>
 
 				{/* Right */}
-				<Sidebar bp={'lg'} width={300}>
+
+				{/* <Sidebar bp={'lg'} width={300}>
 					<BookmarkList
 						bookmarks={bookmarks}
 						removeBookmark={removeBookmark}
 					/>
-				</Sidebar>
+				</Sidebar> */}
 			</Box>
 
 			{/* Display FAB only on mobile viewports */}
@@ -218,8 +221,7 @@ export default function Layout({ data }: Props) {
 							sx={{
 								backgroundColor: '#fff',
 								bottom: '6rem',
-								color: 'secondary.main',
-
+								// color: 'secondary.main',
 								position: 'fixed',
 								right: '2rem',
 								'&:hover': { backgroundColor: '#fff' },
