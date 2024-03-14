@@ -228,7 +228,7 @@ const RowData = ({
 				height: '100%',
 				justifyContent: 'space-between',
 				paddingLeft: '1rem',
-				paddingY: '0.5rem',
+				// paddingY: '0.5rem',
 				width: '100%',
 			}}
 		>
@@ -242,7 +242,7 @@ const RowData = ({
 					height: '100%',
 					overflow: 'hidden',
 					textOverflow: 'ellipsis',
-					// textWrap: 'pretty',
+					textWrap: 'pretty',
 					WebkitBoxOrient: 'vertical',
 					WebkitLineClamp: '2',
 					width: '100%',
