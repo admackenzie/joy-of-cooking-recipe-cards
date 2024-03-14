@@ -247,7 +247,7 @@ const RowData = ({
 					WebkitLineClamp: '2',
 					width: '100%',
 				}}
-				variant={'h6'}
+				variant={'body1'}
 			>
 				{title}
 			</Typography>
