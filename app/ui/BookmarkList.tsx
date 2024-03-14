@@ -244,7 +244,7 @@ const RowData = ({
 					textOverflow: 'ellipsis',
 					textWrap: 'pretty',
 					WebkitBoxOrient: 'vertical',
-					WebkitLineClamp: '3',
+					WebkitLineClamp: '2',
 					width: '100%',
 				}}
 				variant={'body1'}
