@@ -91,7 +91,7 @@ export default function BookmarkList({
 			onColumnHeaderClick={(_params, e) => {
 				e.defaultMuiPrevented = true;
 			}}
-			rowHeight={120}
+			rowHeight={80}
 			rows={rows}
 			slots={{
 				// Display message when there are no bookmarks
@@ -244,7 +244,7 @@ const RowData = ({
 					textOverflow: 'ellipsis',
 					textWrap: 'pretty',
 					WebkitBoxOrient: 'vertical',
-					WebkitLineClamp: '2',
+					WebkitLineClamp: '3',
 					width: '100%',
 				}}
 				variant={'body1'}
