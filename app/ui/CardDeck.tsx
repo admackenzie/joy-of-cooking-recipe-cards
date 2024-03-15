@@ -56,7 +56,11 @@ export default function CardDeck({ ...props }: Props) {
 				</Typography>
 			</Container>
 		) : (
-			<Landing setSearchFocus={setSearchFocus} />
+			<Landing
+				bookmarks={bookmarks}
+				removeBookmark={removeBookmark}
+				setSearchFocus={setSearchFocus}
+			/>
 		);
 	} else {
 		return (

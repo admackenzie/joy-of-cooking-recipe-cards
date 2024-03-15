@@ -238,16 +238,17 @@ const RowData = ({
 				href={`/recipe/${id}`}
 				onClick={() => setDrawerOpen(false)}
 				sx={{
-					display: '-webkit-box',
+					// Display as a block rather than '-webkit-box' and 'WebkitLineClamp: 2'. This avoids a display bug in Safari where text does not overflow to a second line
+					display: 'block',
 					height: '100%',
+					lineHeight: '1.5rem',
+					marginY: 'auto',
 					overflow: 'hidden',
 					textOverflow: 'ellipsis',
 					textWrap: 'pretty',
-					WebkitBoxOrient: 'vertical',
-					WebkitLineClamp: '2',
 					width: '100%',
 				}}
-				variant={'body1'}
+				variant={'h6'}
 			>
 				{title}
 			</Typography>
