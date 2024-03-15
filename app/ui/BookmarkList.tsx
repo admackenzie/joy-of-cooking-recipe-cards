@@ -244,7 +244,7 @@ const RowData = ({
 					lineHeight: '1.5rem',
 					marginY: 'auto',
 					overflow: 'hidden',
-					textOverflow: 'ellipsis',
+					// textOverflow: 'ellipsis',
 					textWrap: 'pretty',
 					width: '100%',
 				}}
