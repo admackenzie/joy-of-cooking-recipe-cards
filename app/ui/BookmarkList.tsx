@@ -240,12 +240,12 @@ const RowData = ({
 				sx={{
 					// Display as a block rather than '-webkit-box' and 'WebkitLineClamp: 2'. This avoids a display bug in Safari where text does not overflow to a second line
 
-					// display: 'block',
+					display: 'block',
 					height: '100%',
 					lineHeight: '1.5rem',
 					overflow: 'hidden',
 					textOverflow: 'ellipsis',
-					// textWrap: 'pretty',
+					textWrap: 'wrap',
 					width: '100%',
 				}}
 				variant={'h6'}
